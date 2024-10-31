@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.no-scroll {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.no-scroll::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+:root {
+    --bg-normal: theme('colors.bg-normal');
+    --bg-light: theme('colors.bg-light');
+    --bg-extra-light: theme('colors.bg-extra-light');
+    --txt-one: theme('colors.txt-one');
+}
