@@ -1,4 +1,4 @@
-import { InertiaReact, Interactables, Modal, React, ReactDom, Toast, MiscTypes, CalendarContext  } from '@/index';
+import { InertiaReact, Interactables, Modal, React, ReactDom, Toast, MiscTypes, CalendarContext, FinishAppointmentModal  } from '@/index';
 
 export default function AppointmentModal({
     showModal,
@@ -49,6 +49,7 @@ function Body({ mode, close, appointment }: { mode: 'create' | 'edit', close: ()
         date: '',
     });
 
+    const [showModal, setShowModal] = React.useState(false);
     const customers = InertiaReact.usePage().props.customers;
     const treatments = InertiaReact.usePage().props.treatments;
     
@@ -142,135 +143,157 @@ function Body({ mode, close, appointment }: { mode: 'create' | 'edit', close: ()
     }
 
     return (
-        <form className="flex flex-col gap-5" onSubmit={submit}>
+        <>
+            <form className="flex flex-col gap-5" onSubmit={submit}>
 
-            <Interactables.Toggle 
-                label={'Type afspraak'}
-                description={'Aan als het een persoonlijke afspraak is.'}
-                value={data.type == 'personal' ? true : false}
-                onChange={(e: boolean) => setData('type', e ? 'personal' : 'business')}
-                hasError={errors.type ? true : false} />
+                <Interactables.Toggle 
+                    label={'Type afspraak'}
+                    description={'Aan als het een persoonlijke afspraak is.'}
+                    value={data.type == 'personal' ? true : false}
+                    onChange={(e: boolean) => setData('type', e ? 'personal' : 'business')}
+                    hasError={errors.type ? true : false} />
 
-            {
-                data.type == 'business' && (
-                    <>
-                        <Interactables.MultiSelect
-                            label={'Klanten'}
-                            options={customerOptions}
-                            values={data.customers.map((customerValue: string) => {
-                                console.log(customerValue, customerOptions);
-                                const customer = customerOptions.find(
-                                    (option) => option.value == customerValue,
-                                );
-                                return customer ? customer.label : '';
-                            })}
-                            onAdd={(value: string) => {
-                                const selectedCustomer = customerOptions.find(
-                                    (option) => option.value == value,
-                                );
-                                if (
-                                    selectedCustomer &&
-                                    !data.customers.includes(selectedCustomer.value)
-                                ) {
-                                    setData('customers', [
-                                        ...data.customers,
-                                        selectedCustomer.value,
-                                    ]);
-                                }
-                            }}
-                            onDelete={(value: string) => {
-                                const selectedCustomer = customerOptions.find(
-                                    (option) => option.label == value,
-                                );
-                                if (selectedCustomer) {
-                                    setData(
-                                        'customers',
-                                        data.customers.filter(
-                                            (customer) =>
-                                                customer != selectedCustomer.value,
-                                        ),
+                {
+                    data.type == 'business' && (
+                        <>
+                            <Interactables.MultiSelect
+                                label={'Klanten'}
+                                emptyMessage='Er zijn geen klanten beschikbaar.'
+                                options={customerOptions}
+                                values={data.customers.map((customerValue: string) => {
+                                    const customer = customerOptions.find(
+                                        (option) => option.value == customerValue,
                                     );
-                                }
-                            }}
-                            hasError={errors.customers ? true : false}
-                        />
-                        <Interactables.MultiSelect
-                            label={'Behandelingen'}
-                            options={treatmentOptions}
-                            values={data.treatments.map((treatmentValue: string) => {
-                                const treatment = treatmentOptions.find(
-                                    (option) => option.value == treatmentValue,
-                                );
-                                return treatment ? treatment.label : '';
-                            })}
-                            onAdd={(value: string) => {
-                                const selectedTreatment = treatmentOptions.find(
-                                    (option) => option.value == value,
-                                );
-                                if (
-                                    selectedTreatment &&
-                                    !data.treatments.includes(selectedTreatment.value)
-                                ) {
-                                    setData('treatments', [
-                                        ...data.treatments,
-                                        selectedTreatment.value,
-                                    ]);
-                                }
-                            }}
-                            onDelete={(value: string) => {
-                                const selectedTreatment = treatmentOptions.find(
-                                    (option) => option.label == value,
-                                );
-                                if (selectedTreatment) {
-                                    setData(
-                                        'treatments',
-                                        data.treatments.filter(
-                                            (treatment) =>
-                                                treatment != selectedTreatment.value,
-                                        ),
+                                    return customer ? customer.label : '';
+                                })}
+                                onAdd={(value: string) => {
+                                    const selectedCustomer = customerOptions.find(
+                                        (option) => option.value == value,
                                     );
-                                }
-                            }}
-                            hasError={errors.treatments ? true : false}
-                        />
-                    </>
-                )
-            }
+                                    if (
+                                        selectedCustomer &&
+                                        !data.customers.includes(selectedCustomer.value)
+                                    ) {
+                                        setData('customers', [
+                                            ...data.customers,
+                                            selectedCustomer.value,
+                                        ]);
+                                    }
+                                }}
+                                onDelete={(value: string) => {
+                                    const selectedCustomer = customerOptions.find(
+                                        (option) => option.label == value,
+                                    );
+                                    if (selectedCustomer) {
+                                        setData(
+                                            'customers',
+                                            data.customers.filter(
+                                                (customer) =>
+                                                    customer != selectedCustomer.value,
+                                            ),
+                                        );
+                                    }
+                                }}
+                                hasError={errors.customers ? true : false}
+                            />
+                            <Interactables.MultiSelect
+                                label={'Behandelingen'}
+                                emptyMessage='Er zijn geen behandelingen beschikbaar.'
+                                options={treatmentOptions}
+                                values={data.treatments.map((treatmentValue: string) => {
+                                    const treatment = treatmentOptions.find(
+                                        (option) => option.value == treatmentValue,
+                                    );
+                                    return treatment ? treatment.label : '';
+                                })}
+                                onAdd={(value: string) => {
+                                    const selectedTreatment = treatmentOptions.find(
+                                        (option) => option.value == value,
+                                    );
+                                    if (
+                                        selectedTreatment &&
+                                        !data.treatments.includes(selectedTreatment.value)
+                                    ) {
+                                        setData('treatments', [
+                                            ...data.treatments,
+                                            selectedTreatment.value,
+                                        ]);
+                                    }
+                                }}
+                                onDelete={(value: string) => {
+                                    const selectedTreatment = treatmentOptions.find(
+                                        (option) => option.label == value,
+                                    );
+                                    if (selectedTreatment) {
+                                        setData(
+                                            'treatments',
+                                            data.treatments.filter(
+                                                (treatment) =>
+                                                    treatment != selectedTreatment.value,
+                                            ),
+                                        );
+                                    }
+                                }}
+                                hasError={errors.treatments ? true : false}
+                            />
+                        </>
+                    )
+                }
 
-            <Interactables.Input
-                label={'Datum'}
-                value={data.date}
-                onChange={(e: string) => setData('date', e)}
-                type="date"
-                hasError={errors.date ? true : false}
+                <Interactables.Input
+                    label={'Datum'}
+                    value={data.date}
+                    onChange={(e: string) => setData('date', e)}
+                    type="date"
+                    hasError={errors.date ? true : false}
+                />
+                <Interactables.Input
+                    label={'Tijd'}
+                    value={data.time}
+                    onChange={(e: string) => setData('time', e)}
+                    type="time"
+                    hasError={errors.time ? true : false}
+                />
+                <Interactables.Textarea
+                    label={'Extra informatie'}
+                    value={data.notes}
+                    onChange={(e: string) => setData('notes', e)}
+                    hasError={errors.notes ? true : false}
+                />
+                {
+                    mode == 'edit' && (
+                        <div className='grid grid-cols-2 gap-5'>
+                            {/* TODO: Hide if finsihed */}
+                            <Interactables.Button
+                                submit={false}
+                                label={'Afronden'}
+                                background={'green'}
+                                onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+                                    e.preventDefault();
+                                    setShowModal(true);
+                                }}
+                            />
+                            <Interactables.Button
+                                submit={false}
+                                label={'Verwijderen'}
+                                background={'red'}
+                                onClick={(e: React.MouseEvent<HTMLInputElement>) => deleteItem(e)}
+                            />
+                        </div>
+                    )
+                }
+                <Interactables.Button
+                    submit
+                    label={`${mode == 'create' ? 'Aanmaken' : 'Aanpassen'}`}
+                />
+            </form>
+        
+            <FinishAppointmentModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+                appointment={appointment}
             />
-            <Interactables.Input
-                label={'Tijd'}
-                value={data.time}
-                onChange={(e: string) => setData('time', e)}
-                type="time"
-                hasError={errors.time ? true : false}
-            />
-            <Interactables.Textarea
-                label={'Extra informatie'}
-                value={data.notes}
-                onChange={(e: string) => setData('notes', e)}
-                hasError={errors.notes ? true : false}
-            />
-            <Interactables.Button
-                submit
-                label={`Afspraak ${mode == 'create' ? 'Aanmaken' : 'Aanpassen'}`}
-            />
-            {
-                mode == 'edit' && (
-                    <Interactables.Button
-                        submit={false}
-                        label={'Afspraak Verwijderen'}
-                        background={'red'}
-                        onClick={(e: React.MouseEvent<HTMLInputElement>) => deleteItem(e)}
-                    />
-                )
-            }
-        </form>
+            
+        </>
     );
 }

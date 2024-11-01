@@ -139,13 +139,13 @@ function Body({
             />
             <Interactables.Button
                 submit
-                label={`Behandeling ${mode === 'create' ? 'Aanmaken' : 'Aanpassen'}`}
+                label={`${mode === 'create' ? 'Aanmaken' : 'Aanpassen'}`}
             />
             {
                 mode == 'edit' && (
                     <Interactables.Button
                         submit={false}
-                        label={'Behandeling Verwijderen'}
+                        label={'Verwijderen'}
                         background={'red'}
                         onClick={(e: React.MouseEvent<HTMLInputElement>) => deleteItem(e)}
                     />

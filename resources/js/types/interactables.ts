@@ -29,7 +29,8 @@ export interface MultiSelectProps {
     onAdd: Function,
     onDelete: Function,
     values: string[],
-    hasError?: boolean
+    hasError?: boolean,
+    emptyMessage?: string
 }
 
 export interface TextAreaProps {

@@ -91,12 +91,11 @@ class AgendaController extends Controller
     public function update(AppointmentRequest $request, $id)
     {
         $date_time = $request->date . ' ' . $request->time;
-
         // TODO: Get the company_id from the authenticated user
-        $appointment = Appointment::find([
-            'id' => $id,
+        $appointment = Appointment::where([
+            'id' => (int) $id,
             'company_id' => 1,
-        ]);
+        ])->first();
         $appointment->date_time = Carbon::parse($date_time);
         $appointment->notes = $request->notes;
         $appointment->type = $request->type;

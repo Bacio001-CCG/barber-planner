@@ -1,4 +1,4 @@
-import { InteractableTypes, React } from '@/index';
+import { InteractableTypes, React, Toast } from '@/index';
 
 export default function Input({
     name,
@@ -9,6 +9,7 @@ export default function Input({
     onDelete,
     values = [],
     hasError = false,
+    emptyMessage,
 }: InteractableTypes.MultiSelectProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const [open, setOpen] = React.useState(false);
@@ -44,7 +45,13 @@ export default function Input({
             {/* Display Section  */}
             <div
                 className={`flex max-h-[85px] min-h-[42px] w-full select-none flex-wrap items-center gap-2 overflow-y-auto rounded border bg-bg-light px-[0.75rem] py-[0.5rem] text-txt-two focus:outline-none ${hasError ? 'border-red-500 focus:border-red-500' : 'border-border/10 focus:border-border/10'} focus:ring-0`}
-                onClick={() => setOpen((prev) => !prev)}
+                onClick={() => {
+                    if(options.length != 0) setOpen((prev) => !prev)
+                    if((options.length == 0) && emptyMessage) Toast.toast(emptyMessage, {
+                        type: 'error',
+                        position: 'bottom-right',
+                    });
+                }}
             >
                 {values.map((value, index) => {
                     return (

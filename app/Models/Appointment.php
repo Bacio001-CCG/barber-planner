@@ -17,6 +17,7 @@ class Appointment extends Model
 
     public function formatForFrontend() 
     {
+        // TODO: Give bakc if finished or not, not just false.
         return [
             'id' => $this->id,
             'companyId' => $this->company_id,
@@ -30,6 +31,7 @@ class Appointment extends Model
             'notes' => $this->notes,
             'highlight' => $this->highlight ?? false,
             'type' => $this->type,
+            'finished' => false,
         ];
     }
 

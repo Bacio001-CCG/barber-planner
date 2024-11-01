@@ -261,13 +261,13 @@ function Body({ mode, close, customer }: { mode: 'create' | 'edit', close: () =>
             />
             <Interactables.Button
                 submit
-                label={`Klant ${mode == 'create' ? 'Aanmaken' : 'Aanpassen'}`}
+                label={`${mode == 'create' ? 'Aanmaken' : 'Aanpassen'}`}
             />
             {
                 mode == 'edit' && (
                     <Interactables.Button
                         submit={false}
-                        label={'Klant Verwijderen'}
+                        label={'Verwijderen'}
                         background={'red'}
                         onClick={(e: React.MouseEvent<HTMLInputElement>) => deleteItem(e)}
                     />
