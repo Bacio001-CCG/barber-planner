@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Appointment;
 
 class AddressController extends Controller
 {
@@ -56,6 +57,29 @@ class AddressController extends Controller
         Log::info('API request: https://nominatim.openstreetmap.org/lookup, by: ' . 'Auth::user()->id');
 
         return $response->json();
+    }
+
+    public function getDistanceAppointment(Request $request, $appointmentId)
+    {
+        // Get prev appointment
+        $prevAppointment = null;
+        $prevOsmId = null;
+
+        $desAppointment = Appointment::find($appointmentId);
+        $desOsmId = $desAppointment->customers[0]->osm_id;
+
+        // Get previouse appointment or home depending on settings. If no previouse settings use home aswell.
+        $desDetails = $this->getAddressInfoByOSMID($desOsmId);
+        $prevDetails = $this->getAddressInfoByOSMID($prevOsmId);
+    }
+
+    public function getDistanceBetweenAddresses(Request $request)
+    {
+        $originLongLat = $request->query('origin');
+        $destLongLat = $request->query('destination');
+
+        dd($originLongLat, $destLongLat);
+
     }
 
 }

@@ -5,3 +5,4 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AddressController;
 
 Route::get('/address/search', [AddressController::class, 'search']);
+Route::get('/address/distance/{appointmentId}', [AddressController::class, 'getDistanceAppointment']);
