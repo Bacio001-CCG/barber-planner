@@ -30,8 +30,8 @@ export default function Toggle({ label, value, onChange, hasError, description }
                         on: { x: 15 },
                     }}
                     className={`
-                 absolute size-6 rounded-full transform shadow text-center text-[10px] flex items-center justify-center font-semibold text-txt-one
-                 ${value ? 'bg-accent' : 'bg-bg-extra-light'}
+                 absolute size-6 rounded-full transform text-center text-[10px] flex items-center justify-center font-semibold text-txt-one shadow-2xl
+                 ${value ? 'bg-accent' : 'bg-bg-extra-light border border-border/10'}
                 `}
                 >
                 </FramerMotion.motion.span>

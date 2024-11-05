@@ -5,6 +5,8 @@ export interface ButtonProps {
     submit?: boolean;
     className?: string;
     background?: string;
+    disabled?: boolean;
+    loading?: boolean;
 }
 
 export interface InputProps {
@@ -17,8 +19,10 @@ export interface InputProps {
     value?: string | number,
     type?: string,
     hasError?: boolean,
-    icon?: string
-    disabled?: boolean
+    icon?: string,
+    disabled?: boolean,
+    autoComplete?: string,
+    isFocused?: boolean
 }
 
 export interface MultiSelectProps {

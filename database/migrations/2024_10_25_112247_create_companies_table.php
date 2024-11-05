@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('email');
             $table->string('kvk_number');
             $table->string('btw_number');
-            $table->string('iban')->nullable();
             $table->enum('type', ['BV', 'Eenmanszaak', 'V.O.F.']);
             $table->boolean('strict')->default(1);
             $table->timestamps();

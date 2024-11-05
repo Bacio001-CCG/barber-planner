@@ -28,8 +28,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import * as MiscLib from '@/lib/misc';
 import Loader from './Components/Dashboard/Loader';
 import FinishAppointmentModal from './Components/Dashboard/Agenda/FinishAppointmentModal';
+import Logo from './Components/Interactables/Logo'
 
 export {
+    Logo,
     FinishAppointmentModal,
     Loader,
     MiscLib,

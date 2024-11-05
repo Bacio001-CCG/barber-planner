@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Appointment;
 
-class AddressController extends Controller
+class ValidateController extends Controller
 {
 
     public function search(Request $request)
@@ -80,6 +80,46 @@ class AddressController extends Controller
 
         dd($originLongLat, $destLongLat);
 
+    }
+
+    public function getKvkData($kvkNumber)
+    {
+        $response = Http::withHeaders([
+            'apikey' => env('KVK_API_KEY'),
+        ])->get('https://api.kvk.nl/api/v2/zoeken', [
+            'kvkNummer' => $kvkNumber,
+        ]);
+        
+        if($response->status() != 200) {
+            return response()->json();
+        }
+
+        $response2 = Http::withHeaders([
+            'apikey' => env('KVK_API_KEY'),
+        ])->get('https://api.kvk.nl/api/v1/basisprofielen/'.$kvkNumber);
+
+        if($response2->status() != 200) {
+            return response()->json();
+        }        
+
+        // TODO: Get the user_id from the authenticated user  
+        Log::info('API request: https://api.kvk.nl/api/v2/zoeken, by: ' . 'Auth::user()->id');
+
+        $data = $response->json()['resultaten'][0];
+        $adres = $response2->json()['_embedded']['hoofdvestiging']['adressen'][0];
+
+        Log::debug($data);
+        Log::debug($adres);
+
+        return response()->json([
+            'name' => $data['naam'],
+            'location' => $adres['plaats'],
+            'address' => $adres['straatnaam'] . ' ' . $adres['huisnummer'] . (isset($adres['huisnummerToevoeging']) ? $adres['huisnummerToevoeging'] : ''),            
+            'postal_code' => $adres['postcode'],
+            'type' => $data['type'],
+            'kvk_number' => $data['kvkNummer'],
+        ]);
+        
     }
 
 }

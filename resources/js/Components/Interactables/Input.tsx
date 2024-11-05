@@ -1,4 +1,4 @@
-import { InteractableTypes } from '@/index';
+import { InteractableTypes, React } from '@/index';
 
 export default function Input({
     name,
@@ -11,7 +11,18 @@ export default function Input({
     hasError = false,
     icon,
     disabled = false,
+    autoComplete,
+    isFocused = false,
 }: InteractableTypes.InputProps) {
+
+    const localRef = React.useRef<HTMLInputElement>(null);
+
+    React.useEffect(() => {
+        if (isFocused) {
+            localRef.current?.focus();
+        }
+    }, [isFocused]);
+    
     return (
         <div className="relative w-full text-txt-one">
             <label
@@ -28,6 +39,8 @@ export default function Input({
                     </span>
                 )}
                 <input
+                    ref={localRef}
+                    autoComplete={autoComplete}
                     disabled={disabled}
                     lang='nl'
                     type={type}

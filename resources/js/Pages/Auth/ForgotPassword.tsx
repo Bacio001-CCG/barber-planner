@@ -5,6 +5,8 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
+import * as GlobalImports from '@/.';
+
 export default function ForgotPassword({ status }: { status?: string }) {
     const { data, setData, post, processing, errors } = useForm({
         email: '',
@@ -20,10 +22,8 @@ export default function ForgotPassword({ status }: { status?: string }) {
         <GuestLayout>
             <Head title="Forgot Password" />
 
-            <div className="mb-4 text-sm text-gray-600 dark:text-gray-400">
-                Forgot your password? No problem. Just let us know your email
-                address and we will email you a password reset link that will
-                allow you to choose a new one.
+            <div className="mb-4 text-sm text-txt-two">
+                Wachtwoord vergeten? Geen probleem. Vul uw e-mailadres in en we sturen u een link om uw wachtwoord opnieuw in te stellen.
             </div>
 
             {status && (
@@ -33,23 +33,20 @@ export default function ForgotPassword({ status }: { status?: string }) {
             )}
 
             <form onSubmit={submit}>
-                <TextInput
-                    id="email"
-                    type="email"
-                    name="email"
-                    value={data.email}
-                    className="mt-1 block w-full"
-                    isFocused={true}
-                    onChange={(e) => setData('email', e.target.value)}
-                />
 
-                <InputError message={errors.email} className="mt-2" />
+                <GlobalImports.Interactables.Input 
+                        name='email' 
+                        label='Email'
+                        type='email' 
+                        value={data.email} 
+                        autoComplete="username" 
+                        isFocused={true} 
+                        hasError={errors.email ? true : false} 
+                        onChange={(e: string) => setData('email', e)} 
+                        />
 
-                <div className="mt-4 flex items-center justify-end">
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Email Password Reset Link
-                    </PrimaryButton>
-                </div>
+                <GlobalImports.Interactables.Button loading={processing} className='w-full mt-4' label='Email Password Reset Link' submit={true} />
+
             </form>
         </GuestLayout>
     );
