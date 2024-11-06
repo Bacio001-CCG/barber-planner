@@ -27,7 +27,7 @@ class OpenStreetMapController extends Controller
             'format' => 'json',
         ]);
 
-        Log::info('API request: https://nominatim.openstreetmap.org/search, by: ' . Auth::user()->id);
+        Log::info('API request: https://nominatim.openstreetmap.org/search');
 
         if (!isset($response->json()[0])) {
             return ['error' => 'Address not found'];
@@ -47,7 +47,7 @@ class OpenStreetMapController extends Controller
             'format' => 'json',
         ]);
 
-        Log::info('API request: https://nominatim.openstreetmap.org/lookup, by: ' . Auth::user()->id);
+        Log::info('API request: https://nominatim.openstreetmap.org/lookup');
 
         return $response->json();
     }

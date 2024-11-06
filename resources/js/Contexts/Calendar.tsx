@@ -12,7 +12,7 @@ interface CalendarContextType {
 const CalendarContext = React.createContext<CalendarContextType>({
   selectedDate: new Date(),
   setSelectedDate: () => {},
-  view: MiscEnums.ViewEnum.DAY,
+  view: MiscEnums.ViewEnum.Day,
   setView: () => {},
 });
 
@@ -20,7 +20,7 @@ export const CalendarProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const pathName = window.location.pathname.split('/');
   const initialDate = new Date(pathName.pop() as string);
   const initialView = MiscLib.getCookie('view') as MiscEnums.ViewEnum | null;
-  const [view, setView] = React.useState<MiscEnums.ViewEnum>(initialView ?? MiscEnums.ViewEnum.MONTH);
+  const [view, setView] = React.useState<MiscEnums.ViewEnum>(initialView ?? MiscEnums.ViewEnum.Month);
   const [selectedDate, setSelectedDate] = React.useState<Date>(
     isNaN(initialDate.getTime()) ? new Date() : initialDate
   );

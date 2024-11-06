@@ -1,4 +1,4 @@
-import { InertiaReact, Interactables, Modal, React, ReactDom, Toast, MiscTypes, CalendarContext  } from '@/index';
+import { InertiaReact, Interactables, Modal, React, ReactDom, Toast, MiscTypes, CalendarContext, axios  } from '@/index';
 
 const paymentOptions = [
     { label: 'Contant', value: 'cash' },
@@ -71,8 +71,11 @@ function Body({ close, appointment }: { close: () => void, appointment: MiscType
     React.useEffect(() => {
         async function fetchData() {
             if(!appointment) return;
-            let response = await fetch(`/api/address/distance/${appointment.id}`);
-            let distance =  await response.json();
+            const response = await axios.get('/api/address/distance/' + appointment.id, {
+                withCredentials: true, 
+            });
+    
+            let distance = await response.data;
             distance = distance.distance;
             setData({
                 appointment_id: appointment?.id,

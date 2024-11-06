@@ -1,4 +1,4 @@
-import { InertiaReact, Interactables, Modal, React, ReactDom, Toast, MiscTypes, Loader } from '@/index';
+import { InertiaReact, Interactables, Modal, React, ReactDom, Toast, MiscTypes, Loader, axios } from '@/index';
 import Loading from '../Loading';
 
 export default function CustomerModal({
@@ -84,8 +84,11 @@ function Body({ mode, close, customer }: { mode: 'create' | 'edit', close: () =>
                 osm_id: null,
             })
             try {
-                const response = await fetch(`/api/address/search?address=${encodeURIComponent(data.address)}`);
-                const addressData = await response.json();
+                const response = await axios.get(`/api/address/search?address=${encodeURIComponent(data.address)}`, {
+                    withCredentials: true, 
+                });
+        
+                const addressData = await response.data;
                 setAddressData(addressData);
             } catch (err) {
                 console.error('Error fetching address data:', err);

@@ -1,7 +1,7 @@
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 
-import { Interactables, React, Toast } from '@/.';
+import { InertiaReact, Interactables, React, Toast, axios } from '@/.';
 
 interface IStep {
     data: any;
@@ -189,16 +189,11 @@ function StepTwo({ data, setData, processing, errors, setStep }: IStep) {
 
     async function validate() {
         setLoading(true);
-        const response = await fetch(`/api/kvk/${data.company_kvk_number}`);
-        if (!response.ok) {
-            Toast.toast('KVK nummer is invalide', {
-                type: 'error',
-                position: 'bottom-right',
-            });
-            setLoading(false);
-            return;
-        }
-        const result = await response?.json();
+        const response = await axios.get('/api/kvk/' + data.company_kvk_number, {
+            withCredentials: true, 
+        });
+
+        const result = await response.data;
         if (result.length == 0 || !result) {
             Toast.toast('KVK nummer is invalide', {
                 type: 'error',

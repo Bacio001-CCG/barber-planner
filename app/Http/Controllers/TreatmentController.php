@@ -31,7 +31,7 @@ class TreatmentController extends Controller
             'price' => $request->price,
         ]);
 
-        Log::info('Treatment created: ' . $treatment->id . ', by: ' . Auth::user()->id);
+        Log::info('Treatment created: ' . $treatment->id);
 
     }
 
@@ -45,7 +45,7 @@ class TreatmentController extends Controller
             'price' => $request->price,
         ]);
 
-        Log::info('Treatment updated: ' . $id . ', by: ' . Auth::user()->id);
+        Log::info('Treatment updated: ' . $id);
 
     }
 
@@ -56,7 +56,7 @@ class TreatmentController extends Controller
             'company_id' => Auth::user()->company->id,
         ])->delete();
 
-        Log::info('Treatment deleted: ' . $id . ', by: ' . Auth::user()->id);
+        Log::info('Treatment deleted: ' . $id);
 
     }
 }

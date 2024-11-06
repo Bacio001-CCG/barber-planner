@@ -19,7 +19,7 @@ export default function Calendar() {
     const [week, setWeek] = React.useState<number>();
 
     React.useEffect(() => {
-        if (view === MiscEnums.ViewEnum.WEEK) {
+        if (view === MiscEnums.ViewEnum.Week) {
             setMonth(selectedDate.getMonth());
             setYear(selectedDate.getFullYear());
             setDates();
@@ -57,7 +57,7 @@ export default function Calendar() {
                 selectedDate={selectedDate}
                 week={week}
             />
-            {view != MiscEnums.ViewEnum.DAY && (
+            {view != MiscEnums.ViewEnum.Day && (
                 <>
                     <DaysDisplay />
                     <div className="relative isolate grid min-w-[330px] grid-cols-7 gap-[1px] overflow-hidden rounded-lg border border-ring/5 bg-bg-extra-light text-[0.875rem] shadow">
@@ -118,7 +118,7 @@ function DaySquare({
         setBlur(day.getMonth() !== month);
     }, [day, month]);
 
-    if (view === MiscEnums.ViewEnum.WEEK && weekNumbers?.[index] !== week)
+    if (view === MiscEnums.ViewEnum.Week && weekNumbers?.[index] !== week)
         return null;
 
     return (
@@ -174,19 +174,19 @@ function Switcher({
         const date = new Date(year, month);
 
         switch (view) {
-            case MiscEnums.ViewEnum.MONTH:
+            case MiscEnums.ViewEnum.Month:
                 date.setMonth(date.getMonth() + 1);
                 setYear(date.getFullYear());
                 setMonth(date.getMonth());
                 break;
-            case MiscEnums.ViewEnum.WEEK:
+            case MiscEnums.ViewEnum.Week:
                 const newWeekDate = new Date(selectedDate);
                 newWeekDate.setDate(newWeekDate.getDate() + 7);
                 setSelectedDate(newWeekDate);
                 setYear(newWeekDate.getFullYear());
                 setMonth(newWeekDate.getMonth());
                 break;
-            case MiscEnums.ViewEnum.DAY:
+            case MiscEnums.ViewEnum.Day:
                 const newDayDate = new Date(selectedDate);
                 newDayDate.setDate(newDayDate.getDate() + 1);
                 setSelectedDate(newDayDate);
@@ -196,20 +196,20 @@ function Switcher({
 
     function subtract() {
         switch (view) {
-            case MiscEnums.ViewEnum.MONTH:
+            case MiscEnums.ViewEnum.Month:
                 const date = new Date(year, month);
                 date.setMonth(date.getMonth() - 1);
                 setYear(date.getFullYear());
                 setMonth(date.getMonth());
                 break;
-            case MiscEnums.ViewEnum.WEEK:
+            case MiscEnums.ViewEnum.Week:
                 const newWeekDate = new Date(selectedDate);
                 newWeekDate.setDate(newWeekDate.getDate() - 7);
                 setSelectedDate(newWeekDate);
                 setYear(newWeekDate.getFullYear());
                 setMonth(newWeekDate.getMonth());
                 break;
-            case MiscEnums.ViewEnum.DAY:
+            case MiscEnums.ViewEnum.Day:
                 const newDayDate = new Date(selectedDate);
                 newDayDate.setDate(newDayDate.getDate() - 1);
                 setSelectedDate(newDayDate);
@@ -219,11 +219,11 @@ function Switcher({
 
     function changeView() {
         setView(
-            view === MiscEnums.ViewEnum.MONTH
-                ? MiscEnums.ViewEnum.WEEK
-                : view === MiscEnums.ViewEnum.WEEK
-                  ? MiscEnums.ViewEnum.DAY
-                  : MiscEnums.ViewEnum.MONTH,
+            view === MiscEnums.ViewEnum.Month
+                ? MiscEnums.ViewEnum.Week
+                : view === MiscEnums.ViewEnum.Week
+                  ? MiscEnums.ViewEnum.Day
+                  : MiscEnums.ViewEnum.Month,
         );
     }
 
@@ -237,17 +237,17 @@ function Switcher({
             </span>
             <div
                 className={`text-center font-semibold uppercase tracking-widest text-txt-one ${
-                    view === MiscEnums.ViewEnum.WEEK
+                    view === MiscEnums.ViewEnum.Week
                         ? 'w-[180px]'
-                        : view === MiscEnums.ViewEnum.DAY
+                        : view === MiscEnums.ViewEnum.Day
                           ? 'w-[180px]'
                           : 'w-[120px]'
                 } cursor-pointer`}
                 onClick={() => setShowModal(true)}
             >
-                {view === MiscEnums.ViewEnum.DAY
+                {view === MiscEnums.ViewEnum.Day
                     ? `${MiscLib.dayNames[selectedDate.getDay()]}, ${selectedDate.getDate()} ${MiscLib.monthNames[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`
-                    : view === MiscEnums.ViewEnum.WEEK
+                    : view === MiscEnums.ViewEnum.Week
                       ? `${MiscLib.monthNames[month]} ${year}, W${week}`
                       : `${MiscLib.monthNames[month]} ${year}`}
             </div>
@@ -270,7 +270,7 @@ function Switcher({
                 className="material-symbols-outlined absolute right-0 cursor-pointer text-txt-one/40"
                 onClick={changeView}
             >
-                {`${view == MiscEnums.ViewEnum.WEEK ? 'date_range' : view == MiscEnums.ViewEnum.DAY ? 'today' : 'calendar_month'}`}
+                {`${view == MiscEnums.ViewEnum.Week ? 'date_range' : view == MiscEnums.ViewEnum.Day ? 'today' : 'calendar_month'}`}
             </span>
 
             <AppointmentModal

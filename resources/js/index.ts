@@ -29,8 +29,10 @@ import * as MiscLib from '@/lib/misc';
 import Loader from './Components/Dashboard/Loader';
 import FinishAppointmentModal from './Components/Dashboard/Agenda/FinishAppointmentModal';
 import Logo from './Components/Interactables/Logo'
+import axios from 'axios';
 
 export {
+    axios,
     Logo,
     FinishAppointmentModal,
     Loader,

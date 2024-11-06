@@ -14,6 +14,8 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Http\Controllers\API\OpenStreetMapController;
 use Illuminate\Support\Facades\Log;
+use App\Models\UserSetting;
+
 
 class RegisteredUserController extends Controller
 {
@@ -45,6 +47,10 @@ class RegisteredUserController extends Controller
             'phone_number' => $request->phone_number,
         ]);
 
+        UserSetting::create([
+            'user_id' => $user->id,
+        ]);
+
         $company = Company::create([
             'user_id' => $user->id,
             'name' => $request->company_name,
@@ -63,7 +69,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        Log::info('Registration: '. Auth::user()->id);
+        Log::info('Registration: '. $user->id);
 
         return redirect(route('dashboard.agenda.index', absolute: false));
     }

@@ -1,6 +1,16 @@
+import { MiscEnums } from '@/.';
+
 export interface Option {
     label: string,
     value: string
+}
+
+export interface Settings {
+    id: number
+    distanceCalculationStep: MiscEnums.DistanceCalculationStepEnum,
+    measurement: MiscEnums.MeasurmentEnum,
+    currency: MiscEnums.CurrencyEnum,
+    language: MiscEnums.LanguageEnum,
 }
 
 export interface Appointment 

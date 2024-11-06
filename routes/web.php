@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\API\OpenStreetMapController;
 use App\Http\Controllers\API\KVKController;
+use App\Http\Controllers\SettingsController;
 
 Route::prefix('dashboard')->middleware(['auth'])->name('dashboard.')->group(function () {
     Route::get('/agenda/{date?}', [AgendaController::class, 'index'])->name('agenda');
@@ -20,12 +21,16 @@ Route::prefix('dashboard')->middleware(['auth'])->name('dashboard.')->group(func
     Route::resource('treatments', TreatmentController::class);
     Route::resource('bookkeeping', BookkeepingController::class);
     Route::resource('finish-appointment', FinishAppointmentController::class);
+    Route::resource('settings', SettingsController::class)->except(['create', 'store', 'destroy', 'show']);
+});
+
+Route::prefix('api')->group(function () {
+    Route::get('/kvk/{kvkNumber}', [KVKController::class, 'getKvkData']);
 });
 
 Route::prefix('api')->middleware(['auth'])->group(function () {
     Route::get('/address/search', [OpenStreetMapController::class, 'search']);
     Route::get('/address/distance/{appointmentId}', [OpenStreetMapController::class, 'getDistanceAppointment']);
-    Route::get('/kvk/{kvkNumber}', [KVKController::class, 'getKvkData']);
 });
 
 require __DIR__.'/auth.php';

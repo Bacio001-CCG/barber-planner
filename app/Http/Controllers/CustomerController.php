@@ -48,7 +48,7 @@ class CustomerController extends Controller
             'osm_id' => $request->osm_id,
         ]);
 
-        Log::info('Customer created: ' . $customer->id . ', by: ' . Auth::user()->id);
+        Log::info('Customer created: ' . $customer->id);
 
     }
 
@@ -69,7 +69,7 @@ class CustomerController extends Controller
             'osm_id' => $request->osm_id,
         ]);
 
-        Log::info('Customer updated: ' . $id . ', by: ' . Auth::user()->id);
+        Log::info('Customer updated: ' . $id);
 
     }
 
@@ -80,7 +80,7 @@ class CustomerController extends Controller
             'company_id' => Auth::user()->company->id,
         ])->delete();
 
-        Log::info('Customer updated: ' . $id . ', by: ' . Auth::user()->id);
+        Log::info('Customer updated: ' . $id);
 
     }
 }

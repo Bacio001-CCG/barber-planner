@@ -72,7 +72,7 @@ class AgendaController extends Controller
             'type' => $request->type,
         ]);
 
-        Log::info('Appointment created: ' . $appointment->id  . ', by: ' . Auth::user()->id);
+        Log::info('Appointment created: ' . $appointment->id );
 
         for($i = 0; $i < count($request->treatments); $i++) {
             $appointment->treatments()->attach($request->treatments[$i]);
@@ -96,7 +96,7 @@ class AgendaController extends Controller
         $appointment->type = $request->type;
         $appointment->save();
 
-        Log::info('Appointment updated: ' . $appointment->id  . ', by: ' . Auth::user()->id);
+        Log::info('Appointment updated: ' . $appointment->id );
 
         $appointment->treatments()->detach();
         for($i = 0; $i < count($request->treatments); $i++) {
@@ -120,6 +120,6 @@ class AgendaController extends Controller
         $appointment->customers()->detach();
         $appointment->delete();
 
-        Log::info('Appointment deleted: ' . $appointment->id . ', by: ' . Auth::user()->id);
+        Log::info('Appointment deleted: ' . $appointment->id);
     }
 }

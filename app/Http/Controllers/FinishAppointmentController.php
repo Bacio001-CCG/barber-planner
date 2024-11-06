@@ -20,6 +20,6 @@ class FinishAppointmentController extends Controller
             'distance' => $request->distance,
         ]);
 
-        Log::info('Appointment finished: ' . $request->appointment_id  . ', by: ' . Auth::user()->id);
+        Log::info('Appointment finished: ' . $request->appointment_id );
     }
 }

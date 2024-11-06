@@ -33,7 +33,7 @@ class CompanyController extends Controller
             'strict' => $request->strict,
         ]);
 
-        Log::info('Company created: ' . $company->id . ', by: ' . Auth::user()->id);
+        Log::info('Company created: ' . $company->id);
 
     }
 
@@ -56,7 +56,7 @@ class CompanyController extends Controller
             'strict' => $request->strict,
         ]);
 
-        Log::info('Company updated: ' . $id . ', by: ' . Auth::user()->id);
+        Log::info('Company updated: ' . $id);
 
     }
 
@@ -67,6 +67,6 @@ class CompanyController extends Controller
             'user_id' => Auth::user()->id,
         ])->delete();
 
-        Log::info('Company deleted: ' . $id . ', by: ' . Auth::user()->id);
+        Log::info('Company deleted: ' . $id);
     }
 }

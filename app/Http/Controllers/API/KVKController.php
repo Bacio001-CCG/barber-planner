@@ -12,13 +12,14 @@ class KVKController extends Controller
 
     public function getKvkData($kvk_number)
     {
+        Log::debug('KVK number: ' . $kvk_number);
         $response = Http::withHeaders([
             'apikey' => env('KVK_API_KEY'),
         ])->get('https://api.kvk.nl/api/v2/zoeken', [
             'kvkNummer' => $kvk_number,
         ]);
         
-        Log::info('API request: https://api.kvk.nl/api/v2/zoeken, by: ' . Auth::user()->id);
+        Log::info('API request: https://api.kvk.nl/api/v2/zoeken');
 
         if($response->status() != 200) {
             return response()->json();
@@ -28,7 +29,7 @@ class KVKController extends Controller
             'apikey' => env('KVK_API_KEY'),
         ])->get('https://api.kvk.nl/api/v1/basisprofielen/'.$kvk_number);
 
-        Log::info('API request: https://api.kvk.nl/api/v2/basisprofielen/'.$kvk_number.', by: ' . Auth::user()->id);
+        Log::info('API request: https://api.kvk.nl/api/v2/basisprofielen/'.$kvk_number);
 
         if($reponse_2->status() != 200) {
             return response()->json();
