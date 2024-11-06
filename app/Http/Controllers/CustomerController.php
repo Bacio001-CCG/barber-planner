@@ -7,7 +7,7 @@ use Inertia\Inertia;
 use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Http;
-use App\Http\Controllers\AddressController;
+use App\Http\Controllers\API\OpenStreetMapController;
 use Faker\Provider\ar_EG\Address;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -30,14 +30,13 @@ class CustomerController extends Controller
     public function store(CustomerRequest $request)
     {
         if (!$request->osm_id) {
-            $addressController = new AddressController();
-            $addressData = $addressController->_fetchAddressData($request->input('address'));
+            $openStreetMapController = new OpenStreetMapController();
+            $addressData = $openStreetMapController->_fetchAddressData($request->input('address'));
             if(isset($addressData['osm_id'])) $request->merge(['osm_id' => $addressData['osm_id']]);
         }
 
-        // TODO: Get the company_id from the authenticated user
         $customer = Customer::create([
-            'company_id' => 1,
+            'company_id' => Auth::user()->company->id,
             'first_name' => $request->first_name,
             'infix' => $request->infix,
             'last_name' => $request->last_name,
@@ -49,17 +48,15 @@ class CustomerController extends Controller
             'osm_id' => $request->osm_id,
         ]);
 
-        // TODO: Get the user_id from the authenticated user
-        Log::info('Customer created: ' . $customer->id . ', by: ' . 'Auth::user()->id');
+        Log::info('Customer created: ' . $customer->id . ', by: ' . Auth::user()->id);
 
     }
 
     public function update(CustomerRequest $request, $id)
     {
-        // TODO: Get the company_id from the authenticated user
         Customer::where([
             'id' => $id,
-            'company_id' => 1,
+            'company_id' => Auth::user()->company->id,
         ])->update([
             'first_name' => $request->first_name,
             'infix' => $request->infix,
@@ -72,21 +69,18 @@ class CustomerController extends Controller
             'osm_id' => $request->osm_id,
         ]);
 
-        // TODO: Get the user_id from the authenticated user
-        Log::info('Customer updated: ' . $id . ', by: ' . 'Auth::user()->id');
+        Log::info('Customer updated: ' . $id . ', by: ' . Auth::user()->id);
 
     }
 
     public function destroy($id)
     {
-        // TODO: Get the company_id from the authenticated user
         Customer::where([
             'id' => $id,
-            'company_id' => 1,
+            'company_id' => Auth::user()->company->id,
         ])->delete();
 
-        // TODO: Get the user_id from the authenticated user
-        Log::info('Customer updated: ' . $id . ', by: ' . 'Auth::user()->id');
+        Log::info('Customer updated: ' . $id . ', by: ' . Auth::user()->id);
 
     }
 }

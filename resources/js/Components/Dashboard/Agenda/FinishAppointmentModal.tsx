@@ -69,19 +69,24 @@ function Body({ close, appointment }: { close: () => void, appointment: MiscType
     }
 
     React.useEffect(() => {
-        if(!appointment) return;
-        // TODO: Calculate distance
-        setData({
-            appointment_id: appointment?.id,
-            price: appointment?.treatments.map((treatment) => {
-                return parseFloat(treatment.price);
-            }).reduce((a, b) => {
-                return a + b;
-            }),
-            tip: 0,
-            payment_type: 'card',
-            distance: 0,
-        })
+        async function fetchData() {
+            if(!appointment) return;
+            let response = await fetch(`/api/address/distance/${appointment.id}`);
+            let distance =  await response.json();
+            distance = distance.distance;
+            setData({
+                appointment_id: appointment?.id,
+                price: appointment?.treatments.map((treatment) => {
+                    return parseFloat(treatment.price);
+                }).reduce((a, b) => {
+                    return a + b;
+                }),
+                tip: 0,
+                payment_type: 'card',
+                distance: Math.round(distance),
+            });
+        }
+        fetchData();
     }, [appointment]);
 
     return (
@@ -108,7 +113,7 @@ function Body({ close, appointment }: { close: () => void, appointment: MiscType
             />
 
             <Interactables.Input
-                label={`Afstand (km)`}
+                label={`Afstand (Meter)`}
                 value={data.distance}
                 onChange={(e: number) => setData('distance', e)}
                 type="number"

@@ -16,9 +16,9 @@ class Company extends Model
         'email',
         'kvk_number',
         'btw_number',
-        'iban',
         'type',
         'strict',
+        'osm_id',
     ];
 
     public $timestamps = true;
@@ -36,9 +36,9 @@ class Company extends Model
             'email' => $this->email,
             'kvkNumber' => $this->kvk_number,
             'btwNumber' => $this->btw_number,
-            'iban' => $this->iban,
             'type' => $this->type,
             'strict' => $this->strict,
+            'osmId' => $this->osm_id,
         ];
     }
 

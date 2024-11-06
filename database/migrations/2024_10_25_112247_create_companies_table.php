@@ -18,11 +18,12 @@ return new class extends Migration
             $table->string('location');
             $table->string('address');
             $table->string('postal_code');
-            $table->string('phone_number')->nullable();
+            $table->string('phone_number');
             $table->string('email');
             $table->string('kvk_number');
             $table->string('btw_number');
             $table->enum('type', ['BV', 'Eenmanszaak', 'V.O.F.']);
+            $table->string('osm_id');
             $table->boolean('strict')->default(1);
             $table->timestamps();
 

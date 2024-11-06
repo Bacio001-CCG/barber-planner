@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FinishedAppointment;
 use Illuminate\Http\Request;
 use App\Http\Requests\FinishedAppointmentRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class FinishAppointmentController extends Controller
@@ -19,7 +20,6 @@ class FinishAppointmentController extends Controller
             'distance' => $request->distance,
         ]);
 
-        // TODO: Get the user_id from the authenticated user
-        Log::info('Appointment finished: ' . $request->appointment_id  . ', by: ' . 'Auth::user()->id');
+        Log::info('Appointment finished: ' . $request->appointment_id  . ', by: ' . Auth::user()->id);
     }
 }

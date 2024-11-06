@@ -25,44 +25,38 @@ class TreatmentController extends Controller
 
     public function store(TreatmentRequest $request)
     {
-        // TODO: Get the company_id from the authenticated user
         $treatment = Treatment::create([
-            'company_id' => 1,
+            'company_id' => Auth::user()->company->id,
             'name' => $request->name,
             'price' => $request->price,
         ]);
 
-        // TODO: Get the user_id from the authenticated user
-        Log::info('Treatment created: ' . $treatment->id . ', by: ' . 'Auth::user()->id');
+        Log::info('Treatment created: ' . $treatment->id . ', by: ' . Auth::user()->id);
 
     }
 
     public function update(TreatmentRequest $request, $id)
     {
-        // TODO: Get the company_id from the authenticated user
         Treatment::where([
             'id' => $id,
-            'company_id' => 1,
+            'company_id' => Auth::user()->company->id,
         ])->update([
             'name' => $request->name,
             'price' => $request->price,
         ]);
 
-        // TODO: Get the user_id from the authenticated user
-        Log::info('Treatment updated: ' . $id . ', by: ' . 'Auth::user()->id');
+        Log::info('Treatment updated: ' . $id . ', by: ' . Auth::user()->id);
 
     }
 
     public function destroy($id)
     {
-        // TODO: Get the company_id from the authenticated user
         Treatment::where([
             'id' => $id,
-            'company_id' => 1,
+            'company_id' => Auth::user()->company->id,
         ])->delete();
 
-        // TODO: Get the user_id from the authenticated user
-        Log::info('Treatment deleted: ' . $id . ', by: ' . 'Auth::user()->id');
+        Log::info('Treatment deleted: ' . $id . ', by: ' . Auth::user()->id);
 
     }
 }

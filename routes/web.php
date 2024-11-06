@@ -10,14 +10,22 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\API\OpenStreetMapController;
+use App\Http\Controllers\API\KVKController;
 
-Route::prefix('dashboard')->name('dashboard.')->group(function () {
+Route::prefix('dashboard')->middleware(['auth'])->name('dashboard.')->group(function () {
     Route::get('/agenda/{date?}', [AgendaController::class, 'index'])->name('agenda');
     Route::resource('agenda', AgendaController::class);
     Route::resource('customers', CustomerController::class);
     Route::resource('treatments', TreatmentController::class);
     Route::resource('bookkeeping', BookkeepingController::class);
     Route::resource('finish-appointment', FinishAppointmentController::class);
-})->middleware(['auth', 'verified']);
+});
+
+Route::prefix('api')->middleware(['auth'])->group(function () {
+    Route::get('/address/search', [OpenStreetMapController::class, 'search']);
+    Route::get('/address/distance/{appointmentId}', [OpenStreetMapController::class, 'getDistanceAppointment']);
+    Route::get('/kvk/{kvkNumber}', [KVKController::class, 'getKvkData']);
+});
 
 require __DIR__.'/auth.php';

@@ -16,27 +16,25 @@ class AgendaController extends Controller
 {
     public function index($date = null)
     {
+
         if(!$date) {
             $date = Carbon::now()->format('Y-m-d');
         }
 
-        // TODO: Get the company_id from the authenticated user
-        $customers = Customer::where('company_id', 1)->get();
+        $customers = Customer::where('company_id', Auth::user()->company->id)->get();
 
         $customers = $customers->map(function ($customer) {
             return $customer->formatForFrontend();
         });
 
-        // TODO: Get the company_id from the authenticated user
-        $treatments = Treatment::where('company_id', 1)->get();
+        $treatments = Treatment::where('company_id', Auth::user()->company->id)->get();
 
         $treatments = $treatments->map(function ($treatment) {
             return $treatment->formatForFrontend();
         });
 
-        // TODO: Get the company_id from the authenticated user
         // Get appointments using the cookies
-        $appointments = Appointment::where('company_id', 1);
+        $appointments = Appointment::where('company_id', Auth::user()->company->id);
         if($_COOKIE['view'] == 'day') {
             $appointments->whereDate('date_time', $date);
         } else if($_COOKIE['view'] == 'week') {
@@ -67,16 +65,14 @@ class AgendaController extends Controller
     {
         $date_time = $request->date . ' ' . $request->time;
 
-        // TODO: Get the company_id from the authenticated user
         $appointment = Appointment::create([
-            'company_id' => 1,
+            'company_id' => Auth::user()->company->id,
             'date_time' => Carbon::parse($date_time),
             'notes' => $request->notes,
             'type' => $request->type,
         ]);
 
-        // TODO: Get the user_id from the authenticated user
-        Log::info('Appointment created: ' . $appointment->id  . ', by: ' . 'Auth::user()->id');
+        Log::info('Appointment created: ' . $appointment->id  . ', by: ' . Auth::user()->id);
 
         for($i = 0; $i < count($request->treatments); $i++) {
             $appointment->treatments()->attach($request->treatments[$i]);
@@ -91,18 +87,16 @@ class AgendaController extends Controller
     public function update(AppointmentRequest $request, $id)
     {
         $date_time = $request->date . ' ' . $request->time;
-        // TODO: Get the company_id from the authenticated user
         $appointment = Appointment::where([
             'id' => (int) $id,
-            'company_id' => 1,
+            'company_id' => Auth::user()->company->id,
         ])->first();
         $appointment->date_time = Carbon::parse($date_time);
         $appointment->notes = $request->notes;
         $appointment->type = $request->type;
         $appointment->save();
 
-        // TODO: Get the user_id from the authenticated user
-        Log::info('Appointment updated: ' . $appointment->id  . ', by: ' . 'Auth::user()->id');
+        Log::info('Appointment updated: ' . $appointment->id  . ', by: ' . Auth::user()->id);
 
         $appointment->treatments()->detach();
         for($i = 0; $i < count($request->treatments); $i++) {
@@ -117,16 +111,15 @@ class AgendaController extends Controller
 
     public function destroy($agenda)
     {
-        // TODO: Get the company_id from the authenticated user
-        $appointment = Appointment::find([
+        $appointment = Appointment::where([
             'id' => $agenda,
-            'company_id' => 1,
-        ]);
+            'company_id' => Auth::user()->company->id,
+        ])->first();
+
         $appointment->treatments()->detach();
         $appointment->customers()->detach();
         $appointment->delete();
 
-        // TODO: Get the user_id from the authenticated user
-        Log::info('Appointment deleted: ' . $appointment->id . ', by: ' . 'Auth::user()->id');
+        Log::info('Appointment deleted: ' . $appointment->id . ', by: ' . Auth::user()->id);
     }
 }

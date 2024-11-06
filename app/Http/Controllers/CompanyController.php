@@ -18,9 +18,8 @@ class CompanyController extends Controller
 
     public function store(CompanyRequest $request)
     {
-        // TODO: Get the user_id from the authenticated user
         $company = Company::create([
-            'user_id' => 1,
+            'user_id' => Auth::user()->id,
             'name' => $request->name,
             'email' => $request->email,
             'phone_number' => $request->phone_number,
@@ -34,17 +33,15 @@ class CompanyController extends Controller
             'strict' => $request->strict,
         ]);
 
-        // TODO: Get the user_id from the authenticated user
-        Log::info('Company created: ' . $company->id . ', by: ' . 'Auth::user()->id');
+        Log::info('Company created: ' . $company->id . ', by: ' . Auth::user()->id);
 
     }
 
     public function update(CompanyRequest $request, $id)
     {
-        // TODO: Get the user_id from the authenticated user
         Company::where([
             'id' => $id,
-            'user_id' => 1,
+            'user_id' => Auth::user()->id,
         ])->create([
             'name' => $request->name,
             'email' => $request->email,
@@ -59,20 +56,17 @@ class CompanyController extends Controller
             'strict' => $request->strict,
         ]);
 
-        // TODO: Get the user_id from the authenticated user
-        Log::info('Company updated: ' . $id . ', by: ' . 'Auth::user()->id');
+        Log::info('Company updated: ' . $id . ', by: ' . Auth::user()->id);
 
     }
 
     public function destroy($id)
     {
-        // TODO: Get the user_id from the authenticated user
         Company::where([
             'id' => $id,
-            'user_id' => 1,
+            'user_id' => Auth::user()->id,
         ])->delete();
 
-        // TODO: Get the user_id from the authenticated user
-        Log::info('Company deleted: ' . $id . ', by: ' . 'Auth::user()->id');
+        Log::info('Company deleted: ' . $id . ', by: ' . Auth::user()->id);
     }
 }

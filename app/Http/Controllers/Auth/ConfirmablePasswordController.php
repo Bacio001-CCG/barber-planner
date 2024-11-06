@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Log;
 
 class ConfirmablePasswordController extends Controller
 {
@@ -35,6 +36,8 @@ class ConfirmablePasswordController extends Controller
         }
 
         $request->session()->put('auth.password_confirmed_at', time());
+
+        Log::info('Confirm Password: '. Auth::user()->id);
 
         return redirect()->intended(route('dashboard.agenda.index', absolute: false));
     }

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Log;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -33,6 +34,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        Log::info('Login: '. Auth::user()->id);
+
         return redirect()->intended(route('dashboard.agenda.index', absolute: false));
     }
 
@@ -41,6 +44,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        Log::info('Logout: '. Auth::user()->id);
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

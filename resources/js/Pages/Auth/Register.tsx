@@ -1,6 +1,5 @@
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
 
 import { Interactables, React, Toast } from '@/.';
 
@@ -9,13 +8,13 @@ interface IStep {
     setData: (key: string, value?: any) => void;
     processing: boolean;
     errors: any;
-    setStep: (step: number) => void;
+    setStep: (step: number | ((prev: number) => number)) => void;
 }
 
-const STEPS = 6;
+const STEPS = 4;
 
 export default function Register() {
-    const [step, setStep] = React.useState(0);
+    const [step, setStep] = React.useState(1);
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
@@ -31,83 +30,97 @@ export default function Register() {
         company_phone_number: '',
         company_email: '',
         company_btw_number: '',
+        company_type: '',
     });
 
-    const submit: FormEventHandler = (e) => {
+    async function submit(e: React.FormEvent) {
         e.preventDefault();
 
         post(route('register'), {
-            onFinish: () => reset('password', 'password_confirmation'),
+            onError: (errors) => {
+                if (errors.errors) {
+                    Toast.toast('Er zijn fouten gevonden', {
+                        type: 'error',
+                        position: 'bottom-right',
+                    });
+                }
+                setStep(1);
+            }
         });
-    };
+    }
 
     return (
         <GuestLayout>
-            <div className="flex flex-col gap-4">
-                <div
-                    className={`absolute left-0 top-0 grid h-[5px] w-full grid-cols-${STEPS}`}
-                >
-                    {step != 0 && (
+            <form onSubmit={submit}>
+                <div className="flex flex-col gap-4">
+                    <div
+                        className={`absolute left-0 top-0 grid h-[5px] w-full grid-cols-${STEPS}`}
+                    >
                         <div
-                            className={`h-full w-full bg-accent col-span-${`${step}`} `}
+                            className={`h-full w-full bg-accent`}
+                            style={{
+                                gridColumn: `span ${step} / span ${step}`,
+                            }}
                         ></div>
+                    </div>
+
+                    <Head title="Register" />
+
+                    {step == 1 && (
+                        <StepOne
+                            data={data}
+                            setData={setData}
+                            processing={processing}
+                            errors={errors}
+                            setStep={setStep}
+                        />
                     )}
-                </div>
+                    {step == 2 && (
+                        <StepTwo
+                            data={data}
+                            setData={setData}
+                            processing={processing}
+                            errors={errors}
+                            setStep={setStep}
+                        />
+                    )}
+                    {step == 3 && (
+                        <StepThree
+                            data={data}
+                            setData={setData}
+                            processing={processing}
+                            errors={errors}
+                            setStep={setStep}
+                        />
+                    )}
 
-                <Head title="Register" />
-
-                {step == 0 && (
-                    <StepZero
-                        data={data}
-                        setData={setData}
-                        processing={processing}
-                        errors={errors}
-                        setStep={setStep}
-                    />
-                )}
-                {step == 1 && (
-                    <StepOne
-                        data={data}
-                        setData={setData}
-                        processing={processing}
-                        errors={errors}
-                        setStep={setStep}
-                    />
-                )}
-                {step == 2 && (
-                    <StepTwo
-                        data={data}
-                        setData={setData}
-                        processing={processing}
-                        errors={errors}
-                        setStep={setStep}
-                    />
-                )}
-
-                <form onSubmit={submit}>
+                    {step == 4 && (
+                        <StepFour
+                            data={data}
+                            setData={setData}
+                            processing={processing}
+                            errors={errors}
+                            setStep={setStep}
+                        />
+                    )}
                     <Link href={route('login')}>
                         <div className="w-full rounded-md text-center text-sm text-txt-two underline">
                             Al geregistreerd?
                         </div>
                     </Link>
-                </form>
-            </div>
+                </div>
+            </form>
         </GuestLayout>
     );
 }
 
-{
-    /* <Interactables.Button
-loading={processing}
-className=" w-full"
-label="Register"
-submit={true}
-/> */
-}
-
-function StepZero({ data, setData, processing, errors, setStep }: IStep) {
+function StepOne({ data, setData, processing, errors, setStep }: IStep) {
     return (
         <>
+            <h1 className="border-b border-border/10 pb-2 text-lg font-bold tracking-widest text-txt-one">
+                Registratie Informatie
+            </h1>
+
             <Interactables.Input
                 name="name"
                 label="Naam"
@@ -164,23 +177,32 @@ function StepZero({ data, setData, processing, errors, setStep }: IStep) {
 
             <Interactables.Button
                 className="w-full"
-                label="Next Step"
-                onClick={() => setStep(1)}
+                icon="arrow_forward_ios"
+                onClick={() => setStep((prev: number) => prev + 1)}
             />
         </>
     );
 }
 
-function StepOne({ data, setData, processing, errors, setStep }: IStep) {
-
+function StepTwo({ data, setData, processing, errors, setStep }: IStep) {
+    const [loading, setLoading] = React.useState(false);
 
     async function validate() {
+        setLoading(true);
         const response = await fetch(`/api/kvk/${data.company_kvk_number}`);
-        const result = await response.json();
-        if(result.length == 0) {
+        if (!response.ok) {
             Toast.toast('KVK nummer is invalide', {
                 type: 'error',
-                position: 'bottom-right'
+                position: 'bottom-right',
+            });
+            setLoading(false);
+            return;
+        }
+        const result = await response?.json();
+        if (result.length == 0 || !result) {
+            Toast.toast('KVK nummer is invalide', {
+                type: 'error',
+                position: 'bottom-right',
             });
         } else {
             setData({
@@ -190,13 +212,18 @@ function StepOne({ data, setData, processing, errors, setStep }: IStep) {
                 company_address: result.address,
                 company_postal_code: result.postal_code,
                 company_type: result.type,
-            })
-            setStep(2);
+            });
+            setStep((prev: number) => prev + 1);
         }
+        setLoading(false);
     }
 
     return (
         <>
+            <h1 className="border-b border-border/10 pb-2 text-lg font-bold tracking-widest text-txt-one">
+                Bedrijfs Informatie
+            </h1>
+
             <Interactables.Input
                 label="KVK Nummer"
                 type="text"
@@ -230,21 +257,188 @@ function StepOne({ data, setData, processing, errors, setStep }: IStep) {
                 value={data.company_phone_number}
                 hasError={errors.company_phone_number ? true : false}
                 required={true}
-                onChange={(e: string) => setData('company_phone_number', e)}            
+                onChange={(e: string) => setData('company_phone_number', e)}
             />
 
-            <Interactables.Button
-                className="w-full"
-                label="Next Step"
-                onClick={() => validate()}
-            />
+            <div className="flex gap-5">
+                <Interactables.Button
+                    className="w-full"
+                    icon="arrow_back_ios"
+                    onClick={() => setStep((prev: number) => prev - 1)}
+                />
+
+                <Interactables.Button
+                    className="w-full"
+                    loading={loading}
+                    icon="arrow_forward_ios"
+                    onClick={() => validate()}
+                />
+            </div>
         </>
     );
 }
 
-function StepTwo({ data, setData, processing, errors, setStep }: IStep) {
-    // Overzicht van alle gegevens en accept terms
+function StepThree({ data, setData, processing, errors, setStep }: IStep) {
+    const [termsAccepted, setTermsAccepted] = React.useState(false);
+
+    function validate() {
+        if (!termsAccepted) {
+            Toast.toast('Accepteer de algemene voorwaarden', {
+                type: 'error',
+                position: 'bottom-right',
+            });
+        } else {
+            setStep((prev: number) => prev + 1);
+        }
+    }
+
     return (
-        <></>
-    )
+        <>
+            <h1 className="border-b border-border/10 pb-2 text-lg font-bold tracking-widest text-txt-one">
+                Informatie
+            </h1>
+            <div className="flex flex-col gap-5">
+                <div className="flex flex-col gap-3 rounded bg-bg-light p-4">
+                    <h1 className="text-center font-bold tracking-widest text-txt-one">
+                        Persoonlijke Informatie
+                    </h1>
+                    <div className="flex flex-col gap-2">
+                        <div>
+                            <label className="text-sm font-semibold uppercase tracking-widest text-txt-one">
+                                Naam
+                            </label>
+                            <p className="text-sm text-txt-two">{data.name}</p>
+                        </div>
+                        <div>
+                            <label className="text-sm font-semibold uppercase tracking-widest text-txt-one">
+                                Email
+                            </label>
+                            <p className="text-sm text-txt-two">{data.email}</p>
+                        </div>
+                        <div>
+                            <label className="text-sm font-semibold uppercase tracking-widest text-txt-one">
+                                Telefoonnummer
+                            </label>
+                            <p className="text-sm text-txt-two">
+                                {data.phone_number}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-3 rounded bg-bg-light p-4">
+                    <h1 className="text-center font-bold tracking-widest text-txt-one">
+                        Bedrijfs Informatie
+                    </h1>
+                    <div className="flex flex-col gap-2">
+                        <div>
+                            <label className="text-sm font-semibold uppercase tracking-widest text-txt-one">
+                                KVK Nummer
+                            </label>
+                            <p className="text-sm text-txt-two">
+                                {data.company_kvk_number}
+                            </p>
+                        </div>
+                        <div>
+                            <label className="text-sm font-semibold uppercase tracking-widest text-txt-one">
+                                BTW Nummer
+                            </label>
+                            <p className="text-sm text-txt-two">
+                                {data.company_btw_number}
+                            </p>
+                        </div>
+                        <div>
+                            <label className="text-sm font-semibold uppercase tracking-widest text-txt-one">
+                                Naam
+                            </label>
+                            <p className="text-sm text-txt-two">
+                                {data.company_name}
+                            </p>
+                        </div>
+                        <div>
+                            <label className="text-sm font-semibold uppercase tracking-widest text-txt-one">
+                                Plaats
+                            </label>
+                            <p className="text-sm text-txt-two">
+                                {data.company_location}
+                            </p>
+                        </div>
+                        <div>
+                            <label className="text-sm font-semibold uppercase tracking-widest text-txt-one">
+                                Adres
+                            </label>
+                            <p className="text-sm text-txt-two">
+                                {data.company_address}
+                            </p>
+                        </div>
+                        <div>
+                            <label className="text-sm font-semibold uppercase tracking-widest text-txt-one">
+                                Postcode
+                            </label>
+                            <p className="text-sm text-txt-two">
+                                {data.postal_code}
+                            </p>
+                        </div>
+                        <div>
+                            <label className="text-sm font-semibold uppercase tracking-widest text-txt-one">
+                                Telefoonnummer
+                            </label>
+                            <p className="text-sm text-txt-two">
+                                {data.company_phone_number}
+                            </p>
+                        </div>
+                        <div>
+                            <label className="text-sm font-semibold uppercase tracking-widest text-txt-one">
+                                Email
+                            </label>
+                            <p className="text-sm text-txt-two">
+                                {data.company_email}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <Interactables.Toggle
+                    label="Terms of Service"
+                    description="Accepteert u de Terms of Service"
+                    value={termsAccepted}
+                    onChange={(e: boolean) => setTermsAccepted(e)}
+                />
+
+                <div className="flex gap-5">
+                    <Interactables.Button
+                        className="w-full"
+                        icon="arrow_back_ios"
+                        onClick={() => setStep((prev: number) => prev - 1)}
+                    />
+
+                    <Interactables.Button
+                        className="w-full"
+                        icon="arrow_forward_ios"
+                        onClick={() => validate()}
+                    />
+                </div>
+            </div>
+        </>
+    );
+}
+
+function StepFour({ data, setData, processing, errors, setStep }: IStep) {
+    return (
+        <>
+            <div className="flex gap-5">
+                <Interactables.Button
+                    className="w-full"
+                    icon="arrow_back_ios"
+                    onClick={() => setStep((prev: number) => prev - 1)}
+                />
+
+                <Interactables.Button
+                    className="w-full"
+                    label="Register"
+                    loading={processing}
+                    submit={true}
+                />
+            </div>
+        </>
+    );
 }

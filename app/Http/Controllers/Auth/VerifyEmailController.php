@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class VerifyEmailController extends Controller
 {
@@ -14,6 +16,9 @@ class VerifyEmailController extends Controller
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
+
+        Log::info('Email Verified: '. Auth::user()->id);
+
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->intended(route('dashboard.agenda.index', absolute: false).'?verified=1');
         }
