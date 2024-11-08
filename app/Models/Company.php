@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\CompanySetting;
 
 class Company extends Model
 {
@@ -40,6 +41,11 @@ class Company extends Model
             'strict' => $this->strict,
             'osmId' => $this->osm_id,
         ];
+    }
+
+    public function setting()
+    {
+        return $this->hasOne(CompanySetting::class);
     }
 
 }

@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserSetting extends Model
+class CompanySetting extends Model
 {
     public $fillable = [
-        'user_id',
+        'company_id',
         'distance_calculation_step',
         'measurement',
         'currency',
@@ -20,7 +20,7 @@ class UserSetting extends Model
     {
         return [
             'id' => $this->id,
-            'userId' => $this->user_id,
+            'companyId' => $this->company_id,
             'distanceCalculationStep' => $this->distance_calculation_step,
             'measurement' => $this->measurement,
             'currency' => $this->currency,

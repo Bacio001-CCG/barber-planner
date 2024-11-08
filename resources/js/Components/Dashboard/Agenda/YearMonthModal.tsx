@@ -7,7 +7,14 @@ export default function YearMonthModal({
     year,
     showModal,
     setShowModal,
-}: any) {
+}: {
+    setYear: Function;
+    setMonth: Function;
+    month: number;
+    year: number;
+    showModal: boolean;
+    setShowModal: Function;
+}) {
     const [newMonth, setNewMonth] = React.useState(month);
     const [newYear, setNewYear] = React.useState(year);
 
@@ -39,7 +46,17 @@ export default function YearMonthModal({
     );
 }
 
-function Body({ setNewMonth, setNewYear, month, year }: any) {
+function Body({ 
+    setNewMonth, 
+    setNewYear, 
+    month, 
+    year 
+}: {
+    setNewMonth: Function;
+    setNewYear: Function;
+    month: number;
+    year: number;
+}) {
     const monthNames = [
         'Januari',
         'Februari',

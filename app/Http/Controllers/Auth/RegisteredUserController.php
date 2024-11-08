@@ -14,7 +14,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Http\Controllers\API\OpenStreetMapController;
 use Illuminate\Support\Facades\Log;
-use App\Models\UserSetting;
+use App\Models\CompanySetting;
 
 
 class RegisteredUserController extends Controller
@@ -47,10 +47,6 @@ class RegisteredUserController extends Controller
             'phone_number' => $request->phone_number,
         ]);
 
-        UserSetting::create([
-            'user_id' => $user->id,
-        ]);
-
         $company = Company::create([
             'user_id' => $user->id,
             'name' => $request->company_name,
@@ -63,6 +59,10 @@ class RegisteredUserController extends Controller
             'btw_number' => $request->company_btw_number,
             'type' => $request->company_type,
             'osm_id' => $addressSearch['osm_id'],
+        ]);
+
+        CompanySetting::create([
+            'company_id' => $company->id,
         ]);
 
         event(new Registered($user));

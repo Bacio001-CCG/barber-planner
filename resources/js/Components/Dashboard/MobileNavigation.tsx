@@ -1,4 +1,4 @@
-import { FramerMotion, Link } from '@/index';
+import { FramerMotion, Link, InertiaReact } from '@/index';
 export default function MobileNavigation({ open }: { open: boolean }) {
     return (
         <FramerMotion.motion.nav
@@ -43,21 +43,21 @@ export default function MobileNavigation({ open }: { open: boolean }) {
             </ul>
             <div className='p-4 flex flex-col gap-3'>
                 <Link href={route('dashboard.settings.index')}>
-                    <li className={`flex w-full rounded p-2 py-3 tracking-widest text-txt-two gap-2 hover:bg-bg-extra-light cursor-pointer ${(window.location.href && window.location.href.includes('bookkeeping')) && 'bg-bg-light'}`}>
+                    <li className={`flex w-full rounded p-2 py-3 tracking-widest text-txt-two gap-2 hover:bg-bg-extra-light cursor-pointer ${(window.location.href && window.location.href.includes('settings')) && 'bg-bg-light'}`}>
                         <span className={`material-symbols-outlined scale-95 ${(window.location.href && window.location.href.includes('settings')) && 'text-accent'}`}>
                             settings
                         </span>{' '}
                         <h1 className='text-lg'>Instellingen</h1>
                     </li>
                 </Link >
-                <Link href={route('logout')} method='post' as='button' className='w-full'>
-                    <button className={`flex w-full rounded p-2 py-3 tracking-widest text-lg text-txt-two gap-2 hover:bg-bg-extra-light cursor-pointer`}>
-                        <span className={`material-symbols-outlined scale-95`}>
-                            logout
-                        </span>{' '}
-                        Logout
-                    </button>
-                </Link >
+                <button
+                    type="button"
+                    onClick={() => InertiaReact.router.post(route('logout'))}
+                    className="flex w-full rounded p-2 py-3 tracking-widest text-lg text-txt-two gap-2 hover:bg-bg-extra-light cursor-pointer"
+                >
+                    <span className="material-symbols-outlined scale-95">logout</span> Logout
+                </button>
+
             </div>
         </FramerMotion.motion.nav>
     );

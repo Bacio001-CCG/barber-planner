@@ -6,7 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Models\UserSetting;
+use App\Models\CompanySetting;
 
 class User extends Authenticatable
 {
@@ -53,10 +53,5 @@ class User extends Authenticatable
     public function company()
     {
         return $this->hasOne(Company::class);
-    }
-
-    public function setting()
-    {
-        return $this->hasOne(UserSetting::class);
     }
 }

@@ -4,8 +4,24 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { InertiaReact, Interactables, React, Toast, axios } from '@/.';
 
 interface IStep {
-    data: any;
-    setData: (key: string, value?: any) => void;
+    data: {
+        name: string;
+        email: string;
+        phone_number: string;
+        password: string;
+        password_confirmation: string;
+
+        company_kvk_number: string;
+        company_name: string;
+        company_location: string;
+        company_address: string;
+        company_postal_code: string;
+        company_phone_number: string;
+        company_email: string;
+        company_btw_number: string;
+        company_type: string;
+    };
+    setData: (key: any, value?: any) => void;
     processing: boolean;
     errors: any;
     setStep: (step: number | ((prev: number) => number)) => void;
@@ -370,7 +386,7 @@ function StepThree({ data, setData, processing, errors, setStep }: IStep) {
                                 Postcode
                             </label>
                             <p className="text-sm text-txt-two">
-                                {data.postal_code}
+                                {data.company_postal_code}
                             </p>
                         </div>
                         <div>

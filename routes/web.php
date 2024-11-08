@@ -21,7 +21,7 @@ Route::prefix('dashboard')->middleware(['auth'])->name('dashboard.')->group(func
     Route::resource('treatments', TreatmentController::class);
     Route::resource('bookkeeping', BookkeepingController::class);
     Route::resource('finish-appointment', FinishAppointmentController::class);
-    Route::resource('settings', SettingsController::class)->except(['create', 'store', 'destroy', 'show']);
+    Route::resource('settings', SettingsController::class)->except(['create', 'store', 'destroy', 'show', 'edit']);
 });
 
 Route::prefix('api')->group(function () {
