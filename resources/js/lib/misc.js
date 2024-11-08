@@ -15,7 +15,7 @@ const monthNames = [
 ]
 
 function priceFormat(price) {
-    // TODO: use local storage or any other way to get currency
+    // TODO: get currency out of db
     let currencyCode = 'EUR';
     let currency = '€';
 

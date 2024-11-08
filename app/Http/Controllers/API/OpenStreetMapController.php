@@ -63,11 +63,11 @@ class OpenStreetMapController extends Controller
     {
         // TODO: get settings from company
         $settings = [
-            'calc_steps' => 'from_company_to_appointment_to_company',
-            'unit' => 'yard',
+            'distance_calculation_step' => 'from_company_to_appointment_to_company',
+            'measurement' => 'yard',
         ];
 
-        $calc_steps = $settings['calc_steps'];
+        $distance_calculation_step = $settings['distance_calculation_step'];
         // TODO: check if first or last appointment
         $is_first_appointment = $request->query('is_first_appointment') ?? false;
         $is_last_appointment = $request->query('is_last_appointment') ?? false;
@@ -78,9 +78,9 @@ class OpenStreetMapController extends Controller
         $appointment = Appointment::find($appointmentId);
         $des_osm_id = $appointment->customers[0]->osm_id;
         
-        if($calc_steps == 'from_appointment_to_appointment') {
+        if($distance_calculation_step == 'from_appointment_to_appointment') {
             // TODO: get previous appointment osm_id or use company address
-        } else if ($calc_steps == 'from_company_to_appointment_to_company') {
+        } else if ($distance_calculation_step == 'from_company_to_appointment_to_company') {
             $prev_osm_id = $company_osm_id;
         }
 
@@ -94,9 +94,9 @@ class OpenStreetMapController extends Controller
         $longs_lats = null;
 
         // Set longs and lats based on calculation steps
-        if($calc_steps == 'from_company_to_appointment_to_company') {
+        if($distance_calculation_step == 'from_company_to_appointment_to_company') {
             $longs_lats = $company_long_lat.';'.$des_long_lat.';'.$company_long_lat;
-        } else if ($calc_steps == 'from_appointment_to_appointment') {
+        } else if ($distance_calculation_step == 'from_appointment_to_appointment') {
 
             if($is_first_appointment) {
                 $longs_lats = $company_long_lat.';'.$des_long_lat;
@@ -118,8 +118,8 @@ class OpenStreetMapController extends Controller
 
         // TODO: get settings from company
         $settings = [
-            'calc_steps' => 'from_company_to_appointment_to_company',
-            'unit' => 'yard',
+            'distance_calculation_step' => 'from_company_to_appointment_to_company',
+            'measurement' => 'yard',
         ];
 
         $info = Http::withHeaders([
@@ -129,10 +129,10 @@ class OpenStreetMapController extends Controller
 
         $distance = $info->json()['routes'][0]['distance'];
 
-        // Calculate distance in units
-        if($settings['unit'] == 'meter') {
+        // Calculate distance in measurements
+        if($settings['measurement'] == 'meter') {
             $distance = $distance;
-        } else if($settings['unit'] == 'yard') {
+        } else if($settings['measurement'] == 'yard') {
             $distance = $distance * 1.09361;
         }
         

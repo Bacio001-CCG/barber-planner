@@ -2,8 +2,6 @@ import { React, CalendarContext, DashboardLayout, Calendar, AppointmentList } fr
 
 export default function Agenda() {
 
-    //TODO: Make it so calander format and amount of fetched days can be changed in settings trough database, cookies don't work.
-
     return (
         <DashboardLayout>
             <CalendarContext.CalendarProvider>
