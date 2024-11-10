@@ -10,7 +10,7 @@ export default function Navigation()
                     <span>Recensies</span>
                     <span>Prijzen</span>
                 </div>
-                <button className="px-8 py-1.5 bg-bg-light border border-border/10 text-txt-one rounded-lg hover:bg-bg-extra-light transition-all duration-300 cursor-pointer right-0 absolute top-1/2 -translate-y-1/2">Dashboard</button>
+                <a href='/dashboard/agenda' className="px-8 py-1.5 bg-bg-light border border-border/10 text-txt-one rounded-lg hover:bg-bg-extra-light transition-all duration-300 cursor-pointer right-0 absolute top-1/2 -translate-y-1/2">Dashboard</a>
             </div>
         </nav>
     )
