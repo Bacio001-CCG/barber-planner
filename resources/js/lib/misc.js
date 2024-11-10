@@ -1,3 +1,5 @@
+import { InertiaReact } from '@/'
+
 const dayNames = ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za']
 const monthNames = [
     'Jan',
@@ -15,8 +17,9 @@ const monthNames = [
 ]
 
 function priceFormat(price) {
-    // TODO: get currency out of db
-    let currencyCode = 'EUR';
+
+    const { auth } = InertiaReact.usePage().props;
+    let currencyCode = auth.user.company.setting.currency;
     let currency = '€';
 
     switch(currencyCode) {
@@ -31,7 +34,7 @@ function priceFormat(price) {
             break;
     }
 
-    return `${currency} ` + price.replace('.', ',');
+    return `${currency} ` + price.toString().replace('.', ',');
 }
 
 function getCookie(name) {

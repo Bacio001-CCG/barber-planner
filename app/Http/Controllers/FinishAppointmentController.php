@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\FinishedAppointmentRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Functions\Currency;
 
 class FinishAppointmentController extends Controller
 {
@@ -14,7 +15,7 @@ class FinishAppointmentController extends Controller
     {
         FinishedAppointment::create([
             'appointment_id' => $request->appointment_id,
-            'price' => $request->price,
+            'price' => Currency::convertToEuro($request->price),
             'tip' => $request->tip,
             'payment_type' => $request->payment_type,
             'distance' => $request->distance,

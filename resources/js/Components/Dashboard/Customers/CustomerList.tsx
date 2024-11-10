@@ -19,8 +19,8 @@ export default function CustomerList({
         );
 
     return (
-        <div className="no-scroll mt-3 h-full overflow-y-auto">
-            <div className="flex h-full flex-col divide-y-[1px] divide-border/5 overflow-y-auto">
+        <>
+            <div className="no-scroll mt-3 flex flex-1 flex-col divide-y-[1px] divide-border/5 overflow-y-auto">
                 {customers.map((customer: MiscTypes.Customer, index) => {
                     return (
                         <div className="relative w-full py-2 text-txt-one hover:bg-bg-hover pl-2 cursor-pointer rounded" key={index} onClick={() => {
@@ -47,6 +47,6 @@ export default function CustomerList({
                 showModal={showModal}
                 customer={selectedCustomer}
             />
-        </div>
+        </>
     );
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use app\Functions\Currency;
 
 class FinishedAppointment extends Model
 {
@@ -21,7 +22,7 @@ class FinishedAppointment extends Model
         return [
             'id' => $this->id,
             'appointmentId' => $this->appointment_id,
-            'price' => $this->price,
+            'price' => Currency::convertToCurrency($this->price),
             'tip' => $this->tip,
             'paymentType' => $this->payment_type,
             'distance' => $this->distance,

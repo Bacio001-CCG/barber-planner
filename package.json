@@ -38,6 +38,7 @@
     "dependencies": {
         "framer-motion": "^11.11.9",
         "inertia": "github:inertiajs/inertia",
+        "react-mobile-device-frames": "^1.0.7",
         "react-toastify": "^10.0.6"
     }
 }

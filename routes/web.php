@@ -13,6 +13,10 @@ use Inertia\Inertia;
 use App\Http\Controllers\API\OpenStreetMapController;
 use App\Http\Controllers\API\KVKController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\PublicController;
+
+
+Route::get('/', [PublicController::class, 'index'])->name('public.index');
 
 Route::prefix('dashboard')->middleware(['auth'])->name('dashboard.')->group(function () {
     Route::get('/agenda/{date?}', [AgendaController::class, 'index'])->name('agenda');

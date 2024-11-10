@@ -73,8 +73,7 @@ function Body({ close, appointment }: { close: () => void, appointment: MiscType
             if(!appointment) return;
             const response = await axios.get('/api/address/distance/' + appointment.id, {
                 withCredentials: true, 
-            });
-    
+            });    
             let distance = await response.data;
             distance = distance.distance;
             setData({

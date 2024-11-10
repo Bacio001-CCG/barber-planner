@@ -19,7 +19,12 @@
         @vite(['resources/js/app.tsx', "resources/js/Pages/{$page['component']}.tsx"])
         @inertiaHead
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased bg-bg-normal">
         @inertia
+        <script>
+            window.Laravel = {
+                baseUrl: "{{ config('app.url') }}"
+            };
+        </script>
     </body>
 </html>

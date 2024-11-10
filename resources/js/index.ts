@@ -30,8 +30,12 @@ import Loader from './Components/Dashboard/Loader';
 import FinishAppointmentModal from './Components/Dashboard/Agenda/FinishAppointmentModal';
 import Logo from './Components/Interactables/Logo'
 import axios from 'axios';
+import PublicNavigation from './Components/Public/Navigation';
+import PublicLayout from './Layouts/PublicLayout';
 
 export {
+    PublicLayout,
+    PublicNavigation,
     axios,
     Logo,
     FinishAppointmentModal,

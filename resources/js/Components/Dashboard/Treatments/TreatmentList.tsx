@@ -1,12 +1,12 @@
-import { MiscTypes, MiscLib, React, TreatmentModal } from '@/index';
+import { MiscLib, MiscTypes, React, TreatmentModal } from '@/index';
 
 export default function TreatmentList({
-    treatments
+    treatments,
 }: {
-    treatments: MiscTypes.Treatment[]
+    treatments: MiscTypes.Treatment[];
 }) {
-
-    const [selectedTreatment, setSelectedTreatment] = React.useState<MiscTypes.Treatment | null>(null);
+    const [selectedTreatment, setSelectedTreatment] =
+        React.useState<MiscTypes.Treatment | null>(null);
     const [showModal, setShowModal] = React.useState(false);
 
     if (treatments.length == 0)
@@ -19,14 +19,18 @@ export default function TreatmentList({
         );
 
     return (
-        <div className="no-scroll mt-3 h-full overflow-y-auto">
-            <div className="flex h-full flex-col divide-y-[1px] divide-border/5 overflow-y-auto">
+        <>
+            <div className="no-scroll mt-3 flex flex-1 flex-col divide-y-[1px] divide-border/5 overflow-y-auto">
                 {treatments.map((treatment: MiscTypes.Treatment, index) => {
                     return (
-                        <div className="relative w-full py-2 text-txt-one hover:bg-bg-hover pl-2 cursor-pointer rounded" key={index} onClick={() => {
-                            setSelectedTreatment(treatment);
-                            setShowModal(true);
-                        }}>
+                        <div
+                            className="relative w-full cursor-pointer rounded py-2 pl-2 text-txt-one hover:bg-bg-hover"
+                            key={index}
+                            onClick={() => {
+                                setSelectedTreatment(treatment);
+                                setShowModal(true);
+                            }}
+                        >
                             <h1>{treatment.name}</h1>
                             <h2 className="text-sm text-txt-two">
                                 {MiscLib.priceFormat(treatment.price)}
@@ -44,6 +48,6 @@ export default function TreatmentList({
                 showModal={showModal}
                 treatment={selectedTreatment}
             />
-        </div>
+        </>
     );
 }

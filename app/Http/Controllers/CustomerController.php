@@ -16,7 +16,7 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        $customers = Customer::where('company_id', 1)->get();
+        $customers = Customer::where('company_id', Auth::user()->company->id)->get();
 
         $customers = $customers->map(function ($customer) {
             return $customer->formatForFrontend();

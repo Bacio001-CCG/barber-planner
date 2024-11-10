@@ -262,17 +262,20 @@ function Body({ mode, close, appointment }: { mode: 'create' | 'edit', close: ()
                 />
                 {
                     mode == 'edit' && (
-                        <div className='grid grid-cols-2 gap-5'>
-                            {/* TODO: Hide if finsihed */}
-                            <Interactables.Button
-                                submit={false}
-                                label={'Afronden'}
-                                background={'green'}
-                                onClick={(e: React.MouseEvent<HTMLInputElement>) => {
-                                    e.preventDefault();
-                                    setShowModal(true);
-                                }}
-                            />
+                        <div className={`grid grid-cols-${!appointment?.finished ? '2' : '1'} gap-5`}>
+                            {
+                                !appointment?.finished && (
+                                    <Interactables.Button
+                                        submit={false}
+                                        label={'Afronden'}
+                                        background={'green'}
+                                        onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+                                            e.preventDefault();
+                                            setShowModal(true);
+                                        }}
+                                    />
+                                )
+                            }
                             <Interactables.Button
                                 submit={false}
                                 label={'Verwijderen'}

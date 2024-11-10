@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use App\Functions\Currency;
+
 
 class Treatment extends Model
 {
@@ -19,8 +22,9 @@ class Treatment extends Model
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'price' => $this->price,
+            'price' => Currency::convertToCurrency($this->price),
             'companyId' => $this->company_id,
         ];
     }
+
 }

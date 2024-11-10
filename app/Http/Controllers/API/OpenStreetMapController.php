@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Appointment;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\CompanySetting;
+use Carbon\Carbon;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class OpenStreetMapController extends Controller
 {
@@ -61,25 +64,30 @@ class OpenStreetMapController extends Controller
      */
     public function getDistanceAppointment(Request $request, $appointmentId)
     {
-        // TODO: get settings from company
-        $settings = [
-            'distance_calculation_step' => 'from_company_to_appointment_to_company',
-            'measurement' => 'yard',
-        ];
+        $settings = CompanySetting::where('company_id', Auth::user()->company->id)->first();
+        $appointment = Appointment::find($appointmentId);
 
         $distance_calculation_step = $settings['distance_calculation_step'];
-        // TODO: check if first or last appointment
-        $is_first_appointment = $request->query('is_first_appointment') ?? false;
-        $is_last_appointment = $request->query('is_last_appointment') ?? false;
-    
+
+        $this_days_appointments = Appointment::where('company_id', Auth::user()->company->id)->where('date_time', 'like', Carbon::parse($appointment->date_time)->format('Y-m-d').'%')->orderBy('date_time')->get();
+        $appointment_index = $this_days_appointments->search(function ($item) use ($appointment) {
+            return $item->id == $appointment->id;
+        });
+
+        $is_first_appointment = (Boolean)($request->query('is_first_appointment') ?? ($appointment_index == 0));
+        $is_last_appointment = (Boolean)($request->query('is_last_appointment') ?? ((count($this_days_appointments) == ($appointment_index + 1))));
+
         $prev_osm_id = null;
         $company_osm_id = Auth::user()->company->osm_id;
         $company_details = $this->getAddressInfoByOSMID($company_osm_id)[0];
-        $appointment = Appointment::find($appointmentId);
         $des_osm_id = $appointment->customers[0]->osm_id;
         
         if($distance_calculation_step == 'from_appointment_to_appointment') {
-            // TODO: get previous appointment osm_id or use company address
+            if($is_first_appointment) {
+                $prev_osm_id = $company_osm_id;
+            } else {
+                $prev_osm_id = $this_days_appointments[$appointment_index - 1]->customers[0]->osm_id;
+            }
         } else if ($distance_calculation_step == 'from_company_to_appointment_to_company') {
             $prev_osm_id = $company_osm_id;
         }
@@ -116,11 +124,7 @@ class OpenStreetMapController extends Controller
     public function _getDistanceBetweenAddresses($data)
     {
 
-        // TODO: get settings from company
-        $settings = [
-            'distance_calculation_step' => 'from_company_to_appointment_to_company',
-            'measurement' => 'yard',
-        ];
+        $settings = CompanySetting::where('company_id', Auth::user()->company->id)->first();
 
         $info = Http::withHeaders([
             'key' => env('TOMTOM_API_KEY'),
