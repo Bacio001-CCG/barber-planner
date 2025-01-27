@@ -10,6 +10,7 @@ export default function Input({
     values = [],
     hasError = false,
     emptyMessage,
+    allowOnceMultipleTimes = false,
 }: InteractableTypes.MultiSelectProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const [open, setOpen] = React.useState(false);
@@ -46,11 +47,12 @@ export default function Input({
             <div
                 className={`flex max-h-[85px] min-h-[42px] w-full select-none flex-wrap items-center gap-2 overflow-y-auto rounded border bg-bg-light px-[0.75rem] py-[0.5rem] text-txt-two focus:outline-none ${hasError ? 'border-red-500 focus:border-red-500' : 'border-border/10 focus:border-border/10'} focus:ring-0`}
                 onClick={() => {
-                    if(options.length != 0) setOpen((prev) => !prev)
-                    if((options.length == 0) && emptyMessage) Toast.toast(emptyMessage, {
-                        type: 'error',
-                        position: 'bottom-right',
-                    });
+                    if (options.length != 0) setOpen((prev) => !prev);
+                    if (options.length == 0 && emptyMessage)
+                        Toast.toast(emptyMessage, {
+                            type: 'error',
+                            position: 'bottom-right',
+                        });
                 }}
             >
                 {values.map((value, index) => {
@@ -82,6 +84,7 @@ export default function Input({
                                 option={option}
                                 values={values}
                                 onDelete={onDelete}
+                                allowOnceMultipleTimes={allowOnceMultipleTimes}
                             />
                         );
                     })}
@@ -97,27 +100,39 @@ function SelectItem({
     option,
     values,
     onDelete,
+    allowOnceMultipleTimes,
 }: {
     onAdd: Function;
     index: number;
     option: { value: string; label: string };
     values: string[];
     onDelete: Function;
+    allowOnceMultipleTimes: boolean;
 }) {
     return (
         <li
             key={index}
             className="flex cursor-pointer gap-[10px] px-[0.75rem] py-[0.5rem] hover:bg-bg-light"
             onClick={(e) => {
-                if (values.includes(option.label)) onDelete(option.label);
+                if (values.includes(option.label) && !allowOnceMultipleTimes)
+                    onDelete(option.label);
                 else onAdd(option.value);
             }}
         >
-            <div className="my-auto flex h-[15px] w-[15px] items-center justify-center rounded border border-border/10 p-0.5">
-                {values.includes(option.label) && (
-                    <div className="h-full w-full rounded-sm bg-accent"></div>
-                )}
-            </div>
+            {allowOnceMultipleTimes ? (
+                <div className="my-auto flex h-[15px] w-[15px] items-center justify-center rounded p-0.5">
+                    <span className="material-symbols-outlined scale-90 text-accent">
+                        add
+                    </span>
+                </div>
+            ) : (
+                <div className="my-auto flex h-[15px] w-[15px] items-center justify-center rounded border border-border/10 p-0.5">
+                    {values.includes(option.label) && (
+                        <div className="h-full w-full rounded-sm bg-accent"></div>
+                    )}
+                </div>
+            )}
+
             <span>{option.label}</span>
         </li>
     );

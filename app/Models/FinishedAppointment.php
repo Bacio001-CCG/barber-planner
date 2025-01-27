@@ -23,9 +23,10 @@ class FinishedAppointment extends Model
             'id' => $this->id,
             'appointmentId' => $this->appointment_id,
             'price' => Currency::convertToCurrency($this->price),
-            'tip' => $this->tip,
+            'tip' => Currency::convertToCurrency($this->tip),
             'paymentType' => $this->payment_type,
             'distance' => $this->distance,
+            'createdAt' => $this->created_at
         ];
     }
 }

@@ -1,20 +1,19 @@
 import { MiscEnums } from '@/.';
 
 export interface Option {
-    label: string,
-    value: string
+    label: string;
+    value: string;
 }
 
 export interface Settings {
-    id: number
-    distanceCalculationStep: MiscEnums.DistanceCalculationStepEnum,
-    measurement: MiscEnums.MeasurmentEnum,
-    currency: MiscEnums.CurrencyEnum,
-    language: MiscEnums.LanguageEnum,
+    id: number;
+    distanceCalculationStep: MiscEnums.DistanceCalculationStepEnum;
+    measurement: MiscEnums.MeasurmentEnum;
+    currency: MiscEnums.CurrencyEnum;
+    language: MiscEnums.LanguageEnum;
 }
 
-export interface Appointment 
-{
+export interface Appointment {
     id: number;
     customers: Customer[];
     treatments: Treatment[];
@@ -27,36 +26,36 @@ export interface Appointment
 }
 
 export interface Customer {
-    id: number | null,
-    firstName: string,
-    infix: string,
-    lastName: string,
-    phoneNumber: string,
-    email: string,
-    location: string,
-    address: string,
-    postalCode: string,
+    id: number | null;
+    firstName: string;
+    infix: string;
+    lastName: string;
+    phoneNumber: string;
+    email: string;
+    location: string;
+    address: string;
+    postalCode: string;
 }
 
 export interface Treatment {
-    id: number,
-    name: string,
-    price: string,
+    id: number;
+    name: string;
+    price: string;
 }
 
 export interface Company {
-    id: number,
-    name: string,
-    location: string,
-    address: string,
-    postalCode: string,
-    phoneNumber: string,
-    email: string,
-    kvkNumber: string,
-    btwNumber: string,
-    iban: string,
-    type: 'BV' | 'Eenmanszaak' | 'V.O.F.',
-    strict: boolean,
+    id: number;
+    name: string;
+    location: string;
+    address: string;
+    postalCode: string;
+    phoneNumber: string;
+    email: string;
+    kvkNumber: string;
+    btwNumber: string;
+    iban: string;
+    type: 'BV' | 'Eenmanszaak' | 'V.O.F.';
+    strict: boolean;
 }
 
 export interface Address {
@@ -88,4 +87,14 @@ export interface NominatimResponse {
     addresstype: string;
     address: Address;
     place_rank: number;
+}
+
+export interface FinishedAppointment {
+    id: number;
+    appointmentId: number;
+    price: number;
+    tip: number;
+    paymentType: 'cash' | 'card';
+    distance: number;
+    createdAt: string;
 }

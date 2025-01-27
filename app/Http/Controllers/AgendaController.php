@@ -35,9 +35,9 @@ class AgendaController extends Controller
 
         // Get appointments using the cookies
         $appointments = Appointment::where('company_id', Auth::user()->company->id);
-        if($_COOKIE['view'] == 'day') {
+        if(isset($_COOKIE['view']) && $_COOKIE['view'] == 'day') {
             $appointments->whereDate('date_time', $date);
-        } else if($_COOKIE['view'] == 'week') {
+        } else if(isset($_COOKIE['view']) && $_COOKIE['view'] == 'week') {
             $appointments->whereBetween('date_time', [Carbon::parse($date)->startOfWeek(), Carbon::parse($date)->endOfWeek()]);
         } else {
             $appointments->whereBetween('date_time', [Carbon::parse($date)->startOfMonth(), Carbon::parse($date)->endOfMonth()]);

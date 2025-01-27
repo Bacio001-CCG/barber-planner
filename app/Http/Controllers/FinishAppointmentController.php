@@ -15,6 +15,7 @@ class FinishAppointmentController extends Controller
     {
         FinishedAppointment::create([
             'appointment_id' => $request->appointment_id,
+            'company_id' => Auth::user()->company->id,
             'price' => Currency::convertToEuro($request->price),
             'tip' => $request->tip,
             'payment_type' => $request->payment_type,
