@@ -33,6 +33,7 @@ class Appointment extends Model
             'highlight' => $this->highlight ?? false,
             'type' => $this->type,
             'finished' => $this->finishedAppointment ? true : false,
+            'googleEvent' => $this->googleEvent ? $this->googleEvent->formatForFrontend() : null,
         ];
     }
 
@@ -49,5 +50,10 @@ class Appointment extends Model
     public function finishedAppointment()
     {
         return $this->hasOne(FinishedAppointment::class);
+    }
+
+    public function googleEvent()
+    {
+        return $this->hasOne(GoogleEvent::class);
     }
 }

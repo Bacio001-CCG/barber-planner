@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('company_settings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('company_id')->index();
             $table->enum('distance_calculation_step', ['from_appointment_to_appointment', 'from_company_to_appointment_to_company'])->default('from_appointment_to_appointment');
             $table->enum('measurement', ['meter', 'yard'])->default('meter');
             $table->enum('currency', ['EUR', 'USD', 'GBP'])->default('EUR');

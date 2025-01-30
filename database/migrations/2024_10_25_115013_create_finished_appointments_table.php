@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('finished_appointments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('appointment_id');
-            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('appointment_id')->index();
+            $table->unsignedBigInteger('company_id')->index();
             $table->decimal('price', 10, 2);
             $table->decimal('tip', 10, 2);
             $table->enum('payment_type', ['cash', 'card']);

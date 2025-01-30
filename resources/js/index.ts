@@ -25,6 +25,7 @@ import CustomerList from './Components/Dashboard/Customers/CustomerList';
 import CustomerModal from './Components/Dashboard/Customers/CustomerModal';
 import CustomerHeader from './Components/Dashboard/Customers/Header';
 import Header from './Components/Dashboard/Header';
+import GoogleIcon from './Components/Dashboard/Icons/Google';
 import Loader from './Components/Dashboard/Loader';
 import LookupHeader from './Components/Dashboard/Lookup/Header';
 import LookupResult from './Components/Dashboard/Lookup/LookupResult';
@@ -53,6 +54,7 @@ export {
     DashboardLayout,
     FinishAppointmentModal,
     FramerMotion,
+    GoogleIcon,
     Header,
     InertiaReact,
     Interactables,

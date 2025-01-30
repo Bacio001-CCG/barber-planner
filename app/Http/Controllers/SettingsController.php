@@ -13,7 +13,7 @@ class SettingsController extends Controller
     {
         return Inertia::render('Dashboard/Settings', [
             'settings' => Auth::user()->company->setting->formatForFrontend(),
-            'google' => Auth::user()->googleUser->formatForFrontend(),
+            'google' => Auth::user()?->googleUser?->formatForFrontend() ?? null,
         ]);
     }
 

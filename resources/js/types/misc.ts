@@ -24,6 +24,13 @@ export interface Appointment {
     highlight: boolean;
     finished: boolean;
     type: 'business' | 'personal';
+    googleEvent: GoogleEvent;
+}
+
+export interface GoogleEvent {
+    appointmentId: number;
+    eventId: string;
+    companyId: number;
 }
 
 export interface Customer {

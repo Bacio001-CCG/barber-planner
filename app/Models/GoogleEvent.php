@@ -15,9 +15,9 @@ class GoogleEvent extends Model
             'id' => $this->id,
             'eventId' => $this->event_id,
             'appointmentId' => $this->appointment_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'company_id' => $this->company_id,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
+            'companyId' => $this->company_id,
         ];
     }
 }

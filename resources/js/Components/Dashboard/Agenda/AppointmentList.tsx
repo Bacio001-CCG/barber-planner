@@ -1,6 +1,6 @@
 import {
     AppointmentModal,
-    CalendarContext,
+    GoogleIcon,
     InertiaReact,
     MiscLib,
     MiscTypes,
@@ -8,7 +8,6 @@ import {
 } from '@/.';
 
 export default function AppointmentList() {
-    const { selectedDate } = CalendarContext.useCalendars();
     const dates = InertiaReact.usePage().props?.dates as {
         date: string;
         data: MiscTypes.Appointment[];
@@ -22,7 +21,6 @@ export default function AppointmentList() {
                 </div>
             </div>
         );
-
     return (
         <div className="no-scroll mt-3 h-full max-h-[50vh] overflow-y-auto">
             <div className="flex h-full flex-col">
@@ -67,78 +65,64 @@ export default function AppointmentList() {
 
 export function ListItem({
     index,
-    item: {
-        id,
-        customers,
-        treatments,
-        notes,
-        location,
-        dateTime,
-        highlight,
-        finished,
-        type,
-        endDateTime,
-    },
+    item,
 }: {
     index: number;
     item: MiscTypes.Appointment;
 }) {
-    const customerNames = customers
+    const customerNames = item.customers
         .map((customer) =>
             customer.infix
                 ? `${customer.firstName} ${customer.infix} ${customer.lastName}`
                 : `${customer.firstName} ${customer.lastName}`,
         )
         .join(', ');
-    const treatmentNames = treatments
+    const treatmentNames = item.treatments
         .map((treatment) => treatment.name)
         .join(', ');
     const [selectedAppointment, setSelectedAppointment] =
         React.useState<MiscTypes.Appointment | null>(null);
     const [showModal, setShowModal] = React.useState(false);
-
     return (
-        <div className="w-full cursor-pointer py-2 text-txt-one">
+        <div className="relative w-full cursor-pointer py-2 text-txt-one">
+            {item.googleEvent && (
+                <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                    {' '}
+                    <GoogleIcon scale={75} />
+                </div>
+            )}
             <div
-                className={`${highlight && 'border-border-highlight bg-bg-highlight rounded border'} flex min-h-[68px] w-full px-4 py-2`}
+                className={`${item.highlight && 'border-border-highlight bg-bg-highlight rounded border'} flex min-h-[68px] w-full px-4 py-2`}
             >
                 <time className="flex flex-col items-center justify-center">
                     <div className="pb-0.5">
-                        {new Date(dateTime).toLocaleTimeString('nl-NL', {
+                        {new Date(item.dateTime).toLocaleTimeString('nl-NL', {
                             hour: '2-digit',
                             minute: '2-digit',
                         })}
                     </div>
                     <div className="border-t border-border/30 pt-1 text-xs text-txt-two">
-                        {new Date(endDateTime).toLocaleTimeString('nl-NL', {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                        })}
+                        {new Date(item.endDateTime).toLocaleTimeString(
+                            'nl-NL',
+                            {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                            },
+                        )}
                     </div>
                 </time>
                 <div
-                    className={`ml-3 w-full overflow-hidden border-l-2 pl-3 ${finished ? 'border-green-500' : 'border-red-500'}`}
+                    className={`ml-3 w-full overflow-hidden border-l-2 pl-3 ${item.finished ? 'border-green-500' : 'border-red-500'}`}
                     onClick={() => {
-                        setSelectedAppointment({
-                            id,
-                            customers,
-                            treatments,
-                            notes,
-                            location,
-                            dateTime,
-                            highlight,
-                            finished,
-                            type,
-                            endDateTime,
-                        });
+                        setSelectedAppointment(item);
                         setShowModal(true);
                     }}
                 >
-                    {type === 'personal' ? (
+                    {item.type === 'personal' ? (
                         <>
                             <h1>Persoonlijke afspraak</h1>
                             <p className="mt-2 truncate text-sm text-txt-two">
-                                {notes}
+                                {item.notes}
                             </p>
                         </>
                     ) : (
@@ -147,7 +131,9 @@ export function ListItem({
                             <h2 className="mt-2 text-sm text-txt-two">
                                 {treatmentNames}
                             </h2>
-                            <h2 className="text-sm text-txt-two">{location}</h2>
+                            <h2 className="text-sm text-txt-two">
+                                {item.location}
+                            </h2>
                         </>
                     )}
                 </div>

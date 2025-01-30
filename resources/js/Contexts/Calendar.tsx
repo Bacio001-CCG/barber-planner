@@ -48,7 +48,12 @@ export const CalendarProvider: React.FC<{ children: React.ReactNode }> = ({
 
     return (
         <CalendarContext.Provider
-            value={{ selectedDate, setSelectedDate, view, setView }}
+            value={{
+                selectedDate,
+                setSelectedDate,
+                view,
+                setView,
+            }}
         >
             {children}
         </CalendarContext.Provider>

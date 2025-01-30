@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('google_events', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('appointment_id');
-            $table->string('event_id');
+            $table->unsignedBigInteger('appointment_id')->index();
+            $table->string('event_id')->index();
             $table->timestamps();
         });
     }

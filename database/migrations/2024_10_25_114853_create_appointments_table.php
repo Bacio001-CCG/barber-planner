@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('company_id')->index();
             $table->enum('type', ['personal', 'business']);
             $table->dateTime('date_time');
             $table->dateTime('end_date_time');

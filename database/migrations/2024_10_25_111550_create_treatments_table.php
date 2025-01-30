@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('treatments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('company_id')->index();
             $table->string('name');
             $table->decimal('price', 10, 2);
             $table->timestamps();
