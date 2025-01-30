@@ -20,7 +20,7 @@ export default function TreatmentList({
 
     return (
         <>
-            <div className="no-scroll mt-3 flex flex-1 flex-col divide-y-[1px] divide-border/5 overflow-y-auto">
+            <div className="no-scroll mt-3 flex flex-1 flex-col divide-y-[1px] divide-border overflow-y-auto">
                 {treatments.map((treatment: MiscTypes.Treatment, index) => {
                     return (
                         <div

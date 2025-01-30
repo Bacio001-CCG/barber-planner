@@ -23,8 +23,8 @@ export default function Landing() {
 
     return (
         <PublicLayout>
-            <div className="flex h-full w-screen flex-col">
-                <div className="relative z-20 mx-auto h-screen w-full">
+            <div className="flex h-full w-screen flex-col p-5 lg:p-0">
+                <div className="relative z-20 mx-auto h-screen w-full lg:h-2/3">
                     <div className="z-10 mx-auto flex max-w-3xl flex-col gap-6 px-4 py-32 tracking-widest sm:px-6 lg:px-8 lg:py-52">
                         <h1 className="text-center text-4xl font-bold text-txt-one sm:text-6xl">
                             Uw perfecte planning, voor een perfecte knipbeurt.
@@ -35,68 +35,70 @@ export default function Landing() {
                             afspraken eenvoudig en efficiënt. Geen gedoe, gewoon
                             werken!
                         </p>
-                        <div className="flex items-center justify-center gap-6">
-                            <a href='/dashboard/agenda' className="rounded-lg border border-bg-extra-light bg-bg-light px-5 py-2 text-lg text-txt-one transition-all duration-300 hover:bg-bg-extra-light">
-                               Dashboard
+                        <div className="flex items-center justify-center gap-6 lg:text-lg">
+                            <a
+                                href="/dashboard/agenda"
+                                className="rounded-lg border border-bg-extra-light bg-bg-light px-5 py-2 text-txt-one transition-all duration-300 hover:bg-bg-extra-light"
+                            >
+                                Dashboard
                             </a>
-                            <button className="rounded-lg border border-bg-extra-light bg-bg-light px-5 py-2 text-lg text-txt-one transition-all duration-300 hover:bg-bg-extra-light">
+                            <button className="rounded-lg border border-bg-extra-light bg-bg-light px-5 py-2 text-txt-one transition-all duration-300 hover:bg-bg-extra-light">
                                 Contacteer ons
                             </button>
                         </div>
                     </div>
-                    <div className="absolute left-1/2 w-[1200px] -translate-x-1/2">
-                        <div className="mx-auto max-w-2xl lg:max-w-none">
-                            <div className="space-y-2 text-center">
-                                <h2 className="text-3xl font-bold tracking-tight text-txt-one sm:text-4xl">
-                                    Vertrouwd door kappers over de hele wereld
-                                </h2>
-                                <p className="text-lg leading-8 text-txt-two">
-                                    Wij kunnen u helpen uw afspraken te plannen,
-                                    ongeacht de grote van uw bedrijf.
-                                </p>
-                            </div>
-
-                            <hr className="mx-auto mt-2 w-[300px] border-2 border-accent" />
-
-                            <dl className="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-4">
-                                <div className="flex flex-col bg-bg-light py-8">
-                                    <dt className="text-sm font-semibold leading-6 text-txt-two">
-                                        afspraken geregistreerd
-                                    </dt>
-                                    <dd className="order-first text-3xl font-semibold tracking-tight text-txt-one">
-                                        12 million
-                                    </dd>
-                                </div>
-                                <div className="flex flex-col bg-bg-light py-8">
-                                    <dt className="text-sm font-semibold leading-6 text-txt-two">
-                                        behandelingen aangemaakt
-                                    </dt>
-                                    <dd className="order-first text-3xl font-semibold tracking-tight text-txt-one">
-                                        10k
-                                    </dd>
-                                </div>
-                                <div className="flex flex-col bg-bg-light py-8">
-                                    <dt className="text-sm font-semibold leading-6 text-txt-two">
-                                        klanten aangemaakt
-                                    </dt>
-                                    <dd className="order-first text-3xl font-semibold tracking-tight text-txt-one">
-                                        6.6k
-                                    </dd>
-                                </div>
-                                <div className="flex flex-col bg-bg-light py-8">
-                                    <dt className="text-sm font-semibold leading-6 text-txt-two">
-                                        bedrijven geregistreerd
-                                    </dt>
-                                    <dd className="order-first text-3xl font-semibold tracking-tight text-txt-one">
-                                        2.1k
-                                    </dd>
-                                </div>
-                            </dl>
+                </div>
+                <div className="mx-auto mb-[10rem] w-full lg:mb-[15rem] lg:w-[1200px]">
+                    <div className="mx-auto max-w-2xl lg:max-w-none">
+                        <div className="space-y-2 text-center">
+                            <h2 className="text-3xl font-bold tracking-tight text-txt-one sm:text-4xl">
+                                Vertrouwd door kappers over de hele wereld
+                            </h2>
+                            <p className="text-lg leading-8 text-txt-two">
+                                Wij kunnen u helpen uw afspraken te plannen,
+                                ongeacht de grote van uw bedrijf.
+                            </p>
                         </div>
+
+                        <hr className="mx-auto mt-2 border-2 border-accent lg:w-[300px]" />
+
+                        <dl className="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-4">
+                            <div className="flex flex-col bg-bg-light py-8">
+                                <dt className="text-sm font-semibold leading-6 text-txt-two">
+                                    afspraken geregistreerd
+                                </dt>
+                                <dd className="order-first text-3xl font-semibold tracking-tight text-txt-one">
+                                    12 million
+                                </dd>
+                            </div>
+                            <div className="flex flex-col bg-bg-light py-8">
+                                <dt className="text-sm font-semibold leading-6 text-txt-two">
+                                    behandelingen aangemaakt
+                                </dt>
+                                <dd className="order-first text-3xl font-semibold tracking-tight text-txt-one">
+                                    10k
+                                </dd>
+                            </div>
+                            <div className="flex flex-col bg-bg-light py-8">
+                                <dt className="text-sm font-semibold leading-6 text-txt-two">
+                                    klanten aangemaakt
+                                </dt>
+                                <dd className="order-first text-3xl font-semibold tracking-tight text-txt-one">
+                                    6.6k
+                                </dd>
+                            </div>
+                            <div className="flex flex-col bg-bg-light py-8">
+                                <dt className="text-sm font-semibold leading-6 text-txt-two">
+                                    bedrijven geregistreerd
+                                </dt>
+                                <dd className="order-first text-3xl font-semibold tracking-tight text-txt-one">
+                                    2.1k
+                                </dd>
+                            </div>
+                        </dl>
                     </div>
                 </div>
-
-                <div className="mx-auto mb-[14rem] flex w-[1200px] flex-col gap-[14rem]">
+                <div className="mx-auto mb-[5rem] flex w-full flex-col gap-[5rem] lg:mb-[15rem] lg:w-[1200px] lg:gap-[14rem]">
                     <div className="flex flex-col gap-10">
                         <div className="w-fit">
                             <h2 className="text-xl font-bold tracking-tight text-txt-one sm:text-4xl">
@@ -108,10 +110,10 @@ export default function Landing() {
                             </p>
                             <hr className="mt-2 w-1/3 border-2 border-accent" />
                         </div>
-                        <div className="mx-auto flex w-fit gap-10">
-                            <div className="flex w-[800px] flex-col gap-5">
+                        <div className="mx-auto flex w-fit flex-wrap gap-10">
+                            <div className="flex flex-col gap-5 lg:w-[800px]">
                                 <div className="my-auto flex gap-3 rounded-lg p-4">
-                                    <div className="rounded-lg bg-accent/10 p-10">
+                                    <div className="bg-bg-highlight h-fit rounded-lg p-10">
                                         <span className="material-symbols-outlined scale-[250%] text-accent">
                                             event
                                         </span>
@@ -120,7 +122,7 @@ export default function Landing() {
                                         <h1 className="text-xl font-bold tracking-widest text-txt-one">
                                             Afspraken in een oogopslag
                                         </h1>
-                                        <p className="text-txt-two/70">
+                                        <p className="text-txt-two opacity-70">
                                             when an unknown printer took a
                                             galley of type and scrambled it to
                                             make a type specimen book. It has
@@ -131,7 +133,7 @@ export default function Landing() {
                                     </div>
                                 </div>
                                 <div className="flex gap-3 rounded-lg p-4">
-                                    <div className="rounded-lg bg-accent/10 p-10">
+                                    <div className="bg-bg-highlight h-fit rounded-lg p-10">
                                         <span className="material-symbols-outlined scale-[250%] text-accent">
                                             person
                                         </span>
@@ -140,7 +142,7 @@ export default function Landing() {
                                         <h1 className="text-xl font-bold tracking-widest text-txt-one">
                                             Volledig klanten overzicht
                                         </h1>
-                                        <p className="text-txt-two/70">
+                                        <p className="text-txt-two opacity-70">
                                             when an unknown printer took a
                                             galley of type and scrambled it to
                                             make a type specimen book. It has
@@ -151,7 +153,7 @@ export default function Landing() {
                                     </div>
                                 </div>
                                 <div className="flex gap-3 rounded-lg p-4">
-                                    <div className="rounded-lg bg-accent/10 p-10">
+                                    <div className="bg-bg-highlight h-fit rounded-lg p-10">
                                         <span className="material-symbols-outlined scale-[250%] text-accent">
                                             content_cut
                                         </span>
@@ -160,7 +162,7 @@ export default function Landing() {
                                         <h1 className="text-xl font-bold tracking-widest text-txt-one">
                                             Alle behandeling in een overzicht
                                         </h1>
-                                        <p className="text-txt-two/70">
+                                        <p className="text-txt-two opacity-70">
                                             when an unknown printer took a
                                             galley of type and scrambled it to
                                             make a type specimen book. It has
@@ -171,7 +173,7 @@ export default function Landing() {
                                     </div>
                                 </div>
                                 <div className="flex gap-3 rounded-lg p-4">
-                                    <div className="rounded-lg bg-accent/10 p-10">
+                                    <div className="bg-bg-highlight h-fit rounded-lg p-10">
                                         <span className="material-symbols-outlined scale-[250%] text-accent">
                                             calculate
                                         </span>
@@ -180,7 +182,7 @@ export default function Landing() {
                                         <h1 className="text-xl font-bold tracking-widest text-txt-one">
                                             Automatische afstands berekeningen
                                         </h1>
-                                        <p className="text-txt-two/70">
+                                        <p className="text-txt-two opacity-70">
                                             when an unknown printer took a
                                             galley of type and scrambled it to
                                             make a type specimen book. It has
@@ -191,59 +193,59 @@ export default function Landing() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex w-[300px] flex-col gap-3">
+                            <div className="mx-auto flex w-[300px] flex-col gap-3">
                                 {imageStep === 1 && (
                                     <img
                                         src={Maand}
                                         alt="Afspraak Aanmaken"
-                                        className="h-[600px] w-full rounded-lg border border-border/10"
+                                        className="h-[600px] w-full rounded-lg border border-border"
                                     />
                                 )}
                                 {imageStep === 2 && (
                                     <img
                                         src={Week}
                                         alt="Afspraak Aanmaken"
-                                        className="h-[600px] w-full rounded-lg border border-border/10"
+                                        className="h-[600px] w-full rounded-lg border border-border"
                                     />
                                 )}
                                 {imageStep === 3 && (
                                     <img
                                         src={Dag}
                                         alt="Afspraak Aanmaken"
-                                        className="h-[600px] w-full rounded-lg border border-border/10"
+                                        className="h-[600px] w-full rounded-lg border border-border"
                                     />
                                 )}
                                 {imageStep === 4 && (
                                     <img
                                         src={Klanten}
                                         alt="Afspraak Aanmaken"
-                                        className="h-[600px] w-full rounded-lg border border-border/10"
+                                        className="h-[600px] w-full rounded-lg border border-border"
                                     />
                                 )}
                                 {imageStep === 5 && (
                                     <img
                                         src={Behandelingen}
                                         alt="Afspraak Aanmaken"
-                                        className="h-[600px] w-full rounded-lg border border-border/10"
+                                        className="h-[600px] w-full rounded-lg border border-border"
                                     />
                                 )}
                                 {imageStep === 6 && (
                                     <img
                                         src={AfspraakAanmaken}
                                         alt="Afspraak Aanmaken"
-                                        className="h-[600px] w-full rounded-lg border border-border/10"
+                                        className="h-[600px] w-full rounded-lg border border-border"
                                     />
                                 )}
                                 {imageStep === 7 && (
                                     <img
                                         src={AfspraakFinish}
                                         alt="Afspraak Aanmaken"
-                                        className="h-[600px] w-full rounded-lg border border-border/10"
+                                        className="h-[600px] w-full rounded-lg border border-border"
                                     />
                                 )}
                                 <div className="mt-2 grid grid-cols-2 gap-2 text-center text-txt-one">
                                     <button
-                                        className={`h-[30px] rounded border border-border/10 bg-bg-light ${imageStep === 1 ? 'opacity-50' : 'transition-all duration-300 hover:bg-bg-extra-light'}`}
+                                        className={`h-[30px] rounded border border-border bg-bg-light ${imageStep === 1 ? 'opacity-50' : 'transition-all duration-300 hover:bg-bg-extra-light'}`}
                                         onClick={() => {
                                             if (imageStep != 1)
                                                 setImageStep(
@@ -256,7 +258,7 @@ export default function Landing() {
                                         </span>
                                     </button>
                                     <button
-                                        className={`h-[30px] rounded border border-border/10 bg-bg-light ${imageStep === 7 ? 'opacity-50' : 'transition-all duration-300 hover:bg-bg-extra-light'}`}
+                                        className={`h-[30px] rounded border border-border bg-bg-light ${imageStep === 7 ? 'opacity-50' : 'transition-all duration-300 hover:bg-bg-extra-light'}`}
                                         onClick={() => {
                                             if (imageStep != 7)
                                                 setImageStep(
@@ -274,76 +276,6 @@ export default function Landing() {
                     </div>
 
                     <div className="flex flex-col gap-10">
-                        <div className="w-fit">
-                            <h2 className="text-xl font-bold tracking-tight text-txt-one sm:text-4xl">
-                                Recensies
-                            </h2>
-                            <p className="leading-8 text-txt-two">
-                                Onze recensies spreken voor zich.
-                            </p>
-                            <hr className="mt-2 w-1/3 border-2 border-accent" />
-                        </div>
-                        <div className="relative mx-auto flex h-[110px] w-[1400px]">
-                            <span className="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 scale-125 text-txt-two">
-                                arrow_back_ios
-                            </span>
-                            <span className="material-symbols-outlined absolute right-0 top-1/2 -translate-y-1/2 scale-125 text-txt-two">
-                                arrow_forward_ios
-                            </span>
-                            <div className="absolute left-1/2 top-1/2 flex w-[1200px] -translate-x-1/2 -translate-y-1/2 gap-8">
-                                <div className="flex h-fit max-w-[400px] items-center gap-5 rounded-lg border border-border/10 p-3">
-                                    <img
-                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvIDLyE2qiXbONA33TsxXBaa9vUEn3VxXw3A&s"
-                                        alt=""
-                                        className="h-[80px] rounded-full"
-                                    />
-                                    <div>
-                                        <h1 className="text-xl font-bold text-txt-one">
-                                            Cas Backx
-                                        </h1>
-                                        <p className="text-sm text-txt-two">
-                                            It was popularised in the 1960s with
-                                            the release of Letraset sheets
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex h-fit max-w-[400px] items-center gap-5 rounded-lg border border-border/10 p-3">
-                                    <img
-                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvIDLyE2qiXbONA33TsxXBaa9vUEn3VxXw3A&s"
-                                        alt=""
-                                        className="h-[80px] rounded-full"
-                                    />
-                                    <div>
-                                        <h1 className="text-xl font-bold text-txt-one">
-                                            Cas Backx
-                                        </h1>
-                                        <p className="text-sm text-txt-two">
-                                            It was popularised in the 1960s with
-                                            the release of Letraset sheets
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex h-fit max-w-[400px] items-center gap-5 rounded-lg border border-border/10 p-3">
-                                    <img
-                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvIDLyE2qiXbONA33TsxXBaa9vUEn3VxXw3A&s"
-                                        alt=""
-                                        className="h-[80px] rounded-full"
-                                    />
-                                    <div>
-                                        <h1 className="text-xl font-bold text-txt-one">
-                                            Cas Backx
-                                        </h1>
-                                        <p className="text-sm text-txt-two">
-                                            It was popularised in the 1960s with
-                                            the release of Letraset sheets
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col gap-10">
                         <div className="space-y-2 text-center">
                             <h2 className="text-3xl font-bold tracking-tight text-txt-one sm:text-4xl">
                                 Bekijk wat wij u kunnen bieden
@@ -355,7 +287,7 @@ export default function Landing() {
                             <hr className="mx-auto w-[300px] border-2 border-accent" />
                         </div>
                         <div className="mx-auto grid max-w-lg grid-cols-1 items-center gap-y-6 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
-                            <div className="rounded-3xl rounded-t-3xl bg-bg-light p-8 ring-1 ring-txt-two/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none">
+                            <div className="rounded-3xl rounded-t-3xl bg-bg-light p-8 ring-1 ring-ring sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none">
                                 <h3
                                     id="tier-hobby"
                                     className="text-base/7 font-semibold text-accent"
@@ -451,7 +383,7 @@ export default function Landing() {
                                     Start vandaag
                                 </a>
                             </div>
-                            <div className="relative rounded-3xl bg-bg-extra-light p-8 shadow-2xl ring-1 ring-txt-two/10 sm:p-10">
+                            <div className="relative rounded-3xl bg-bg-extra-light p-8 shadow-2xl ring-1 ring-ring sm:p-10">
                                 <h3
                                     id="tier-enterprise"
                                     className="text-base/7 font-semibold text-accent"
@@ -582,29 +514,37 @@ export default function Landing() {
                         </div>
                     </div>
 
-                    <div className='p-3 border bg-bg-light border-border/10 rounded-xl flex'>
-                        <div className='flex-1'>
-                            <h1 className='text-txt-one font-bold text-2xl'>Contacteer Ons</h1>
-                            <p className='text-txt-two'>Heeft u vragen of wilt u meer informatie over ons platform?</p>
+                    <div className="flex flex-col items-start gap-3 rounded-xl border border-border bg-bg-light p-3 lg:flex-row lg:items-center">
+                        <div className="flex-1">
+                            <h1 className="text-2xl font-bold text-txt-one">
+                                Contacteer Ons
+                            </h1>
+                            <p className="text-txt-two">
+                                Heeft u vragen of wilt u meer informatie over
+                                ons platform?
+                            </p>
                         </div>
-                        <a href="mailto:cbwebsitedevelopment@gmail.com" className='rounded-lg border border-border/10 bg-accent text-txt-one px-5 py-2 font-bold flex items-center justify-center gap-3 hover:bg-accent/80 transition-all duration-300'>
-                        <span className="material-symbols-outlined text-txt-one">
-                            send
-                        </span>
+                        <a
+                            href="mailto:cbwebsitedevelopment@gmail.com"
+                            className="flex h-fit items-center justify-center gap-3 rounded-lg border border-border bg-accent px-5 py-2 font-bold text-txt-one transition-all duration-300 hover:bg-accent/80"
+                        >
+                            <span className="material-symbols-outlined text-txt-one">
+                                send
+                            </span>
                             Contacteer ons
                         </a>
                     </div>
                 </div>
 
                 <footer className="relative mx-auto w-[90%]">
-                    <div className="flex items-center border-t border-border/10 py-6">
+                    <div className="flex items-center border-t border-border py-6">
                         <Logo className="h-10 w-10 text-txt-one" />
                         <p className="mb-4 ml-5 block text-center text-sm text-txt-two md:mb-0">
                             Copyright © 2024 Barber Planner. All Rights
                             Reserved.
                         </p>
                     </div>
-                    <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 gap-10 text-txt-two">
+                    <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 gap-10 text-txt-two lg:flex">
                         <span>Ons Aanbod</span>
                         <span>Recensies</span>
                         <span>Prijzen</span>

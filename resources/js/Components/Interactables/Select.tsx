@@ -36,7 +36,7 @@ export default function Input({
             </label>
             {/* Display Section  */}
             <div
-                className={`flex max-h-[85px] min-h-[42px] w-full cursor-pointer select-none flex-wrap items-center gap-2 overflow-y-auto rounded border bg-bg-light px-[0.75rem] py-[0.5rem] text-txt-two focus:outline-none ${hasError ? 'border-red-500 focus:border-red-500' : 'border-border/10 focus:border-border/10'} focus:ring-0`}
+                className={`flex max-h-[85px] min-h-[42px] w-full cursor-pointer select-none flex-wrap items-center gap-2 overflow-y-auto rounded border bg-bg-light px-[0.75rem] py-[0.5rem] text-txt-two focus:outline-none ${hasError ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-border'} focus:ring-0`}
                 onClick={() => setOpen((prev) => !prev)}
             >
                 {value}
@@ -44,7 +44,7 @@ export default function Input({
 
             {/* Options Section */}
             {open && (
-                <ul className="absolute left-0 top-[calc(100%+0.5rem)] z-30 max-h-[200px] w-full overflow-y-auto rounded border border-border/10 bg-bg-normal">
+                <ul className="absolute left-0 top-[calc(100%+0.5rem)] z-30 max-h-[200px] w-full overflow-y-auto rounded border border-border bg-bg-normal">
                     {options.map((option, index) => {
                         return (
                             <SelectItem
@@ -66,7 +66,7 @@ function SelectItem({
     index,
     option,
     onChange,
-    setOpen
+    setOpen,
 }: {
     index: number;
     option: { value: string; label: string };

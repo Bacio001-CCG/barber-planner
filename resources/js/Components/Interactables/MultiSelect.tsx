@@ -45,7 +45,7 @@ export default function Input({
 
             {/* Display Section  */}
             <div
-                className={`flex max-h-[85px] min-h-[42px] w-full select-none flex-wrap items-center gap-2 overflow-y-auto rounded border bg-bg-light px-[0.75rem] py-[0.5rem] text-txt-two focus:outline-none ${hasError ? 'border-red-500 focus:border-red-500' : 'border-border/10 focus:border-border/10'} focus:ring-0`}
+                className={`flex max-h-[85px] min-h-[42px] w-full select-none flex-wrap items-center gap-2 overflow-y-auto rounded border bg-bg-light px-[0.75rem] py-[0.5rem] text-txt-two focus:outline-none ${hasError ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-border'} focus:ring-0`}
                 onClick={() => {
                     if (options.length != 0) setOpen((prev) => !prev);
                     if (options.length == 0 && emptyMessage)
@@ -74,7 +74,7 @@ export default function Input({
 
             {/* Options Section */}
             {open && (
-                <ul className="absolute left-0 top-[calc(100%+0.5rem)] z-30 max-h-[200px] w-full overflow-y-auto rounded border border-border/10 bg-bg-normal">
+                <ul className="absolute left-0 top-[calc(100%+0.5rem)] z-30 max-h-[200px] w-full overflow-y-auto rounded border border-border bg-bg-normal">
                     {options.map((option, index) => {
                         return (
                             <SelectItem
@@ -126,7 +126,7 @@ function SelectItem({
                     </span>
                 </div>
             ) : (
-                <div className="my-auto flex h-[15px] w-[15px] items-center justify-center rounded border border-border/10 p-0.5">
+                <div className="my-auto flex h-[15px] w-[15px] items-center justify-center rounded border border-border p-0.5">
                     {values.includes(option.label) && (
                         <div className="h-full w-full rounded-sm bg-accent"></div>
                     )}

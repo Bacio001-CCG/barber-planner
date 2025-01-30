@@ -5,8 +5,8 @@ export default function CustomerList({
 }: {
     customers: MiscTypes.Customer[];
 }) {
-    
-    const [selectedCustomer, setSelectedCustomer] = React.useState<MiscTypes.Customer | null>(null);
+    const [selectedCustomer, setSelectedCustomer] =
+        React.useState<MiscTypes.Customer | null>(null);
     const [showModal, setShowModal] = React.useState(false);
 
     if (customers.length == 0)
@@ -20,15 +20,20 @@ export default function CustomerList({
 
     return (
         <>
-            <div className="no-scroll mt-3 flex flex-1 flex-col divide-y-[1px] divide-border/5 overflow-y-auto">
+            <div className="no-scroll mt-3 flex flex-1 flex-col divide-y-[1px] divide-border overflow-y-auto">
                 {customers.map((customer: MiscTypes.Customer, index) => {
                     return (
-                        <div className="relative w-full py-2 text-txt-one hover:bg-bg-hover pl-2 cursor-pointer rounded" key={index} onClick={() => {
-                            setSelectedCustomer(customer);
-                            setShowModal(true);
-                        }}>
+                        <div
+                            className="relative w-full cursor-pointer rounded py-2 pl-2 text-txt-one hover:bg-bg-hover"
+                            key={index}
+                            onClick={() => {
+                                setSelectedCustomer(customer);
+                                setShowModal(true);
+                            }}
+                        >
                             <h1>
-                                {customer.firstName} {customer.infix} {customer.lastName}
+                                {customer.firstName} {customer.infix}{' '}
+                                {customer.lastName}
                             </h1>
                             <h2 className="text-sm text-txt-two">
                                 {customer.location}, {customer.address},{' '}

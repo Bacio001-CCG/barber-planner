@@ -1,11 +1,30 @@
-import { React, Navigation, Toast } from '@/.'
+import { Navigation, React, ThemeContext, Toast, TopNavigation } from '@/.';
 export default function Dashboard({ children }: React.PropsWithChildren) {
     return (
-        <div className="h-screen bg-bg-normal overflow-y-hidden flex flex-col">
-            <Navigation />
-            <div className='flex-1 w-full p-4 overflow-hidden'>
-                <div className='overflow-hidden h-full w-full flex flex-col'>
-                    {children}
+        <>
+            <ThemeContext.ThemeProvider>
+                <Body children={children} />
+            </ThemeContext.ThemeProvider>
+        </>
+    );
+}
+
+function Body({ children }: React.PropsWithChildren) {
+    const [open, setOpen] = React.useState(false);
+    const { theme } = ThemeContext.useThemes();
+    return (
+        <div
+            id="theme"
+            data-theme={theme}
+            className="flex h-screen flex-col overflow-y-hidden bg-bg-normal"
+        >
+            <TopNavigation open={open} setOpen={setOpen} />
+            <div className="flex">
+                <Navigation open={open} />
+                <div className="mx-auto flex w-full max-w-[1400px] flex-1 flex-col gap-10 overflow-hidden p-4 md:py-8">
+                    <div className="flex h-full w-full flex-col overflow-hidden">
+                        {children}
+                    </div>
                 </div>
             </div>
             <Toast.ToastContainer

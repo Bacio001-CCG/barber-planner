@@ -1,7 +1,7 @@
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 
-import { InertiaReact, Interactables, React, Toast, axios } from '@/.';
+import { Interactables, React, Toast, axios } from '@/.';
 
 interface IStep {
     data: {
@@ -61,7 +61,7 @@ export default function Register() {
                     });
                 }
                 setStep(1);
-            }
+            },
         });
     }
 
@@ -133,7 +133,7 @@ export default function Register() {
 function StepOne({ data, setData, processing, errors, setStep }: IStep) {
     return (
         <>
-            <h1 className="border-b border-border/10 pb-2 text-lg font-bold tracking-widest text-txt-one">
+            <h1 className="border-b border-border pb-2 text-lg font-bold tracking-widest text-txt-one">
                 Registratie Informatie
             </h1>
 
@@ -205,9 +205,12 @@ function StepTwo({ data, setData, processing, errors, setStep }: IStep) {
 
     async function validate() {
         setLoading(true);
-        const response = await axios.get('/api/kvk/' + data.company_kvk_number, {
-            withCredentials: true, 
-        });
+        const response = await axios.get(
+            '/api/kvk/' + data.company_kvk_number,
+            {
+                withCredentials: true,
+            },
+        );
 
         const result = await response.data;
         if (result.length == 0 || !result) {
@@ -231,7 +234,7 @@ function StepTwo({ data, setData, processing, errors, setStep }: IStep) {
 
     return (
         <>
-            <h1 className="border-b border-border/10 pb-2 text-lg font-bold tracking-widest text-txt-one">
+            <h1 className="border-b border-border pb-2 text-lg font-bold tracking-widest text-txt-one">
                 Bedrijfs Informatie
             </h1>
 
@@ -305,7 +308,7 @@ function StepThree({ data, setData, processing, errors, setStep }: IStep) {
 
     return (
         <>
-            <h1 className="border-b border-border/10 pb-2 text-lg font-bold tracking-widest text-txt-one">
+            <h1 className="border-b border-border pb-2 text-lg font-bold tracking-widest text-txt-one">
                 Informatie
             </h1>
             <div className="flex flex-col gap-5">

@@ -11,6 +11,7 @@ class Appointment extends Model
         'date_time',
         'notes',
         'type',
+        'end_date_time',
     ];
     
     public $timestamps = true;
@@ -27,6 +28,7 @@ class Appointment extends Model
                 return $customer->formatForFrontend();
             }),
             'dateTime' => $this->date_time,
+            'endDateTime' => $this->end_date_time,
             'notes' => $this->notes,
             'highlight' => $this->highlight ?? false,
             'type' => $this->type,

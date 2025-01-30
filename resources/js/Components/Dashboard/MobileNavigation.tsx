@@ -1,11 +1,12 @@
-import { FramerMotion, InertiaReact, Link } from '@/index';
+import { FramerMotion, InertiaReact, Link, ThemeContext } from '@/index';
 export default function MobileNavigation({ open }: { open: boolean }) {
+    const { setTheme } = ThemeContext.useThemes();
     return (
         <FramerMotion.motion.nav
             initial={{ width: 0 }}
             animate={{ width: open ? 'calc(100% - 80px)' : 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed bottom-0 z-[99999] flex h-[calc(100vh-64px)] flex-col overflow-hidden border-r border-border/10 bg-bg-normal"
+            className="fixed bottom-0 z-[99999] flex h-[calc(100vh-64px)] flex-col overflow-hidden border-r border-border bg-bg-normal md:hidden"
         >
             <ul className="flex w-full flex-1 flex-col gap-3 p-4">
                 <Link href={route('dashboard.agenda.index')}>
@@ -82,6 +83,20 @@ export default function MobileNavigation({ open }: { open: boolean }) {
                         <h1 className="text-lg">Instellingen</h1>
                     </li>
                 </Link>
+                <button
+                    type="button"
+                    className="flex w-full cursor-pointer gap-2 rounded p-2 py-3 text-lg tracking-widest text-txt-two hover:bg-bg-extra-light"
+                    onClick={() =>
+                        setTheme((theme) =>
+                            theme === 'dark' ? 'light' : 'dark',
+                        )
+                    }
+                >
+                    <span className="material-symbols-outlined scale-95">
+                        contrast
+                    </span>{' '}
+                    <span className="text-nowrap">Dark / Light mode</span>
+                </button>
                 <button
                     type="button"
                     onClick={() => InertiaReact.router.post(route('logout'))}

@@ -10,59 +10,60 @@ export interface ButtonProps {
 }
 
 export interface InputProps {
-    name?: string,
-    defaultValue?: string,
-    placeholder?: string,
-    onChange?: Function,
-    label?: string,
-    required?: boolean,
-    value?: string | number,
-    type?: string,
-    hasError?: boolean,
-    icon?: string,
-    disabled?: boolean,
-    autoComplete?: string,
-    isFocused?: boolean
+    name?: string;
+    defaultValue?: string;
+    placeholder?: string;
+    onChange?: Function;
+    label?: string;
+    required?: boolean;
+    value?: string | number;
+    type?: string;
+    hasError?: boolean;
+    icon?: string;
+    disabled?: boolean;
+    autoComplete?: string;
+    isFocused?: boolean;
 }
 
 export interface MultiSelectProps {
-    name?: string,
-    label?: string,
-    required?: boolean,
-    options: { label: string, value: string }[],
-    onAdd: Function,
-    onDelete: Function,
-    values: string[],
-    hasError?: boolean,
-    emptyMessage?: string
+    name?: string;
+    label?: string;
+    required?: boolean;
+    options: { label: string; value: string }[];
+    onAdd: Function;
+    onDelete: Function;
+    values: string[];
+    hasError?: boolean;
+    emptyMessage?: string;
+    allowOnceMultipleTimes?: boolean;
 }
 
 export interface TextAreaProps {
-    name?: string,
-    defaultValue?: string,
-    placeholder?: string,
-    onChange?: Function,
-    label?: string,
-    rows?: number,
-    required?: boolean,
-    value?: string,
-    hasError?: boolean
+    name?: string;
+    defaultValue?: string;
+    placeholder?: string;
+    onChange?: Function;
+    label?: string;
+    rows?: number;
+    required?: boolean;
+    value?: string;
+    hasError?: boolean;
 }
 
 export interface SelectProps {
-    name?: string,
-    label?: string,
-    required?: boolean,
-    options: { label: string, value: string }[],
-    value: string,
-    onChange: Function,
-    hasError?: boolean,
+    name?: string;
+    label?: string;
+    required?: boolean;
+    options: { label: string; value: string }[];
+    value: string;
+    onChange: Function;
+    hasError?: boolean;
 }
 
 export interface ToggleProps {
-    label?: string,
-    value: boolean,
-    onChange: Function,
-    hasError?: boolean,
-    description?: string
+    label?: string;
+    value: boolean;
+    onChange: Function;
+    hasError?: boolean;
+    description?: string;
 }

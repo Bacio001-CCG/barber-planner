@@ -17,6 +17,7 @@ class AppointmentRequest extends FormRequest
             'type' => ['required', 'string', 'max:255'],
             'date' => ['required', 'date'],
             'time' => ['required', 'date_format:H:i'],
+            'end_time' => ['date_format:H:i'],
             'notes' => ['nullable', 'string'],
             'customers' => [
                 'array',

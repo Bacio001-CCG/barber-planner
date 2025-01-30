@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id');
             $table->enum('type', ['personal', 'business']);
             $table->dateTime('date_time');
+            $table->dateTime('end_date_time');
             $table->text('notes')->nullable();
             $table->timestamps();
 

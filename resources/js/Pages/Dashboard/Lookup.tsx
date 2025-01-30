@@ -1,5 +1,6 @@
 import {
     DashboardLayout,
+    Header,
     LookupHeader,
     LookupResult,
     MiscTypes,
@@ -17,6 +18,10 @@ export default function Lookup({
     const [selectedTab, setSelectedTab] = React.useState<string>('afspraak');
     return (
         <DashboardLayout>
+            <Header
+                title="Opzoeken"
+                description="Search for the last time you treated a customer, or check how much you have earned."
+            />{' '}
             <LookupHeader
                 selectedTab={selectedTab}
                 setSelectedTab={setSelectedTab}

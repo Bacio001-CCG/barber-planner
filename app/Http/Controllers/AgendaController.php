@@ -11,6 +11,8 @@ use Carbon\Carbon;
 use App\Functions\Agenda;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Functions\Calendar;
+use App\Models\GoogleEvent;
 
 class AgendaController extends Controller
 {
@@ -54,20 +56,26 @@ class AgendaController extends Controller
             });
         }
 
+        $appointments = $appointments->map(function ($appointment) {
+            return $appointment->formatForFrontend();
+        });
+
         return Inertia::render('Dashboard/Agenda', [
             'customers' => $customers,
             'treatments' => $treatments,
             'dates' => $dates,
+            'appointments' => $appointments,
         ]);
     }
 
     public function store(AppointmentRequest $request)
     {
         $date_time = $request->date . ' ' . $request->time;
-
+        $end_date_time = $request->date . ' ' . $request->end_time;
         $appointment = Appointment::create([
             'company_id' => Auth::user()->company->id,
             'date_time' => Carbon::parse($date_time),
+            'end_date_time' => Carbon::parse($end_date_time) ?? Carbon::parse($date_time)->addMinutes(30),
             'notes' => $request->notes,
             'type' => $request->type,
         ]);
@@ -81,12 +89,21 @@ class AgendaController extends Controller
         for($i = 0; $i < count($request->customers); $i++) {
             $appointment->customers()->attach($request->customers[$i]);
         }
+
+
+        try {
+            $calendar = new Calendar();
+            $calendar->eventTrigger($request, $appointment, $end_date_time, $date_time, 'create');
+        } catch (\Exception $e) {
+            dd($e);
+        }
         
     }
 
     public function update(AppointmentRequest $request, $id)
     {
         $date_time = $request->date . ' ' . $request->time;
+        $end_date_time = $request->date . ' ' . $request->end_time;
         $appointment = Appointment::where([
             'id' => (int) $id,
             'company_id' => Auth::user()->company->id,
@@ -94,6 +111,7 @@ class AgendaController extends Controller
         $appointment->date_time = Carbon::parse($date_time);
         $appointment->notes = $request->notes;
         $appointment->type = $request->type;
+        $appointment->end_date_time = Carbon::parse($end_date_time);
         $appointment->save();
 
         Log::info('Appointment updated: ' . $appointment->id );
@@ -106,6 +124,13 @@ class AgendaController extends Controller
         $appointment->customers()->detach();
         for($i = 0; $i < count($request->customers); $i++) {
             $appointment->customers()->attach($request->customers[$i]);
+        }
+
+        try {
+            $calendar = new Calendar();
+            $calendar->eventTrigger($request, $appointment, $end_date_time, $date_time, 'update');
+        } catch (\Exception $e) {
+            dd($e);
         }
     }
 
@@ -121,5 +146,14 @@ class AgendaController extends Controller
         $appointment->delete();
 
         Log::info('Appointment deleted: ' . $appointment->id);
+
+        $g_event = GoogleEvent::where(['appointment_id' => $appointment->id, 'company_id' => Auth::user()->company->id])->first(); 
+        if(!$g_event) return false;
+        try {
+            $calendar = new Calendar();
+            $calendar->deleteEvent($g_event->event_id);
+        } catch (\Exception $e) {
+            dd($e);
+        }
     }
 }

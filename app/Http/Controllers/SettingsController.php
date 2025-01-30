@@ -12,7 +12,8 @@ class SettingsController extends Controller
     public function index()
     {
         return Inertia::render('Dashboard/Settings', [
-            'settings' => Auth::user()->company->setting->formatForFrontend()
+            'settings' => Auth::user()->company->setting->formatForFrontend(),
+            'google' => Auth::user()->googleUser->formatForFrontend(),
         ]);
     }
 

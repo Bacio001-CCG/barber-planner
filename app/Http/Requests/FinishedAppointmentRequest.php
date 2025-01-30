@@ -19,7 +19,7 @@ class FinishedAppointmentRequest extends FormRequest
             'price' => ['required', 'numeric'],
             'tip' => ['nullable', 'numeric'],
             'payment_type' => ['required', 'string', 'in:cash,card'],
-            'distance' => ['required', 'integer'],
+            'distance' => ['integer'],
         ];
     }
 }

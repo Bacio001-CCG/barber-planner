@@ -14,7 +14,6 @@ export default function Input({
     autoComplete,
     isFocused = false,
 }: InteractableTypes.InputProps) {
-
     const localRef = React.useRef<HTMLInputElement>(null);
 
     React.useEffect(() => {
@@ -22,7 +21,7 @@ export default function Input({
             localRef.current?.focus();
         }
     }, [isFocused]);
-    
+
     return (
         <div className="relative w-full text-txt-one">
             <label
@@ -42,9 +41,9 @@ export default function Input({
                     ref={localRef}
                     autoComplete={autoComplete}
                     disabled={disabled}
-                    lang='nl'
+                    lang="nl"
                     type={type}
-                    className={`${icon && 'pl-10'} w-full rounded border bg-bg-light text-txt-two ${hasError ? 'border-red-500 focus:border-red-500' : 'border-border/10 focus:border-border/10'} p-2 focus:outline-none focus:ring-0`}
+                    className={`${icon && 'pl-10'} w-full rounded border bg-bg-light text-txt-two ${hasError ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-border'} p-2 focus:outline-none focus:ring-0`}
                     onChange={(e) => onChange && onChange(e.target.value)}
                     value={value !== undefined ? value : undefined}
                     placeholder={

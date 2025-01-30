@@ -3,15 +3,15 @@ import {
     AppointmentModal,
     CalendarContext,
     CalendarLib,
-    MiscLib,
     MiscEnums,
+    MiscLib,
     React,
     YearMonthModal,
-    InertiaReact
 } from '@/.';
 
 export default function Calendar() {
-    const { selectedDate, setSelectedDate, view, setView } = CalendarContext.useCalendars();
+    const { selectedDate, setSelectedDate, view, setView } =
+        CalendarContext.useCalendars();
     const [datesOfWeek, setDatesOfWeek] = React.useState<Date[][]>();
     const [weekNumbers, setWeekNumbers] = React.useState<number[]>();
     const [year, setYear] = React.useState<number>(new Date().getFullYear());
@@ -60,7 +60,7 @@ export default function Calendar() {
             {view != MiscEnums.ViewEnum.Day && (
                 <>
                     <DaysDisplay />
-                    <div className="relative isolate grid min-w-[330px] grid-cols-7 gap-[1px] overflow-hidden rounded-lg border border-ring/5 bg-bg-extra-light text-[0.875rem] shadow">
+                    <div className="relative isolate grid min-w-[330px] grid-cols-7 gap-[1px] overflow-hidden rounded-lg border border-ring bg-bg-extra-light text-[0.875rem] shadow">
                         {datesOfWeek?.map((w, index) => {
                             return w.map((day, index2) => {
                                 return (
@@ -123,9 +123,9 @@ function DaySquare({
 
     return (
         <button
-            className={`py-[0.375rem] ring-1 ring-ring/5 hover:bg-hover/5 ${blur && 'bg-bg-light'} relative transition-all duration-300`}
+            className={`py-[0.375rem] ring-1 ring-ring hover:bg-hover/5 ${blur && 'bg-bg-light'} relative transition-all duration-300`}
             onClick={() => {
-                setSelectedDate(day)
+                setSelectedDate(day);
             }}
         >
             <time
@@ -136,7 +136,7 @@ function DaySquare({
                 </span>
                 {index2 === 6 && (
                     <span
-                        className={`absolute bottom-0 right-0.5 text-[0.625rem] text-txt-one/40`}
+                        className={`absolute bottom-0 right-0.5 text-[0.625rem] text-txt-one`}
                     >
                         {weekNumbers?.[index]}
                     </span>
@@ -260,14 +260,14 @@ function Switcher({
             </span>
 
             <span
-                className="material-symbols-outlined absolute left-0 cursor-pointer text-txt-one/40"
+                className="material-symbols-outlined absolute left-0 cursor-pointer text-txt-one"
                 onClick={() => setShowModal2(true)}
             >
                 add_circle
             </span>
 
             <span
-                className="material-symbols-outlined absolute right-0 cursor-pointer text-txt-one/40"
+                className="material-symbols-outlined absolute right-0 cursor-pointer text-txt-one"
                 onClick={changeView}
             >
                 {`${view == MiscEnums.ViewEnum.Week ? 'date_range' : view == MiscEnums.ViewEnum.Day ? 'today' : 'calendar_month'}`}
@@ -277,6 +277,7 @@ function Switcher({
                 mode="create"
                 setShowModal={setShowModal2}
                 showModal={showModal2}
+                appointment={null}
             />
 
             <YearMonthModal
@@ -298,7 +299,7 @@ function DaysDisplay() {
                 return (
                     <span
                         key={index}
-                        className="text-center text-sm text-txt-one/40"
+                        className="text-center text-sm text-txt-one"
                     >
                         {day}
                     </span>

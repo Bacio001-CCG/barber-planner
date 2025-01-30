@@ -18,6 +18,7 @@ export interface Appointment {
     customers: Customer[];
     treatments: Treatment[];
     dateTime: Date;
+    endDateTime: Date;
     notes: string;
     location: string;
     highlight: boolean;
@@ -97,4 +98,15 @@ export interface FinishedAppointment {
     paymentType: 'cash' | 'card';
     distance: number;
     createdAt: string;
+}
+
+export interface AppointmentBackend {
+    id: number | null;
+    type: string;
+    customers: string[];
+    treatments: string[];
+    notes: string;
+    time: string;
+    end_time?: string;
+    date: string;
 }

@@ -1,4 +1,13 @@
-import { InertiaReact, Interactables, Modal, React, ReactDom, Toast, MiscTypes, CalendarContext, axios  } from '@/index';
+import {
+    InertiaReact,
+    Interactables,
+    MiscTypes,
+    Modal,
+    React,
+    ReactDom,
+    Toast,
+    axios,
+} from '@/index';
 
 const paymentOptions = [
     { label: 'Contant', value: 'cash' },
@@ -17,13 +26,12 @@ export default function FinishAppointmentModal({
     function close() {
         setShowModal(false);
     }
-
     return (
         <>
             {ReactDom.createPortal(
                 <Modal
-                title={'Afspraak Afronden'}
-                onClose={close}
+                    title={'Afspraak Afronden'}
+                    onClose={close}
                     children={<Body close={close} appointment={appointment} />}
                     isOpen={showModal}
                     zIndex={9999}
@@ -34,7 +42,13 @@ export default function FinishAppointmentModal({
     );
 }
 
-function Body({ close, appointment }: { close: () => void, appointment: MiscTypes.Appointment | null | undefined }) {
+function Body({
+    close,
+    appointment,
+}: {
+    close: () => void;
+    appointment: MiscTypes.Appointment | null | undefined;
+}) {
     const { data, post, setData, errors } = InertiaReact.useForm<{
         appointment_id: number;
         price: number;
@@ -48,7 +62,6 @@ function Body({ close, appointment }: { close: () => void, appointment: MiscType
         payment_type: 'card',
         distance: 0,
     });
-
     async function submit(e: React.FormEvent) {
         e.preventDefault();
         post(route('dashboard.finish-appointment.store', data.appointment_id), {
@@ -70,19 +83,24 @@ function Body({ close, appointment }: { close: () => void, appointment: MiscType
 
     React.useEffect(() => {
         async function fetchData() {
-            if(!appointment) return;
-            const response = await axios.get('/api/address/distance/' + appointment.id, {
-                withCredentials: true, 
-            });    
+            if (!appointment) return;
+            const response = await axios.get(
+                '/api/address/distance/' + appointment.id,
+                {
+                    withCredentials: true,
+                },
+            );
             let distance = await response.data;
             distance = distance.distance;
             setData({
                 appointment_id: appointment?.id,
-                price: appointment?.treatments.map((treatment) => {
-                    return parseFloat(treatment.price);
-                }).reduce((a, b) => {
-                    return a + b;
-                }),
+                price: appointment?.treatments
+                    .map((treatment) => {
+                        return parseFloat(treatment.price);
+                    })
+                    .reduce((a, b) => {
+                        return a + b;
+                    }),
                 tip: 0,
                 payment_type: 'card',
                 distance: Math.round(distance),
@@ -93,7 +111,6 @@ function Body({ close, appointment }: { close: () => void, appointment: MiscType
 
     return (
         <form className="flex flex-col gap-5" onSubmit={submit}>
-
             <Interactables.Input
                 label={`Prijs, Excl. Fooi (€)`}
                 value={data.price}
@@ -125,9 +142,15 @@ function Body({ close, appointment }: { close: () => void, appointment: MiscType
 
             <Interactables.Select
                 label={'Betaalmethode'}
-                value={paymentOptions.find((option) => option.value == data.payment_type)?.label ?? 'Kaart'}
+                value={
+                    paymentOptions.find(
+                        (option) => option.value == data.payment_type,
+                    )?.label ?? 'Kaart'
+                }
                 options={paymentOptions}
-                onChange={(e: string) => setData('payment_type', e as 'card' | 'cash')}
+                onChange={(e: string) =>
+                    setData('payment_type', e as 'card' | 'cash')
+                }
             />
 
             <Interactables.Button
@@ -135,7 +158,6 @@ function Body({ close, appointment }: { close: () => void, appointment: MiscType
                 background={'green'}
                 submit={true}
             />
-         
         </form>
     );
 }

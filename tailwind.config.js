@@ -1,5 +1,5 @@
-import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
+import defaultTheme from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -16,16 +16,30 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                'bg-normal': '#000000',
-                'bg-light': '#1a1a1a',
-                'bg-extra-light': '#333333',
-                'hover': '#ffffff',
-                'ring': '#ffffff',
-                'txt-one': '#ffffff',
-                'txt-two': '#cccccc',
-                'border': '#ffffff',
-                'accent': '#f97316',
-                'bg-hover': '#1a1a1a66',
+                'bg-normal': 'var(--bg-normal)',
+                'bg-light': 'var(--bg-light)',
+                'bg-extra-light': 'var(--bg-extra-light)',
+                hover: 'var(--hover)',
+                ring: 'var(--ring)',
+                'txt-one': 'var(--txt-one)',
+                'txt-two': 'var(--txt-two)',
+                border: 'var(--border)',
+                accent: 'var(--accent)',
+                'bg-hover': 'var(--bg-hover)',
+                'border-highlight': 'var(--border-highlight)',
+                'bg-highlight': 'var(--bg-highlight)',
+                google: {
+                    'text-gray': '#3c4043',
+                    'button-blue': '#1a73e8',
+                    'button-blue-hover': '#5195ee',
+                    'button-dark': '#202124',
+                    'button-dark-hover': '#555658',
+                    'button-border-light': '#dadce0',
+                    'logo-blue': '#4285f4',
+                    'logo-green': '#34a853',
+                    'logo-yellow': '#fbbc05',
+                    'logo-red': '#ea4335',
+                },
             },
         },
     },

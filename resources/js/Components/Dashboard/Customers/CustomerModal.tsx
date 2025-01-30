@@ -1,11 +1,20 @@
-import { InertiaReact, Interactables, Modal, React, ReactDom, Toast, MiscTypes, Loader, axios } from '@/index';
-import Loading from '../Loading';
+import {
+    InertiaReact,
+    Interactables,
+    Loader,
+    MiscTypes,
+    Modal,
+    React,
+    ReactDom,
+    Toast,
+    axios,
+} from '@/index';
 
 export default function CustomerModal({
     showModal,
     setShowModal,
     mode,
-    customer
+    customer,
 }: {
     showModal: boolean;
     setShowModal: (value: boolean) => void;
@@ -20,9 +29,13 @@ export default function CustomerModal({
         <>
             {ReactDom.createPortal(
                 <Modal
-                    title={mode === 'create' ? 'Klant Aanmaken' : 'Klant Aanpassen'}
+                    title={
+                        mode === 'create' ? 'Klant Aanmaken' : 'Klant Aanpassen'
+                    }
                     onClose={close}
-                    children={<Body mode={mode} close={close} customer={customer} />}
+                    children={
+                        <Body mode={mode} close={close} customer={customer} />
+                    }
                     isOpen={showModal}
                 />,
                 document.body,
@@ -31,32 +44,42 @@ export default function CustomerModal({
     );
 }
 
-function Body({ mode, close, customer }: { mode: 'create' | 'edit', close: () => void, customer?: MiscTypes.Customer | null }) {
-    const [addressData, setAddressData] = React.useState<MiscTypes.NominatimResponse | null>(null);
+function Body({
+    mode,
+    close,
+    customer,
+}: {
+    mode: 'create' | 'edit';
+    close: () => void;
+    customer?: MiscTypes.Customer | null;
+}) {
+    const [addressData, setAddressData] =
+        React.useState<MiscTypes.NominatimResponse | null>(null);
     const [loading, setLoading] = React.useState(false);
-    const { data, setData, post, processing, errors, reset, patch } = InertiaReact.useForm<{
-        id: number | null;
-        first_name: string;
-        infix: string;
-        last_name: string;
-        phone_number: string;
-        email: string;
-        location: string;
-        address: string;
-        postal_code: string;
-        osm_id: string | null;
-    }>({
-        id: null,
-        first_name: '',
-        infix: '',
-        last_name: '',
-        phone_number: '',
-        email: '',
-        location: '',
-        address: '',
-        postal_code: '',
-        osm_id: null,
-    });
+    const { data, setData, post, processing, errors, reset, patch } =
+        InertiaReact.useForm<{
+            id: number | null;
+            first_name: string;
+            infix: string;
+            last_name: string;
+            phone_number: string;
+            email: string;
+            location: string;
+            address: string;
+            postal_code: string;
+            osm_id: string | null;
+        }>({
+            id: null,
+            first_name: '',
+            infix: '',
+            last_name: '',
+            phone_number: '',
+            email: '',
+            location: '',
+            address: '',
+            postal_code: '',
+            osm_id: null,
+        });
 
     React.useEffect(() => {
         if (mode === 'edit' && customer) {
@@ -82,12 +105,15 @@ function Body({ mode, close, customer }: { mode: 'create' | 'edit', close: () =>
                 location: '',
                 postal_code: '',
                 osm_id: null,
-            })
+            });
             try {
-                const response = await axios.get(`/api/address/search?address=${encodeURIComponent(data.address)}`, {
-                    withCredentials: true, 
-                });
-        
+                const response = await axios.get(
+                    `/api/address/search?address=${encodeURIComponent(data.address)}`,
+                    {
+                        withCredentials: true,
+                    },
+                );
+
                 const addressData = await response.data;
                 setAddressData(addressData);
             } catch (err) {
@@ -96,61 +122,67 @@ function Body({ mode, close, customer }: { mode: 'create' | 'edit', close: () =>
         }
         setLoading(false);
     }
-    
+
     async function submit(e: React.FormEvent) {
         e.preventDefault();
-        if(mode == 'create') post(route('dashboard.customers.store'), {
-            onSuccess: () => {
-                Toast.toast('Klant Aangemaakt', {
-                    type: 'success',
-                    position: 'bottom-right'
-                });
-                reset();
-                close();
-            },
-            onError: () => {
-                Toast.toast('Aanmaken Mislukt', {
-                    type: 'error',
-                    position: 'bottom-right'
-                });
-            },
-        }); else if(data.id) patch(route('dashboard.customers.update', data.id), {
+        if (mode == 'create')
+            post(route('dashboard.customers.store'), {
                 onSuccess: () => {
-                    Toast.toast('Klant Aangepast', {
+                    Toast.toast('Klant Aangemaakt', {
                         type: 'success',
-                        position: 'bottom-right'
+                        position: 'bottom-right',
                     });
                     reset();
                     close();
-                },  
+                },
+                onError: () => {
+                    Toast.toast('Aanmaken Mislukt', {
+                        type: 'error',
+                        position: 'bottom-right',
+                    });
+                },
+            });
+        else if (data.id)
+            patch(route('dashboard.customers.update', data.id), {
+                onSuccess: () => {
+                    Toast.toast('Klant Aangepast', {
+                        type: 'success',
+                        position: 'bottom-right',
+                    });
+                    reset();
+                    close();
+                },
                 onError: () => {
                     Toast.toast('Aanpassen Mislukt', {
                         type: 'error',
-                        position: 'bottom-right'
+                        position: 'bottom-right',
                     });
                 },
             });
     }
-    
+
     async function deleteItem(e: React.MouseEvent<HTMLInputElement>) {
         if (data.id) {
             e.preventDefault();
             if (confirm('Weet je zeker dat je deze klant wilt verwijderen?')) {
-                InertiaReact.router.delete(route('dashboard.customers.destroy', data.id), {
-                    onSuccess: () => {
-                        Toast.toast('Klant Verwijderd', {
-                            type: 'success',
-                            position: 'bottom-right',
-                        });
-                        close();
+                InertiaReact.router.delete(
+                    route('dashboard.customers.destroy', data.id),
+                    {
+                        onSuccess: () => {
+                            Toast.toast('Klant Verwijderd', {
+                                type: 'success',
+                                position: 'bottom-right',
+                            });
+                            close();
+                        },
+                        onError: () => {
+                            Toast.toast('Verwijderen Mislukt', {
+                                type: 'error',
+                                position: 'bottom-right',
+                            });
+                        },
                     },
-                    onError: () => {
-                        Toast.toast('Verwijderen Mislukt', {
-                            type: 'error',
-                            position: 'bottom-right',
-                        });
-                    },
-                });
+                );
             }
         }
     }
@@ -195,7 +227,7 @@ function Body({ mode, close, customer }: { mode: 'create' | 'edit', close: () =>
                 hasError={!!errors.email ? true : false}
             />
 
-            <div className='w-full relative'>
+            <div className="relative w-full">
                 <Interactables.Input
                     label={'Adres'}
                     value={data.address}
@@ -205,43 +237,50 @@ function Body({ mode, close, customer }: { mode: 'create' | 'edit', close: () =>
                     required={true}
                     disabled={!!addressData}
                 />
-                {
-                    addressData ? (
-                        <div className='flex gap-2 absolute text-sm cursor-pointer text-txt-two right-2 top-1/2 -translate-y-1/2'>
-                            <span className="material-symbols-outlined text-green-500" onClick={() => {
+                {addressData ? (
+                    <div className="absolute right-2 top-1/2 flex -translate-y-1/2 cursor-pointer gap-2 text-sm text-txt-two">
+                        <span
+                            className="material-symbols-outlined text-green-500"
+                            onClick={() => {
                                 setData({
                                     ...data,
-                                    location: addressData?.address?.city ?? addressData?.address?.village,
+                                    location:
+                                        addressData?.address?.city ??
+                                        addressData?.address?.village,
                                     postal_code: addressData?.address?.postcode,
                                     osm_id: addressData?.osm_id?.toString(),
                                 });
                                 setAddressData(null);
-                            }}>
-                                check
-                            </span>
-                            <span className="material-symbols-outlined text-red-500" onClick={() => {
+                            }}
+                        >
+                            check
+                        </span>
+                        <span
+                            className="material-symbols-outlined text-red-500"
+                            onClick={() => {
                                 setAddressData(null);
-                            }}>
-                                close
+                            }}
+                        >
+                            close
+                        </span>
+                    </div>
+                ) : (
+                    <div className="absolute right-2 top-1/2 flex -translate-y-1/2 cursor-pointer gap-2 text-sm text-txt-two">
+                        {loading ? (
+                            <Loader />
+                        ) : (
+                            <span
+                                className="material-symbols-outlined text-txt-two"
+                                onClick={() => {
+                                    setLoading(true);
+                                    fetchAddressData();
+                                }}
+                            >
+                                search
                             </span>
-                        </div>
-                    ) : (
-                        <div className='flex gap-2 absolute text-sm cursor-pointer text-txt-two right-2 top-1/2 -translate-y-1/2'>
-                            {
-                                loading ? (
-                                    <Loader />
-                                ) : (
-                                    <span className="material-symbols-outlined text-txt-two" onClick={() => {
-                                        setLoading(true);
-                                        fetchAddressData();
-                                    }}>
-                                        search
-                                    </span>
-                                )
-                            }
-                        </div>
-                    )
-                }
+                        )}
+                    </div>
+                )}
             </div>
 
             <Interactables.Input
@@ -251,7 +290,9 @@ function Body({ mode, close, customer }: { mode: 'create' | 'edit', close: () =>
                 type="text"
                 hasError={!!errors.location ? true : false}
                 required={true}
-                placeholder={addressData?.address?.city ?? addressData?.address?.village}
+                placeholder={
+                    addressData?.address?.city ?? addressData?.address?.village
+                }
             />
             <Interactables.Input
                 label={'Postcode'}
@@ -266,16 +307,16 @@ function Body({ mode, close, customer }: { mode: 'create' | 'edit', close: () =>
                 submit
                 label={`${mode == 'create' ? 'Aanmaken' : 'Aanpassen'}`}
             />
-            {
-                mode == 'edit' && (
-                    <Interactables.Button
-                        submit={false}
-                        label={'Verwijderen'}
-                        background={'red'}
-                        onClick={(e: React.MouseEvent<HTMLInputElement>) => deleteItem(e)}
-                    />
-                )
-            }
+            {mode == 'edit' && (
+                <Interactables.Button
+                    submit={false}
+                    label={'Verwijderen'}
+                    background={'red'}
+                    onClick={(e: React.MouseEvent<HTMLInputElement>) =>
+                        deleteItem(e)
+                    }
+                />
+            )}
         </form>
     );
 }

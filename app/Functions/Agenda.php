@@ -30,23 +30,25 @@ class Agenda
         return $dates;
     }
 
-    function handleHighlighting($dates) {
-        if(!(Array) $dates) return $dates;
-        if(!isset($dates->{Carbon::now()->format('Y-m-d')})) return $dates;
-        $todaysAppointments = $dates->{Carbon::now()->format('Y-m-d')};
+function handleHighlighting($dates) {
 
-        for($i = 0; $i < count($todaysAppointments); $i++) {
-            if(!isset($todaysAppointments[$i])) continue;
-            if(!isset($todaysAppointments[$i + 1])) {
-                $todaysAppointments[$i]['highlight'] = true;
-                continue;
-            }
-            if(Carbon::parse($todaysAppointments[$i]['date_time']) < Carbon::now() && Carbon::parse($todaysAppointments[$i + 1]['date_time']) > Carbon::now()) {
-                $todaysAppointments[$i]['highlight'] = true;
-            }
+    if(!(Array) $dates) return $dates;
+    if(!isset($dates->{Carbon::now()->format('Y-m-d')})) return $dates;
+    $todaysAppointments = $dates->{Carbon::now()->format('Y-m-d')};
+    $now = Carbon::now();
+
+    foreach($todaysAppointments as &$appointment) {
+
+        $startTime = Carbon::parse($appointment['date_time']);
+        $endTime = Carbon::parse($appointment['end_date_time']);
+        
+        if($now->between($startTime, $endTime)) {
+            $appointment['highlight'] = true;
         }
 
-        return $dates;
     }
+
+    return $dates;
+}
 
 }

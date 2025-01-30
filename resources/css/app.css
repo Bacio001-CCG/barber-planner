@@ -3,16 +3,49 @@
 @tailwind utilities;
 
 .no-scroll {
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
 }
-.no-scroll::-webkit-scrollbar { 
-    display: none;  /* Safari and Chrome */
+.no-scroll::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
 }
 
-:root {
-    --bg-normal: theme('colors.bg-normal');
-    --bg-light: theme('colors.bg-light');
-    --bg-extra-light: theme('colors.bg-extra-light');
-    --txt-one: theme('colors.txt-one');
+@layer base {
+    #theme {
+        transition:
+            background-color 0.3s,
+            color 0.3s;
+    }
+
+    #theme[data-theme='dark'] {
+        --bg-normal: #000000;
+        --bg-light: #2a2a2a;
+        --bg-extra-light: #3a3a3a;
+        --txt-one: #ffffff;
+        --txt-two: #f5f5f5;
+        --hover: #ffffff2a;
+        --ring: #ffffff17;
+        --txt-one: #ffffff;
+        --txt-two: #cccccc;
+        --border: #ffffff1a;
+        --accent: #f97316;
+        --bg-hover: #1a1a1a66;
+        --bg-highlight: #f974160e;
+        --border-highlight: #f974162f;
+    }
+
+    #theme[data-theme='light'] {
+        --bg-normal: #f5f5f5;
+        --bg-light: #ffffff;
+        --bg-extra-light: #eeeeee;
+        --txt-one: #222222;
+        --txt-two: #444444;
+        --hover: #00000012;
+        --ring: #00000010;
+        --border: #0000001a;
+        --accent: #f97316;
+        --bg-hover: #e0e0e066;
+        --bg-highlight: #f974160e;
+        --border-highlight: #f974162f;
+    }
 }

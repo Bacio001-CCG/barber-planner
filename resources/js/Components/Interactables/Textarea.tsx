@@ -20,7 +20,7 @@ export default function Textarea({
                 <span className="text-xs text-txt-two">{required && '*'}</span>
             </label>
             <textarea
-                className={`w-full rounded border bg-bg-light text-txt-two ${hasError ? 'border-red-500 focus:border-red-500' : 'border-border/10 focus:border-border/10'} focus:outline-none focus:ring-0`}
+                className={`w-full rounded border bg-bg-light text-txt-two ${hasError ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-border'} focus:outline-none focus:ring-0`}
                 onChange={(e) => onChange && onChange(e.target.value)}
                 value={value !== undefined ? value : undefined}
                 placeholder={

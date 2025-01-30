@@ -46,11 +46,11 @@ export default function YearMonthModal({
     );
 }
 
-function Body({ 
-    setNewMonth, 
-    setNewYear, 
-    month, 
-    year 
+function Body({
+    setNewMonth,
+    setNewYear,
+    month,
+    year,
 }: {
     setNewMonth: Function;
     setNewYear: Function;

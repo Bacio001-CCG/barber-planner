@@ -59,7 +59,7 @@ function AppointmentLookup() {
 
     return (
         <>
-            <div className="border-b border-border/10 pb-2">
+            <div className="border-b border-border pb-2">
                 <h1 className="text-xl font-semibold">Klant Afspraaken</h1>
                 <p className="text-txt-two">
                     Zoek naar de afspraken gefiltered op gegeven parameters.
@@ -92,7 +92,7 @@ function AppointmentLookup() {
                         setOnlyShowFinished(!onlyShowFinished);
                     }}
                 />
-                <div className="overlfow-y-auto relative max-h-[20rem] rounded-lg border border-border/10 bg-bg-extra-light p-3 py-5">
+                <div className="relative max-h-[20rem] overflow-y-auto rounded-lg border border-border bg-bg-extra-light p-3 py-5">
                     {results.length == 0 ? (
                         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 tracking-widest text-txt-two">
                             Geen resultaten...
@@ -178,7 +178,7 @@ function BankLookup() {
 
     return (
         <>
-            <div className="border-b border-border/10 pb-2">
+            <div className="border-b border-border pb-2">
                 <h1 className="text-xl font-semibold">Inkomen</h1>
                 <p className="text-txt-two">
                     Zie uw inkomen tussen geselecteerde datums.
@@ -198,7 +198,7 @@ function BankLookup() {
                     onChange={setTot}
                 />
             </div>
-            <div className="relative max-h-[20rem] overflow-y-auto rounded-lg border border-border/10 bg-bg-extra-light p-3 py-4">
+            <div className="relative max-h-[20rem] overflow-y-auto rounded-lg border border-border bg-bg-extra-light p-3 py-4">
                 <div className="flex items-center text-lg font-semibold">
                     <span className="material-symbols-outlined mr-2 scale-75 text-accent">
                         euro
@@ -265,7 +265,7 @@ function BankLookup() {
                     </span>
                 </div>
             </div>
-            <div className="overlfow-y-auto relative max-h-[20rem] rounded-lg border border-border/10 bg-bg-extra-light p-3 py-5">
+            <div className="relative max-h-[20rem] overflow-y-auto rounded-lg border border-border bg-bg-extra-light p-3 py-5">
                 {results.length == 0 && (
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 tracking-widest text-txt-two">
                         Geen resultaten...

@@ -1,25 +1,51 @@
-import { FramerMotion } from "@/index";
-export default function Modal({ onClose, children, title, isOpen, zIndex = 50 }: {
-    onClose: () => void,
-    children: React.ReactNode,
-    title?: string,
-    isOpen: boolean,
-    zIndex?: number
+import { FramerMotion, ThemeContext } from '@/index';
+export default function Modal({
+    onClose,
+    children,
+    title,
+    isOpen,
+    zIndex = 50,
+}: {
+    onClose: () => void;
+    children: React.ReactNode;
+    title?: string;
+    isOpen: boolean;
+    zIndex?: number;
 }) {
+    const { theme } = ThemeContext.useThemes();
+
     return (
-      <FramerMotion.motion.div 
-        animate={{ opacity: isOpen ? 1 : 0, display: isOpen ? 'flex' : 'none' }}
-        initial={{ opacity: 0, display: 'none' }}
-        style={{
-          zIndex: zIndex
-        }}
-        className={` fixed top-0 h-screen w-screen flex items-center justify-center bg-bg-extra-light/30 border border-border/10`} onMouseDown={onClose}>
-        <div className="bg-bg-normal p-5 rounded-lg border border-border/10 w-[90%] max-w-[30rem] relative" onMouseDown={(e) => e.stopPropagation()}>
-          <span className="absolute top-2 right-2 text-txt-one material-symbols-outlined cursor-pointer" onClick={() => onClose()}>close</span>
-          {title && <h2 className="text-xl font-bold mb-5 text-txt-one tracking-widest border-b border-border/10 pb-4">{title}</h2>}
-          {children}
-        </div>
-      </FramerMotion.motion.div>
+        <FramerMotion.motion.div
+            id="theme"
+            data-theme={theme}
+            animate={{
+                opacity: isOpen ? 1 : 0,
+                display: isOpen ? 'flex' : 'none',
+            }}
+            initial={{ opacity: 0, display: 'none' }}
+            style={{
+                zIndex: zIndex,
+            }}
+            className={`fixed top-0 flex h-screen w-screen items-center justify-center border border-border bg-hover`}
+            onMouseDown={onClose}
+        >
+            <div
+                className="relative max-h-[90%] w-[90%] max-w-[30rem] overflow-y-auto rounded-lg border border-border bg-bg-normal p-5"
+                onMouseDown={(e) => e.stopPropagation()}
+            >
+                <span
+                    className="material-symbols-outlined absolute right-2 top-2 cursor-pointer text-txt-one"
+                    onClick={() => onClose()}
+                >
+                    close
+                </span>
+                {title && (
+                    <h2 className="mb-5 border-b border-border pb-4 text-xl font-bold tracking-widest text-txt-one">
+                        {title}
+                    </h2>
+                )}
+                {children}
+            </div>
+        </FramerMotion.motion.div>
     );
-  }
-  
+}

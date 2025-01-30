@@ -15,6 +15,7 @@ use App\Http\Controllers\API\KVKController;
 use App\Http\Controllers\LookupController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\PublicController;
+use App\Http\Controllers\Auth\GoogleLoginController;
 
 // https://6pgtvzod03kv.share.zrok.io/oauth/google/callbacks
 Route::get('/', [PublicController::class, 'index'])->name('public.index');
@@ -38,5 +39,8 @@ Route::prefix('api')->middleware(['auth'])->group(function () {
     Route::get('/address/search', [OpenStreetMapController::class, 'search']);
     Route::get('/address/distance/{appointmentId}', [OpenStreetMapController::class, 'getDistanceAppointment']);
 });
+
+Route::get('/oauth/google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('/oauth/google/callbacks', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
 
 require __DIR__.'/auth.php';

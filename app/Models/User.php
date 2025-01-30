@@ -50,6 +50,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function googleUser()
+    {
+        return $this->hasOne(GoogleUser::class);
+    }
+
     public function company()
     {
         return $this->hasOne(Company::class);

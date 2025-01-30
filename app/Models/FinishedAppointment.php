@@ -8,6 +8,7 @@ use app\Functions\Currency;
 class FinishedAppointment extends Model
 {
     public $fillable = [
+        'company_id',
         'appointment_id',
         'price',
         'tip',
