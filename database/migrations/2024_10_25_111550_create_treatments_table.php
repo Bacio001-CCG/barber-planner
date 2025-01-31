@@ -17,8 +17,6 @@ return new class extends Migration
             $table->string('name');
             $table->decimal('price', 10, 2);
             $table->timestamps();
-
-            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 

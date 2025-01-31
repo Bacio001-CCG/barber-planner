@@ -27,7 +27,6 @@ return new class extends Migration
             $table->boolean('strict')->default(1);
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

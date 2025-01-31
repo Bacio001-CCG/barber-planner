@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('osm_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 

@@ -20,7 +20,6 @@ return new class extends Migration
             $table->enum('language', ['NL', 'EN'])->default('NL');
             $table->timestamps();
 
-            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 
