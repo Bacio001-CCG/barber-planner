@@ -19,9 +19,9 @@ function Body({ children }: React.PropsWithChildren) {
             className="flex h-screen flex-col overflow-y-hidden bg-bg-normal"
         >
             <TopNavigation open={open} setOpen={setOpen} />
-            <div className="flex">
+            <div className="flex h-full">
                 <Navigation open={open} />
-                <div className="mx-auto flex w-full max-w-[1400px] flex-1 flex-col gap-10 overflow-hidden p-4 md:py-8">
+                <div className="mx-auto flex h-[calc(100vh-65px)] w-full max-w-[1400px] flex-1 flex-col gap-10 overflow-hidden overflow-y-auto p-4 md:py-8">
                     <div className="flex h-full w-full flex-col overflow-hidden">
                         {children}
                     </div>

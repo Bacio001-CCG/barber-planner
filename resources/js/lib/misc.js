@@ -1,6 +1,6 @@
-import { InertiaReact } from '@/'
+import { InertiaReact } from '@/';
 
-const dayNames = ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za']
+const dayNames = ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'];
 const monthNames = [
     'Jan',
     'Feb',
@@ -14,15 +14,14 @@ const monthNames = [
     'Okt',
     'Nov',
     'Dec',
-]
+];
 
 function priceFormat(price) {
-
     const { auth } = InertiaReact.usePage().props;
     let currencyCode = auth.user.company.setting.currency;
     let currency = '€';
 
-    switch(currencyCode) {
+    switch (currencyCode) {
         case 'EUR':
             currency = '€';
             break;
@@ -38,14 +37,13 @@ function priceFormat(price) {
 }
 
 function getCookie(name) {
-    function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
-    var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
+    function escape(s) {
+        return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1');
+    }
+    var match = document.cookie.match(
+        RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'),
+    );
     return match ? match[1] : null;
 }
 
-export {
-    priceFormat,
-    dayNames,
-    monthNames,
-    getCookie
-}
+export { dayNames, getCookie, monthNames, priceFormat };

@@ -46,6 +46,7 @@ class CustomerController extends Controller
             'location' => $request->location,
             'postal_code' => $request->postal_code,
             'osm_id' => $request->osm_id,
+            'manual_distance' => $request->manual_distance,
         ]);
 
         Log::info('Customer created: ' . $customer->id);
@@ -67,6 +68,7 @@ class CustomerController extends Controller
             'location' => $request->location,
             'postal_code' => $request->postal_code,
             'osm_id' => $request->osm_id,
+            'manual_distance' => $request->manual_distance,
         ]);
 
         Log::info('Customer updated: ' . $id);

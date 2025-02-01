@@ -15,11 +15,13 @@ export default function CustomerModal({
     setShowModal,
     mode,
     customer,
+    setSelectedCustomer,
 }: {
     showModal: boolean;
     setShowModal: (value: boolean) => void;
     mode: 'create' | 'edit';
     customer?: MiscTypes.Customer | null;
+    setSelectedCustomer: (value: MiscTypes.Customer | null) => void;
 }) {
     function close() {
         setShowModal(false);
@@ -32,7 +34,10 @@ export default function CustomerModal({
                     title={
                         mode === 'create' ? 'Klant Aanmaken' : 'Klant Aanpassen'
                     }
-                    onClose={close}
+                    onClose={() => {
+                        setSelectedCustomer(null);
+                        close();
+                    }}
                     children={
                         <Body mode={mode} close={close} customer={customer} />
                     }
@@ -68,6 +73,7 @@ function Body({
             address: string;
             postal_code: string;
             osm_id: string | null;
+            manual_distance: number;
         }>({
             id: null,
             first_name: '',
@@ -79,21 +85,23 @@ function Body({
             address: '',
             postal_code: '',
             osm_id: null,
+            manual_distance: 0,
         });
-
+    console.log(customer);
     React.useEffect(() => {
         if (mode === 'edit' && customer) {
             setData({
                 id: customer.id,
-                first_name: customer.firstName,
-                infix: customer.infix,
-                last_name: customer.lastName,
-                phone_number: customer.phoneNumber,
-                email: customer.email,
-                location: customer.location,
-                address: customer.address,
-                postal_code: customer.postalCode,
-                osm_id: null,
+                first_name: customer?.firstName ?? '',
+                infix: customer?.infix ?? '',
+                last_name: customer?.lastName ?? '',
+                phone_number: customer?.phoneNumber ?? '',
+                email: customer?.email ?? '',
+                location: customer?.location ?? '',
+                address: customer?.address ?? '',
+                postal_code: customer?.postalCode ?? '',
+                osm_id: customer?.osmId ?? null,
+                manual_distance: customer?.manualDistance ?? 0,
             });
         }
     }, [mode, customer]);
@@ -303,6 +311,26 @@ function Body({
                 required={true}
                 placeholder={addressData?.address?.postcode}
             />
+            <div className="relative">
+                {data.osm_id && (
+                    <div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black opacity-50">
+                        <span className="text-white">Gevonden op OSM</span>
+                    </div>
+                )}
+                <Interactables.Input
+                    label={'Handmatige Afstand'}
+                    disabled={data?.osm_id ? true : false}
+                    value={data.manual_distance}
+                    onChange={(e: string) =>
+                        setData('manual_distance', parseInt(e))
+                    }
+                    type="number"
+                    hasError={!!errors.manual_distance ? true : false}
+                    required={true}
+                    placeholder={addressData?.address?.manualDistance}
+                />
+            </div>
+
             <Interactables.Button
                 submit
                 label={`${mode == 'create' ? 'Aanmaken' : 'Aanpassen'}`}

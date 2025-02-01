@@ -43,6 +43,8 @@ export interface Customer {
     location: string;
     address: string;
     postalCode: string;
+    osmId: string;
+    manualDistance?: number;
 }
 
 export interface Treatment {

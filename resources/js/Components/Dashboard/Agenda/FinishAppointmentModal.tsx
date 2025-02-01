@@ -84,14 +84,31 @@ function Body({
     React.useEffect(() => {
         async function fetchData() {
             if (!appointment) return;
-            const response = await axios.get(
-                '/api/address/distance/' + appointment.id,
-                {
-                    withCredentials: true,
-                },
-            );
-            let distance = await response.data;
-            distance = distance.distance;
+            let distance = 0;
+
+            try {
+                const response = await axios.get(
+                    '/api/address/distance/' + appointment.id,
+                    {
+                        withCredentials: true,
+                    },
+                );
+                const result = (await response.data) as {
+                    distance: number;
+                };
+                distance = result.distance;
+            } catch (err) {
+                if (appointment.customers[0].manualDistance) {
+                    distance = appointment.customers[0].manualDistance;
+                } else {
+                    Toast.toast('Afstand kon niet geladen worden!', {
+                        type: 'error',
+                        position: 'bottom-right',
+                    });
+                }
+                console.log(err);
+            }
+
             setData({
                 appointment_id: appointment?.id,
                 price: appointment?.treatments

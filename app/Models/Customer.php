@@ -17,6 +17,7 @@ class Customer extends Model
         'location',
         'postal_code',
         'osm_id',
+        'manual_distance',
     ];
 
     public $timestamps = true;
@@ -35,6 +36,7 @@ class Customer extends Model
             'postalCode' => $this->postal_code,
             'companyId' => $this->company_id,
             'osmId' => $this->osm_id,
+            'manualDistance' => $this->manual_distance,
         ];
     }
 }

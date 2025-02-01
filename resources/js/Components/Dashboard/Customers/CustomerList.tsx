@@ -17,7 +17,6 @@ export default function CustomerList({
                 </div>
             </div>
         );
-
     return (
         <>
             <div className="no-scroll mt-3 flex flex-1 flex-col divide-y-[1px] divide-border overflow-y-auto">
@@ -51,6 +50,7 @@ export default function CustomerList({
                 setShowModal={setShowModal}
                 showModal={showModal}
                 customer={selectedCustomer}
+                setSelectedCustomer={setSelectedCustomer}
             />
         </>
     );
