@@ -32,10 +32,6 @@ export const CalendarProvider: React.FC<{ children: React.ReactNode }> = ({
     React.useEffect(() => {
         const pathDate = `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}-${selectedDate.getDate().toString().padStart(2, '0')}`;
 
-        if (window.location.pathname === '/dashboard/agenda') {
-            window.location.pathname = `/dashboard/agenda/${pathDate}`;
-        }
-
         if (window.location.pathname !== `/dashboard/agenda/${pathDate}`) {
             return router.visit(`/dashboard/agenda/${pathDate}`, {
                 preserveState: true,
@@ -45,8 +41,8 @@ export const CalendarProvider: React.FC<{ children: React.ReactNode }> = ({
 
     React.useEffect(() => {
         if (view) {
-            document.cookie = `view=${view};`;
-            router.reload();
+            document.cookie = `view=${view}`;
+            // router.reload();
         }
     }, [view]);
 
