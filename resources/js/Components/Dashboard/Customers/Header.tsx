@@ -1,9 +1,5 @@
 import { CustomerModal, Interactables, React } from '@/.';
-export default function Header({
-    setSearch
-}: {
-    setSearch: Function
-}) {
+export default function Header({ setSearch }: { setSearch: Function }) {
     const [showModal, setShowModal] = React.useState(false);
 
     return (
@@ -23,6 +19,7 @@ export default function Header({
                 </div>
             </div>
             <CustomerModal
+                setSelectedCustomer={() => {}}
                 mode="create"
                 setShowModal={setShowModal}
                 showModal={showModal}
