@@ -21,6 +21,7 @@ class AgendaController extends Controller
 
         if(!$date) {
             $date = Carbon::now()->format('Y-m-d');
+            return redirect()->route('dashboard.agenda', ['date' => $date]);
         }
 
         $customers = Customer::where('company_id', Auth::user()->company->id)->get();
