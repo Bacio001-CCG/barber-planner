@@ -123,7 +123,7 @@ function DaySquare({
 
     return (
         <button
-            className={`py-[0.375rem] ring-1 ring-ring hover:bg-hover/5 ${blur && 'bg-bg-light'} relative transition-all duration-300`}
+            className={`hover:bg-hover/5 py-[0.375rem] ring-1 ring-ring ${blur && 'bg-bg-light'} relative transition-all duration-300`}
             onClick={() => {
                 setSelectedDate(day);
             }}
@@ -169,7 +169,7 @@ function Switcher({
 }) {
     const [showModal, setShowModal] = React.useState(false);
     const [showModal2, setShowModal2] = React.useState(false);
-
+    const { changeView } = CalendarContext.useCalendars();
     function add() {
         const date = new Date(year, month);
 
@@ -217,16 +217,6 @@ function Switcher({
         }
     }
 
-    function changeView() {
-        setView(
-            view === MiscEnums.ViewEnum.Month
-                ? MiscEnums.ViewEnum.Week
-                : view === MiscEnums.ViewEnum.Week
-                  ? MiscEnums.ViewEnum.Day
-                  : MiscEnums.ViewEnum.Month,
-        );
-    }
-
     return (
         <div className="relative mb-4 flex w-full select-none items-center justify-center gap-4">
             <span
@@ -268,7 +258,7 @@ function Switcher({
 
             <span
                 className="material-symbols-outlined absolute right-0 cursor-pointer text-txt-one"
-                onClick={changeView}
+                onClick={() => changeView()}
             >
                 {`${view == MiscEnums.ViewEnum.Week ? 'date_range' : view == MiscEnums.ViewEnum.Day ? 'today' : 'calendar_month'}`}
             </span>

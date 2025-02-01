@@ -7,6 +7,7 @@ interface CalendarContextType {
     setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
     view: any;
     setView: (view: MiscEnums.ViewEnum) => void;
+    changeView: () => void;
 }
 
 const CalendarContext = React.createContext<CalendarContextType>({
@@ -14,6 +15,7 @@ const CalendarContext = React.createContext<CalendarContextType>({
     setSelectedDate: () => {},
     view: 'day',
     setView: () => {},
+    changeView: () => {},
 });
 
 export const CalendarProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -42,9 +44,20 @@ export const CalendarProvider: React.FC<{ children: React.ReactNode }> = ({
     React.useEffect(() => {
         if (view) {
             document.cookie = `view=${view}`;
-            // router.reload();
         }
     }, [view]);
+
+    function changeView() {
+        const view2 =
+            view === MiscEnums.ViewEnum.Month
+                ? MiscEnums.ViewEnum.Week
+                : view === MiscEnums.ViewEnum.Week
+                  ? MiscEnums.ViewEnum.Day
+                  : MiscEnums.ViewEnum.Month;
+        setView(view2);
+        document.cookie = `view=${view2}`;
+        router.reload();
+    }
 
     return (
         <CalendarContext.Provider
@@ -53,6 +66,7 @@ export const CalendarProvider: React.FC<{ children: React.ReactNode }> = ({
                 setSelectedDate,
                 view,
                 setView,
+                changeView,
             }}
         >
             {children}
