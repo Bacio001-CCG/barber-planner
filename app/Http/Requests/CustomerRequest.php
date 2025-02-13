@@ -19,9 +19,9 @@ class CustomerRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['email', 'max:255', 'nullable'],
             'phone_number' => ['string', 'max:255', 'nullable'],
-            'address' => ['required', 'string', 'max:255'],
-            'location' => ['required', 'string', 'max:255'],
-            'postal_code' => ['required', 'string', 'max:255'],
+            'address' => ['required',  'max:255'],
+            'location' => ['required',  'max:255'],
+            'postal_code' => ['required',  'max:255'],
             'osm_id' => ['nullable', 'string'],
         ];
     }

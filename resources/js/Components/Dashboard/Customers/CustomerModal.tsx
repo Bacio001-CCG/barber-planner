@@ -144,6 +144,7 @@ function Body({
                     close();
                 },
                 onError: () => {
+                    console.log(errors);
                     Toast.toast('Aanmaken Mislukt', {
                         type: 'error',
                         position: 'bottom-right',
