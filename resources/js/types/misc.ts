@@ -45,6 +45,7 @@ export interface Customer {
     postalCode: string;
     osmId: string;
     manualDistance?: number;
+    notes?: string;
 }
 
 export interface Treatment {

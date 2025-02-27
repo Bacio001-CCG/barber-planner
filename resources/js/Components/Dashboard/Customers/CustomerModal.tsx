@@ -74,6 +74,7 @@ function Body({
             postal_code: string;
             osm_id: string | null;
             manual_distance: number;
+            notes: string;
         }>({
             id: null,
             first_name: '',
@@ -86,8 +87,9 @@ function Body({
             postal_code: '',
             osm_id: null,
             manual_distance: 0,
+            notes: '',
         });
-    console.log(customer);
+
     React.useEffect(() => {
         if (mode === 'edit' && customer) {
             setData({
@@ -102,6 +104,7 @@ function Body({
                 postal_code: customer?.postalCode ?? '',
                 osm_id: customer?.osmId ?? null,
                 manual_distance: customer?.manualDistance ?? 0,
+                notes: customer?.notes ?? '',
             });
         }
     }, [mode, customer]);
@@ -331,6 +334,12 @@ function Body({
                     placeholder={addressData?.address?.manualDistance}
                 />
             </div>
+            <Interactables.Textarea
+                label={'Opmerkingen'}
+                value={data.notes}
+                onChange={(e: string) => setData('notes', e)}
+                hasError={!!errors.notes ? true : false}
+            />
 
             <Interactables.Button
                 submit

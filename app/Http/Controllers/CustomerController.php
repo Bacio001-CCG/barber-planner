@@ -32,7 +32,7 @@ class CustomerController extends Controller
         if (!$request->osm_id) {
             $openStreetMapController = new OpenStreetMapController();
             $addressData = $openStreetMapController->_fetchAddressData($request->input('address'));
-            if(isset($addressData['osm_id'])) $request->merge(['osm_id' => $addressData['osm_id']]);
+            if (isset($addressData['osm_id'])) $request->merge(['osm_id' => $addressData['osm_id']]);
         }
 
         $customer = Customer::create([
@@ -47,10 +47,10 @@ class CustomerController extends Controller
             'postal_code' => $request->postal_code,
             'osm_id' => $request->osm_id,
             'manual_distance' => $request->manual_distance,
+            'notes' => $request->notes,
         ]);
 
         Log::info('Customer created: ' . $customer->id);
-
     }
 
     public function update(CustomerRequest $request, $id)
@@ -69,10 +69,10 @@ class CustomerController extends Controller
             'postal_code' => $request->postal_code,
             'osm_id' => $request->osm_id,
             'manual_distance' => $request->manual_distance,
+            'notes' => $request->notes,
         ]);
 
         Log::info('Customer updated: ' . $id);
-
     }
 
     public function destroy($id)
@@ -83,6 +83,5 @@ class CustomerController extends Controller
         ])->delete();
 
         Log::info('Customer updated: ' . $id);
-
     }
 }

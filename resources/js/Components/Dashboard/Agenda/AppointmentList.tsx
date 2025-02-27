@@ -34,7 +34,7 @@ export default function AppointmentList() {
                                 >
                                     <hr className="relative w-full border border-border" />
                                     <h1 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded bg-bg-normal px-1 text-center text-xs uppercase tracking-widest text-txt-two">
-                                        {MiscLib.dayNames[date.getDay()]},{' '}
+                                        {MiscLib.dayNames[date.getDay() - 1]},{' '}
                                         {date.getDate()}{' '}
                                         {MiscLib.monthNames[date.getMonth()]}{' '}
                                         {date.getFullYear()}
@@ -92,7 +92,7 @@ export function ListItem({
                 </div>
             )}
             <div
-                className={`${item.highlight && 'border-border-highlight bg-bg-highlight rounded border'} flex min-h-[68px] w-full px-4 py-2`}
+                className={`${item.highlight && 'rounded border border-border-highlight bg-bg-highlight'} flex min-h-[68px] w-full px-4 py-2`}
             >
                 <time className="flex flex-col items-center justify-center">
                     <div className="pb-0.5">
@@ -101,7 +101,7 @@ export function ListItem({
                             minute: '2-digit',
                         })}
                     </div>
-                    <div className="border-t border-border/30 pt-1 text-xs text-txt-two">
+                    <div className="border-border/30 border-t pt-1 text-xs text-txt-two">
                         {new Date(item.endDateTime).toLocaleTimeString(
                             'nl-NL',
                             {

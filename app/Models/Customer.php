@@ -18,11 +18,12 @@ class Customer extends Model
         'postal_code',
         'osm_id',
         'manual_distance',
+        'notes'
     ];
 
     public $timestamps = true;
 
-    public function formatForFrontend() 
+    public function formatForFrontend()
     {
         return [
             'id' => $this->id,
@@ -37,6 +38,7 @@ class Customer extends Model
             'companyId' => $this->company_id,
             'osmId' => $this->osm_id,
             'manualDistance' => $this->manual_distance,
+            'notes' => $this->notes
         ];
     }
 }

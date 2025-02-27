@@ -1,4 +1,4 @@
-import { InteractableTypes, React, Toast } from '@/index';
+import { Interactables, InteractableTypes, React, Toast } from '@/index';
 
 export default function Input({
     name,
@@ -14,6 +14,7 @@ export default function Input({
 }: InteractableTypes.MultiSelectProps) {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const [open, setOpen] = React.useState(false);
+    const [search, setSearch] = React.useState('');
 
     React.useEffect(() => {
         const handleClick = (e: MouseEvent) => {
@@ -75,7 +76,22 @@ export default function Input({
             {/* Options Section */}
             {open && (
                 <ul className="absolute left-0 top-[calc(100%+0.5rem)] z-30 max-h-[200px] w-full overflow-y-auto rounded border border-border bg-bg-normal">
+                    <li className="px-2 pt-2">
+                        <Interactables.Input
+                            placeholder="Zoeken..."
+                            onChange={(e: string) => setSearch(e)}
+                            className={`rounded-none border-x-0 border-t-0 bg-transparent`}
+                            icon="search"
+                        />
+                    </li>
                     {options.map((option, index) => {
+                        if (
+                            search != '' &&
+                            !option.label
+                                .toLowerCase()
+                                .includes(search.toLowerCase())
+                        )
+                            return;
                         return (
                             <SelectItem
                                 key={index}

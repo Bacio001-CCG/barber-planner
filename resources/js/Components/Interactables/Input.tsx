@@ -13,6 +13,7 @@ export default function Input({
     disabled = false,
     autoComplete,
     isFocused = false,
+    className = '',
 }: InteractableTypes.InputProps) {
     const localRef = React.useRef<HTMLInputElement>(null);
 
@@ -43,7 +44,7 @@ export default function Input({
                     disabled={disabled}
                     lang="nl"
                     type={type}
-                    className={`${icon && 'pl-10'} w-full rounded border bg-bg-light text-txt-two ${hasError ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-border'} p-2 focus:outline-none focus:ring-0`}
+                    className={`${icon && 'pl-10'} ${className} w-full rounded border bg-bg-light text-txt-two ${hasError ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-border'} p-2 focus:outline-none focus:ring-0`}
                     onChange={(e) => onChange && onChange(e.target.value)}
                     value={value !== undefined ? value : undefined}
                     placeholder={

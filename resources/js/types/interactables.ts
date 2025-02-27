@@ -23,6 +23,7 @@ export interface InputProps {
     disabled?: boolean;
     autoComplete?: string;
     isFocused?: boolean;
+    className?: string;
 }
 
 export interface MultiSelectProps {

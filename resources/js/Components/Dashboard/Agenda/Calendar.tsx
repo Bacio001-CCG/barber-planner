@@ -236,7 +236,7 @@ function Switcher({
                 onClick={() => setShowModal(true)}
             >
                 {view === MiscEnums.ViewEnum.Day
-                    ? `${MiscLib.dayNames[selectedDate.getDay()]}, ${selectedDate.getDate()} ${MiscLib.monthNames[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`
+                    ? `${MiscLib.dayNames[selectedDate.getDay() - 1]}, ${selectedDate.getDate()} ${MiscLib.monthNames[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`
                     : view === MiscEnums.ViewEnum.Week
                       ? `${MiscLib.monthNames[month]} ${year}, W${week}`
                       : `${MiscLib.monthNames[month]} ${year}`}
