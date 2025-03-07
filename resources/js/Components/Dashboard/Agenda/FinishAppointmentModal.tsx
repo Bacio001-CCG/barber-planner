@@ -18,10 +18,12 @@ export default function FinishAppointmentModal({
     showModal,
     setShowModal,
     appointment,
+    edit,
 }: {
     showModal: boolean;
     setShowModal: (value: boolean) => void;
     appointment: MiscTypes.Appointment | null | undefined;
+    edit: boolean;
 }) {
     function close() {
         setShowModal(false);
@@ -32,7 +34,13 @@ export default function FinishAppointmentModal({
                 <Modal
                     title={'Afspraak Afronden'}
                     onClose={close}
-                    children={<Body close={close} appointment={appointment} />}
+                    children={
+                        <Body
+                            close={close}
+                            appointment={appointment}
+                            edit={edit}
+                        />
+                    }
                     isOpen={showModal}
                     zIndex={9999}
                 />,
@@ -45,11 +53,13 @@ export default function FinishAppointmentModal({
 function Body({
     close,
     appointment,
+    edit,
 }: {
     close: () => void;
     appointment: MiscTypes.Appointment | null | undefined;
+    edit: boolean;
 }) {
-    const { data, post, setData, errors } = InertiaReact.useForm<{
+    const { data, post, setData, errors, patch } = InertiaReact.useForm<{
         appointment_id: number;
         price: number;
         tip: number;
@@ -64,21 +74,51 @@ function Body({
     });
     async function submit(e: React.FormEvent) {
         e.preventDefault();
-        post(route('dashboard.finish-appointment.store', data.appointment_id), {
-            onSuccess: () => {
-                Toast.toast('Afspraak Afgerond', {
-                    type: 'success',
-                    position: 'bottom-right',
-                });
-                close();
-            },
-            onError: () => {
-                Toast.toast('Afronding Mislukt', {
-                    type: 'error',
-                    position: 'bottom-right',
-                });
-            },
-        });
+        if (edit) {
+            patch(
+                route(
+                    'dashboard.finish-appointment.update',
+                    data.appointment_id,
+                ),
+                {
+                    onSuccess: () => {
+                        Toast.toast('Afspraak Afgerond', {
+                            type: 'success',
+                            position: 'bottom-right',
+                        });
+                        close();
+                    },
+                    onError: () => {
+                        Toast.toast('Afronding Mislukt', {
+                            type: 'error',
+                            position: 'bottom-right',
+                        });
+                    },
+                },
+            );
+        } else {
+            post(
+                route(
+                    'dashboard.finish-appointment.store',
+                    data.appointment_id,
+                ),
+                {
+                    onSuccess: () => {
+                        Toast.toast('Afspraak Afgerond', {
+                            type: 'success',
+                            position: 'bottom-right',
+                        });
+                        close();
+                    },
+                    onError: () => {
+                        Toast.toast('Afronding Mislukt', {
+                            type: 'error',
+                            position: 'bottom-right',
+                        });
+                    },
+                },
+            );
+        }
     }
 
     React.useEffect(() => {

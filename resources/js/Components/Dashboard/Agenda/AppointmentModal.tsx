@@ -357,19 +357,19 @@ function Body({
                     <div
                         className={`grid grid-cols-${!appointment?.finished ? '2' : '1'} gap-5`}
                     >
-                        {!appointment?.finished && (
-                            <Interactables.Button
-                                submit={false}
-                                label={'Afronden'}
-                                background={'green'}
-                                onClick={(
-                                    e: React.MouseEvent<HTMLInputElement>,
-                                ) => {
-                                    e.preventDefault();
-                                    setShowModal(true);
-                                }}
-                            />
-                        )}
+                        <Interactables.Button
+                            submit={false}
+                            label={
+                                appointment?.finished ? 'Afgerond' : 'Afronden'
+                            }
+                            background={'green'}
+                            onClick={(
+                                e: React.MouseEvent<HTMLInputElement>,
+                            ) => {
+                                e.preventDefault();
+                                setShowModal(true);
+                            }}
+                        />
                         <Interactables.Button
                             submit={false}
                             label={'Verwijderen'}
@@ -390,6 +390,7 @@ function Body({
                     showModal={showModal}
                     setShowModal={setShowModal}
                     appointment={appointment}
+                    edit={appointment?.finished}
                 />
             )}
         </>

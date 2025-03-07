@@ -22,6 +22,21 @@ class FinishAppointmentController extends Controller
             'distance' => $request->distance,
         ]);
 
-        Log::info('Appointment finished: ' . $request->appointment_id );
+        Log::info('Appointment finished: ' . $request->appointment_id);
+    }
+
+    public function update(FinishedAppointmentRequest $request, $finish_appointment)
+    {
+        FinishedAppointment::where([
+            'appointment_id' => $finish_appointment,
+            'company_id' => Auth::user()->company->id,
+        ])->update([
+            'price' => Currency::convertToEuro($request->price),
+            'tip' => $request->tip,
+            'payment_type' => $request->payment_type,
+            'distance' => $request->distance,
+        ]);
+
+        Log::info('Appointment updated: ' . $finish_appointment);
     }
 }
