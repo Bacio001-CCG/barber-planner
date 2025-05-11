@@ -136,16 +136,13 @@ function Body({
                 const result = (await response.data) as {
                     distance: number;
                 };
+                console.log(result);
                 distance = result.distance;
             } catch (err) {
-                if (appointment.customers[0].manualDistance) {
-                    distance = appointment.customers[0].manualDistance;
-                } else {
-                    Toast.toast('Afstand kon niet geladen worden!', {
-                        type: 'error',
-                        position: 'bottom-right',
-                    });
-                }
+                Toast.toast('Afstand kon niet geladen worden!', {
+                    type: 'error',
+                    position: 'bottom-right',
+                });
                 console.log(err);
             }
 

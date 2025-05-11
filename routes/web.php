@@ -10,7 +10,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\API\OpenStreetMapController;
+use App\Http\Controllers\API\GoogleMapsController;
 use App\Http\Controllers\API\KVKController;
 use App\Http\Controllers\LookupController;
 use App\Http\Controllers\SettingsController;
@@ -36,11 +36,11 @@ Route::prefix('api')->group(function () {
 });
 
 Route::prefix('api')->middleware(['auth'])->group(function () {
-    Route::get('/address/search', [OpenStreetMapController::class, 'search']);
-    Route::get('/address/distance/{appointmentId}', [OpenStreetMapController::class, 'getDistanceAppointment']);
+    Route::get('/address/search', [GoogleMapsController::class, 'search']);
+    Route::get('/address/distance/{appointmentId}', [GoogleMapsController::class, 'getDistanceAppointment']);
 });
 
 Route::get('/oauth/google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/oauth/google/callbacks', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -1,13 +1,11 @@
 import {
     InertiaReact,
     Interactables,
-    Loader,
     MiscTypes,
     Modal,
     React,
     ReactDom,
     Toast,
-    axios,
 } from '@/index';
 
 export default function CustomerModal({
@@ -102,37 +100,12 @@ function Body({
                 location: customer?.location ?? '',
                 address: customer?.address ?? '',
                 postal_code: customer?.postalCode ?? '',
-                osm_id: customer?.osmId ?? null,
+                osm_id: null,
                 manual_distance: customer?.manualDistance ?? 0,
                 notes: customer?.notes ?? '',
             });
         }
     }, [mode, customer]);
-
-    async function fetchAddressData() {
-        if (data.address) {
-            setData({
-                ...data,
-                location: '',
-                postal_code: '',
-                osm_id: null,
-            });
-            try {
-                const response = await axios.get(
-                    `/api/address/search?address=${encodeURIComponent(data.address)}`,
-                    {
-                        withCredentials: true,
-                    },
-                );
-
-                const addressData = await response.data;
-                setAddressData(addressData);
-            } catch (err) {
-                console.error('Error fetching address data:', err);
-            }
-        }
-        setLoading(false);
-    }
 
     async function submit(e: React.FormEvent) {
         e.preventDefault();
@@ -239,61 +212,16 @@ function Body({
                 hasError={!!errors.email ? true : false}
             />
 
-            <div className="relative w-full">
-                <Interactables.Input
-                    label={'Adres'}
-                    value={data.address}
-                    onChange={(e: string) => setData('address', e)}
-                    type="text"
-                    hasError={!!errors.address ? true : false}
-                    required={true}
-                    disabled={!!addressData}
-                />
-                {addressData ? (
-                    <div className="absolute right-2 top-1/2 flex -translate-y-1/2 cursor-pointer gap-2 text-sm text-txt-two">
-                        <span
-                            className="material-symbols-outlined text-green-500"
-                            onClick={() => {
-                                setData({
-                                    ...data,
-                                    location:
-                                        addressData?.address?.city ??
-                                        addressData?.address?.village,
-                                    postal_code: addressData?.address?.postcode,
-                                    osm_id: addressData?.osm_id?.toString(),
-                                });
-                                setAddressData(null);
-                            }}
-                        >
-                            check
-                        </span>
-                        <span
-                            className="material-symbols-outlined text-red-500"
-                            onClick={() => {
-                                setAddressData(null);
-                            }}
-                        >
-                            close
-                        </span>
-                    </div>
-                ) : (
-                    <div className="absolute right-2 top-1/2 flex -translate-y-1/2 cursor-pointer gap-2 text-sm text-txt-two">
-                        {loading ? (
-                            <Loader />
-                        ) : (
-                            <span
-                                className="material-symbols-outlined text-txt-two"
-                                onClick={() => {
-                                    setLoading(true);
-                                    fetchAddressData();
-                                }}
-                            >
-                                search
-                            </span>
-                        )}
-                    </div>
-                )}
-            </div>
+            <Interactables.Input
+                label={'Adres'}
+                value={data.address}
+                onChange={(e: string) => setData('address', e)}
+                type="text"
+                hasError={!!errors.address ? true : false}
+                required={true}
+                disabled={!!addressData}
+                autoComplete="on"
+            />
 
             <Interactables.Input
                 label={'Plaats'}
@@ -315,7 +243,7 @@ function Body({
                 required={true}
                 placeholder={addressData?.address?.postcode}
             />
-            <div className="relative">
+            {/* <div className="relative">
                 {data.osm_id && (
                     <div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black opacity-50">
                         <span className="text-white">Gevonden op OSM</span>
@@ -333,7 +261,7 @@ function Body({
                     required={true}
                     placeholder={addressData?.address?.manualDistance}
                 />
-            </div>
+            </div> */}
             <Interactables.Textarea
                 label={'Opmerkingen'}
                 value={data.notes}
