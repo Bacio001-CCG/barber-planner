@@ -10,15 +10,23 @@ use App\Functions\Calendar;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\AppointmentRequest;
 use App\Models\GoogleEvent;
+use App\Models\FinishedAppointment;
+use Illuminate\Support\Collection;
 
 class AppointmentService
 {
 
     public function __construct(
         protected Appointment $appointmentModel,
+        protected FinishedAppointment $finishedAppointmentModel,
     ) {}
 
-    public function getAppointments(string $date): array
+    public function getAppointments(): Collection
+    {
+        return $this->appointmentModel->where('company_id', Auth::user()->company->id)->get();
+    }
+
+    public function getAppointmentsByDate(string $date): array
     {
         // Get appointments using the cookies
         $appointments = $this->appointmentModel->where('company_id', Auth::user()->company->id);
@@ -42,13 +50,11 @@ class AppointmentService
     {
         $appointment = $this->appointmentModel->create($data);
 
-        Log::info('Appointment created: ' . $appointment->id);
-
-        $treatments = $request->validated()->treatments;
+        $treatments = $request->validated()['treatments'];
         for ($i = 0; $i < count($treatments); $i++) {
             $appointment->treatments()->attach($treatments[$i]);
         }
-        $customers = $request->validated()->customers;
+        $customers = $request->validated()['customers'];
         for ($i = 0; $i < count($customers); $i++) {
             $appointment->customers()->attach($customers[$i]);
         }
@@ -71,13 +77,13 @@ class AppointmentService
         Log::info('Appointment updated: ' . $appointment->id);
 
         $appointment->treatments()->detach();
-        for ($i = 0; $i < count($request->validated()->treatments); $i++) {
-            $appointment->treatments()->attach($request->validated()->treatments[$i]);
+        for ($i = 0; $i < count($request->validated()['treatments']); $i++) {
+            $appointment->treatments()->attach($request->validated()['treatments'][$i]);
         }
 
         $appointment->customers()->detach();
-        for ($i = 0; $i < count($request->validated()->customers); $i++) {
-            $appointment->customers()->attach($request->validated()->customers[$i]);
+        for ($i = 0; $i < count($request->validated()['customers']); $i++) {
+            $appointment->customers()->attach($request->validated()['customers'][$i]);
         }
 
         try {
@@ -102,8 +108,6 @@ class AppointmentService
         $appointment->customers()->detach();
         $appointment->delete();
 
-        Log::info('Appointment deleted: ' . $appointment->id);
-
         $g_event = GoogleEvent::where(['appointment_id' => $appointment->id, 'company_id' => Auth::user()->company->id])->first();
         if (!$g_event) return;
 
@@ -114,5 +118,24 @@ class AppointmentService
             Log::error('Error deleting event: ' . $e->getMessage());
             return response()->json(['error' => 'Error deleting event'], 500);
         }
+    }
+
+    public function createFinishedAppointment(array $data)
+    {
+        $this->finishedAppointmentModel->create($data);
+    }
+
+    public function updateFinishedAppointment(array $filter, array $data): int
+    {
+        return $this->finishedAppointmentModel->where($filter)->update($data);
+    }
+
+    public function deleteFinishedAppointment(array $filter): Collection
+    {
+        return $this->finishedAppointmentModel->where($filter)->delete();
+    }
+    public function getFinishedAppointments(): Collection
+    {
+        return $this->finishedAppointmentModel->where('company_id', Auth::user()->company->id)->get();
     }
 }

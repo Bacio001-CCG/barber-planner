@@ -243,25 +243,6 @@ function Body({
                 required={true}
                 placeholder={addressData?.address?.postcode}
             />
-            {/* <div className="relative">
-                {data.osm_id && (
-                    <div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black opacity-50">
-                        <span className="text-white">Gevonden op OSM</span>
-                    </div>
-                )}
-                <Interactables.Input
-                    label={'Handmatige Afstand'}
-                    disabled={data?.osm_id ? true : false}
-                    value={data.manual_distance}
-                    onChange={(e: string) =>
-                        setData('manual_distance', parseInt(e))
-                    }
-                    type="number"
-                    hasError={!!errors.manual_distance ? true : false}
-                    required={true}
-                    placeholder={addressData?.address?.manualDistance}
-                />
-            </div> */}
             <Interactables.Textarea
                 label={'Opmerkingen'}
                 value={data.notes}

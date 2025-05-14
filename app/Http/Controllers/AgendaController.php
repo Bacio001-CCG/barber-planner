@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Http\Requests\AppointmentRequest;
-use App\Models\Customer;
-use App\Models\Treatment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Services\AppointmentService;
+use App\Http\Services\CustomerService;
+use App\Http\Services\TreatmentService;
 
 class AgendaController extends Controller
 {
 
     public function __construct(
         protected AppointmentService $appointmentService,
+        protected CustomerService $customerService,
+        protected TreatmentService $treatmentService,
     ) {}
 
     public function index($date = null)
@@ -24,50 +26,48 @@ class AgendaController extends Controller
             $date = Carbon::now()->format('Y-m-d');
         }
 
-        $customers = Customer::where('company_id', Auth::user()->company->id)->get();
+        $customers = $this->customerService->getCustomers();
+        $treatments = $this->treatmentService->getTreatments();
+        $appointmentResults = $this->appointmentService->getAppointmentsByDate($date);
 
-        $customers = $customers->map(function ($customer) {
-            return $customer->formatForFrontend();
-        });
+        $appointments = $appointmentResults['appointments'];
+        $dates = $appointmentResults['dates'];
 
-        $treatments = Treatment::where('company_id', Auth::user()->company->id)->get();
-
-        $treatments = $treatments->map(function ($treatment) {
-            return $treatment->formatForFrontend();
-        });
-
-        $appointments = $this->appointmentService->getAppointments($date);
-
-        foreach ($appointments['dates'] as $key => $value) {
-            $appointments['dates']->$key = collect($value)->map(function ($appointment) {
+        foreach ($dates as $key => $value) {
+            $dates->$key = collect($value)->map(function ($appointment) {
                 return $appointment->formatForFrontend();
             });
         }
-
-        $appointments = $appointments['appointments']->map(function ($appointment) {
+        $appointments = $appointments->map(function ($appointment) {
             return $appointment->formatForFrontend();
+        });
+        $treatments = $treatments->map(function ($treatment) {
+            return $treatment->formatForFrontend();
+        });
+        $customers = $customers->map(function ($customer) {
+            return $customer->formatForFrontend();
         });
 
         return Inertia::render('Dashboard/Agenda', [
             'customers' => $customers,
             'treatments' => $treatments,
-            'dates' => $appointments['dates'],
+            'dates' => $dates,
             'appointments' => $appointments,
         ]);
     }
 
     public function store(AppointmentRequest $request)
     {
-        $date_time = $request->validated()->date . ' ' . $request->validated()->time;
-        $end_date_time = $request->validated()->date . ' ' . $request->validated()->end_time;
+        $date_time = $request->validated()['date'] . ' ' . $request->validated()['time'];
+        $end_date_time = $request->validated()['date'] . ' ' . $request->validated()['end_time'];
 
         try {
             $this->appointmentService->createNewAppointment($request, [
                 'company_id' => Auth::user()->company->id,
                 'date_time' => Carbon::parse($date_time),
                 'end_date_time' => Carbon::parse($end_date_time) ?? Carbon::parse($date_time)->addMinutes(30),
-                'notes' => $request->validated()->notes,
-                'type' => $request->validated()->type,
+                'notes' => $request->validated()['notes'],
+                'type' => $request->validated()['type'],
             ], $end_date_time, $date_time);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -76,8 +76,8 @@ class AgendaController extends Controller
 
     public function update(AppointmentRequest $request, $id)
     {
-        $date_time = $request->validated()->date . ' ' . $request->validated()->time;
-        $end_date_time = $request->validated()->date . ' ' . $request->validated()->end_time;
+        $date_time = $request->validated()['date'] . ' ' . $request->validated()['time'];
+        $end_date_time = $request->validated()['date'] . ' ' . $request->validated()['end_time'];
         try {
             $this->appointmentService->updateAppointment($request, [
                 'id' => (int) $id,
@@ -86,8 +86,8 @@ class AgendaController extends Controller
                 'company_id' => Auth::user()->company->id,
                 'date_time' => Carbon::parse($date_time),
                 'end_date_time' => Carbon::parse($end_date_time) ?? Carbon::parse($date_time)->addMinutes(30),
-                'notes' => $request->validated()->notes,
-                'type' => $request->validated()->type,
+                'notes' => $request->validated()['notes'],
+                'type' => $request->validated()['type'],
             ], $end_date_time, $date_time);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

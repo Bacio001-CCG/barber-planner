@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Services\CompanyService;
 
 class CompanyController extends Controller
 {
+
+    public function __construct(
+        protected CompanyService $companyService,
+    ) {}
+
     public function index()
     {
         return Inertia::render('Dashboard/Company');
@@ -18,55 +23,45 @@ class CompanyController extends Controller
 
     public function store(CompanyRequest $request)
     {
-        $company = Company::create([
+
+        $this->companyService->createCompany([
             'user_id' => Auth::user()->id,
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'address' => $request->address,
-            'location' => $request->location,
-            'postal_code' => $request->postal_code,
-            'kvk_number' => $request->kvk_number,
-            'btw_number' => $request->btw_number,
-            'iban' => $request->iban,
-            'type' => $request->type,
-            'strict' => $request->strict,
+            'name' => $request->validated()['name'],
+            'email' => $request->validated()['email'],
+            'phone_number' => $request->validated()['phone_number'],
+            'address' => $request->validated()['address'],
+            'location' => $request->validated()['location'],
+            'postal_code' => $request->validated()['postal_code'],
+            'kvk_number' => $request->validated()['kvk_number'],
+            'btw_number' => $request->validated()['btw_number'],
+            'iban' => $request->validated()['iban'],
+            'type' => $request->validated()['type'],
+            'strict' => $request->validated()['strict'],
         ]);
-
-        Log::info('Company created: ' . $company->id);
-
     }
 
     public function update(CompanyRequest $request, $id)
     {
-        Company::where([
+        $this->companyService->updateCompany([
             'id' => $id,
             'user_id' => Auth::user()->id,
-        ])->create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'address' => $request->address,
-            'location' => $request->location,
-            'postal_code' => $request->postal_code,
-            'kvk_number' => $request->kvk_number,
-            'btw_number' => $request->btw_number,
-            'iban' => $request->iban,
-            'type' => $request->type,
-            'strict' => $request->strict,
+        ], [
+            'name' => $request->validated()['name'],
+            'email' => $request->validated()['email'],
+            'phone_number' => $request->validated()['phone_number'],
+            'address' => $request->validated()['address'],
+            'location' => $request->validated()['location'],
+            'postal_code' => $request->validated()['postal_code'],
+            'kvk_number' => $request->validated()['kvk_number'],
+            'btw_number' => $request->validated()['btw_number'],
+            'iban' => $request->validated()['iban'],
+            'type' => $request->validated()['type'],
+            'strict' => $request->validated()['strict'],
         ]);
-
-        Log::info('Company updated: ' . $id);
-
     }
 
     public function destroy($id)
     {
-        Company::where([
-            'id' => $id,
-            'user_id' => Auth::user()->id,
-        ])->delete();
-
-        Log::info('Company deleted: ' . $id);
+        $this->companyService->deleteCompany($id);
     }
 }
